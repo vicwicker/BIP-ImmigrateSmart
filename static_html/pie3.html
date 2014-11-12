@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<style>
+
+
+/*
+ *  STYLE 1
+ */
+
+.style-1
+{
+	text-align: center;
+	margin: auto;
+	background: #F5F5F5;
+	overflow: scroll;
+
+
+}
+
+.style-1::-webkit-scrollbar
+{
+	width: 10px;
+	height: 10px;
+	background-color: none;
+
+}
+
+.style-1::-webkit-scrollbar-track
+{
+	background-color: rgba(105,105,105,0.4);
+	-webkit-border-radius: 5px;
+}
+
+.style-1::-webkit-scrollbar-thumb:vertical
+{
+	background-color: rgba(0,0,0,.1);
+	-webkit-border-radius: 5px;
+}
+
+.style-1::-webkit-scrollbar-thumb:horizontal
+{
+	background-color: rgba(0,0,0,.1);
+	-webkit-border-radius: 5px;
+}
+
+</style>
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script src="highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+
+<div id="LangsContainer" style="min-width: 400px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+<script type="text/javascript" charset="utf-8">
+    // Build the chart
+    $('#LangsContainer').highcharts({
+        chart: {
+
+            type: 'pie',
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+
+        title: {
+         text: 'Languages'
+        },
+        subtitle: {
+         text: 'Percentage of languages spoken, 2014'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                showInLegend: true
+            }
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        series: [{
+            type: 'pie',
+            name: 'Languages Percentage',
+            data: [
+
+                ['English',       76.8],
+                ['Mandarin',   1.6],
+                ['Italian',    1.4],
+                ['Vietnamese',     1.1],
+                ['Arabic',     1.3],
+                ['Greek',     1.2],
+                ['Cantonese',     1.2],
+                {
+                    name: 'Unspecified',
+                    y: 5,
+                    sliced: true,
+                    selected: true
+                },
+                ['Others',   10.4]
+            ]
+        }]
+    });
+
+$(function () {
+    $('#salsContainer').highcharts({
+        chart: {
+            type: 'column',
+            width: 800,
+            height: 500
+        },
+        title: {
+            text: 'Average Salary per Profession per 2014'
+        },
+        plotOptions:{
+        	series: {
+				pointWidth: 12,
+				pointPadding: .1,
+				showCheckbox: true
+            }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 1000,
+            title: {
+                text: 'Average Salary (Australian Dollars)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Average Salary in 2014: <b>{point.y:.1f}</b>'
+        },
+        series: [{
+            name: 'Average Salary',
+            dataLabels: {
+				enabled: true,
+				rotation: -90,
+				color: '#F8F8F8',
+				align: 'right',
+				x: 2,
+				y: 5,
+				style: {
+					fontSize: '10px',
+					fontFamily: 'Verdana, sans-serif',
+					textShadow: '0 0 3px black'
+				}
+			},
+            data: [
+				['Recreation and Sports',2583],
+				['Fashion and Apparel',3625],
+				['Gardening / Farming / Fishing',3776],
+				['Media / Broadcasting / Arts / Entertainment',4043],
+				['Care Giving and Child Care',4106],
+				['Food /Hospitality / Tourism / Catering',4247],
+				['Administration / Reception / Secretarial',4298],
+				['Counseling',4333],
+				['Automotive',4471],
+				['Photography',4479],
+				['Customer Service and Call Center',4638],
+				['Real Estate',4685],
+				['Import and Export',4792],
+				['Law Enforcement / Security / Fire',4830],
+				['Electrical and Electronics Trades',5296],
+				['Insurance',5750],
+				['Courier / Delivery / Transport / Drivers',5813],
+				['Sales Retail and Wholesale',5866],
+				['Advertising / Grapic Design / Event Management',6127],
+				['Purchasing and Inventory',6186],
+				['Science and Technical Services',6382],
+				['Architecture',6390],
+				['Teaching / Education',6411],
+				['Factory and Manufacturing',6557],
+				['Environmental',6567],
+				['Health and Medical',6595],
+				['Accounting and Finance',6679],
+				['Business Planning',6835],
+				['Banking',6990],
+				['Telecommunication',7023],
+				['Construction / Building / Installation',7069],
+				['Publishing and Printing',7107],
+				['Pharmaceutical and Biotechnology',7150],
+				['Airlines / Aviation / Aerospace / Defense',7305],
+				['Quality Control and Compliance',7313],
+				['Government and Defence',7472],
+				['Marketing',7529],
+				['Human Resources',7589],
+				['Information Technology',7849],
+				['Legal',7897],
+				['Engineering',7942],
+				['Facilities / Maintenance / Repair',8169],
+				['Oil / Gas / Energy / Mining',9514],
+				['Cleaning and Housekeeping',10542],
+				['Executive and Management',11794]
+			  ]
+        }]
+    });
+});
+
+/*
+createChart();
+
+
+function createChart(){
+    options.chart.renderTo = 'container';
+    chart = new Highcharts.Chart(options);
+    chart.renderTo(container);
+
+    chart.redraw();
+}*/
+</script>
+
+
+
+     <div class="style-1" style="min-width: 500px; height: 400px; max-width: 600px; margin: 0 auto">
+
+           <div id="salsContainer" ></div>
+
+    </div>
+
+
+
+</body>
+</html>
