@@ -43,3 +43,6 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+# Neo4j gems
+gem 'neo4j', '~> 3.0.3'

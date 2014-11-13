@@ -26,3 +26,7 @@ Ruby version: <%= RUBY_VERSION %><br>
 
 Rails version: <%= Rails.version %><br>
 
+<% @query.each do |q| %>
+    <%= q[0]+' -- '+q[1]+' -> '+q[2] %><br/>
+<% end %>
+
