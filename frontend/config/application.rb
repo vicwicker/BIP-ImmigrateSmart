@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'neo4j/railtie'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -21,6 +22,7 @@ module Myapp
     # config.i18n.default_locale = :de
     
     # Neo4j configuration
-    config.neo4j.session_path = 'http://localhost:7474/db/data'
+    config.neo4j.session_type = :server_db
+    config.neo4j.session_path = 'http://localhost:7474'
   end
 end

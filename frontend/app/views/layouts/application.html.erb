@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DigitalOcean Rails Application</title>
+  <title><%= yield(:title) %> | Immigrate Smart</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="RapidWeaver" />
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
+  <%= javascript_include_tag "jquery-1.4.2.min","highcharts" %>
+  <!-- <%= javascript_include_tag "mapdata/world"%>-->
+
+<%= yield(:head) %>
 </head>
 <body>
 
 <%= yield %>
-
+	<div id="footer"><!-- Start Footer -->
+			<p>Immigrate Smart Inc. </p>
+			<div id="breadcrumbcontainer"><!-- Start the breadcrumb wrapper -->
+				
+			</div><!-- End breadcrumb -->
+		</div><!-- End Footer -->
+	</div><!-- End container -->
+	
 </body>
 </html>
+
+			
