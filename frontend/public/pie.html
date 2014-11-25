@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script src="highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+
+<div id="LangsContainer" style="min-width: 400px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+<script type="text/javascript" charset="utf-8">
+    // Build the chart
+    $('#LangsContainer').highcharts({
+        chart: {
+
+            type: 'pie',
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+
+        title: {
+         text: 'Languages'
+        },
+        subtitle: {
+         text: 'Percentage of languages spoken, 2014'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                showInLegend: true
+            }
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        series: [{
+            type: 'pie',
+            name: 'Languages Percentage',
+            data: [
+
+                ['English',       76.8],
+                ['Mandarin',   1.6],
+                ['Italian',    1.4],
+                ['Vietnamese',     1.1],
+                ['Arabic',     1.3],
+                ['Greek',     1.2],
+                ['Cantonese',     1.2],
+                {
+                    name: 'Unspecified',
+                    y: 5,
+                    sliced: true,
+                    selected: true
+                },
+                ['Others',   10.4]
+            ]
+        }]
+    });
+
+
+
+/*
+createChart();
+
+
+function createChart(){
+    options.chart.renderTo = 'container';
+    chart = new Highcharts.Chart(options);
+    chart.renderTo(container);
+
+    chart.redraw();
+}*/
+</script>
+
+</body>
+</html>

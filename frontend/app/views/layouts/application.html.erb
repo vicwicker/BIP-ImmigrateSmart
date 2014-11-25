@@ -7,20 +7,23 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "jquery-1.4.2.min","highcharts" %>
+  <%= javascript_include_tag "jquery-1.10.2","collapsiblemenu" %>
+  <%= javascript_include_tag "jquery-ui","collapsiblemenu2" %>
   <!-- <%= javascript_include_tag "mapdata/world"%>-->
 
 <%= yield(:head) %>
+ <script>
+    $(function() 
+    {
+        $( "#accordion" ).accordion();
+    }
+    );
+</script>
 </head>
 <body>
 
 <%= yield %>
-	<div id="footer"><!-- Start Footer -->
-			<p>Immigrate Smart Inc. </p>
-			<div id="breadcrumbcontainer"><!-- Start the breadcrumb wrapper -->
-				
-			</div><!-- End breadcrumb -->
-		</div><!-- End Footer -->
-	</div><!-- End container -->
+
 	
 </body>
 </html>

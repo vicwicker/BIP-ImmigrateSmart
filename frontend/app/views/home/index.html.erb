@@ -1,39 +1,21 @@
-
-<style type="text/css" media="screen">
-      body {
-    	text-align:center;
-        margin: 0;
-        margin-bottom: 25px;
-        padding: 0;
-        background-color: #f0f0f0;
-        font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
-        font-size: 13px;
-        color: #333;
-      }
-
-      h1 {
-        font-size: 28px;
-        color: #000;
-      }
-
-</style>
-
-	<div id="bodyGrad">
+<div id="bodyGrad">
 		<img class="pngfix" src="/assets/body_grad.png" alt="" style="width: 3000px; height: 400px;" />
 	</div>
 	<div id="container"><!-- Start container -->
+		
 		<div id="pageHeader"><!-- Start page header -->
 			<div id="grad"><img class="pngfix" src="/assets/header_top_grad.png" alt="" style="width: 3000px; height: 72px;" /></div>
-			<img src="/assets/ImmigrateSmart.jpg" width="155" height="100"/>
-			<<h1>Immigrate Smart</h1>
+			<img src="/assets/ImmigrateSmart.jpg" width="220" height="100"/>
+			<h1>Immigrate Smart</h1>
 			<h2>Changing the way you choose where to live... </h2>
 		</div><!-- End page header -->
+		
 		<div id="navcontainer"><!-- Start Navigation -->
 			<ul>
-				<li><a href="./" rel="" id="current">Home</a></li>
+				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
 				<li><a href="blog/" rel="" color:white;>Country List</a>
 					<ul>
-						<li><a href="Australia.html" rel="" >Australia</a></li>
+						<li><a href="" rel="">Australia</a></li>
 						<li><a href="" rel="">Canada</a></li>
 						<li><a href="" rel="">France</a></li>
 						<li><a href="" rel="">Germany</a></li>
@@ -41,12 +23,13 @@
 				</li>
 				<li><a href="styled/" rel="">Comparison by Criteria</a>
 					<ul>
-						<li><a href="styled/photos/" rel="">Economic Incentives</a></li>
-						<li><a href="styled/downloads/" rel="">Job Opportunities</a></li>
-						<li><a href="styled/code/" rel="">Immigration Dynamics</a>
-							<ul><li><a href="styled/code/styled-2/" rel="">Page 1</a></li>
-							<li><a href="styled/code/styled-4/" rel="">Page 2</a></li>
-							<li><a href="styled/code/styled-3/" rel="">Page 3</a></li>
+						<li><a href="" rel="">Economic Incentives</a></li>
+						<li><a href="" rel="">Job Opportunities</a></li>
+						<li><a href="" rel="">Immigration Dynamics</a>
+							<ul>
+								<li><a href="" rel="">Page 1</a></li>
+								<li><a href="" rel="">Page 2</a></li>
+								<li><a href="" rel="">Page 3</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -54,369 +37,84 @@
 				<li><a href="contact-form/" rel="">Contact Immigrate Smart Team</a></li>
 			</ul>
 		</div><!-- End navigation -->
-		<div class="clearer"></div>
+
 		<div id="sidebarContainer"><!-- Start Sidebar wrapper -->
 			<div id="sidebar"><!-- Start sidebar content -->
 				<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
 				Jobs Offers, etc etc etc
-				
-				<!-- sidebar content you enter in the page inspector -->
-				 <!-- sidebar content such as the blog archive links -->
+
 			</div><!-- End sidebar content -->
 		</div><!-- End sidebar wrapper -->
+		
+		
+		
+		
+		<!--    Start the content of Immigrate Smart -->
+		
 		<div id="contentContainer"><!-- Start main content wrapper -->
-			<div id="content"><!-- Start content -->
+			<div id="contents"><!-- Start content -->
 				<hr><br /><br />
-				<div class="row">
-					<div class="col-md-4">
-						<p style="text-align:center;">
-							<span style="font-size:22px; color:black;">Australia</span><span style="font-size:22px; "><br /></span>
-							<br /><span class="glyphicon"><img src="/assets/AustraliaMap.jpg" width="400" height="400" alt="Site logo"/>
-							<span style="font-size:42px; color:#679ED5;"></span></span>
-							<span style="color:#97D7E1;"><br /><br /></span><span style="color:#B2B2B2;">
-							Immigration is the movement of people into another country or region to which they are not native in order to settle there, especially as permanent residents or future citizens.</span>
+
+							<h1 class="countrymap"><%= params[:country]%></h1>
+							<br /><img class="countrymap" src="/assets/Map<%= params[:country]%>.jpg" width="400" height="400" alt="Site logo"/>
+							<br/>
+							Immigration is the movement of people into another country or region to which they are not native in order to settle there, especially as permanent residents or future citizens.
 							<br /><br /><br /></p><p style="text-align:left;"><br />
-					</div>
-				<div class="row">
-					<div class="col-md-4">
-					  <h2>Economic Incentives</h2>
-						<span style="color:#B2B2B2;">
-							<table border="0">
-								<tr>
-									<td align="left" colspan="2"><strong>Average Monthly Salary:</strong></td> 
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td align="right">7,510 AUD</td>
-								</tr>
-								<tr style="margin-top: 10px; margin-bottom: 0px">
-									<td align="left" nowrap="true" colspan="2"><u><strong>Average Salary Per Profession:</strong></u></td>
-									<td colspan="3">&nbsp;</td>
-								</tr>
-								<tr style="margin-top: 1px;">
-									
-									<td colspan="5">
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<iframe src="salaryprofession.html" width="500" height="400"></iframe>
-									</td>
-								</tr>
-								<tr style="margin-top: 10px;">
-									<td align="left" colspan="2"><strong>Foreign Workers Salaries:</strong></td> 
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td align="right">3 billion</td>
-								</tr>
-								<tr style="margin-top: 10px;">
-									<td align="left" nowrap="true" colspan="2"><u><strong>Cost of Living:</strong></u></td>
-									<td colspan="3">&nbsp;</td>
-								</tr>
-								<tr style="margin-top: 2px;">
-							
-									<td colspan="5">
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<table border="0">
-									<tbody>
-									<tr>
-									<td>Consumer Price index</td>
-									<td>114.59</td>
-									</tr>
-									<tr>
-									<td>Rent Index</td>
-									<td>61.52</td>
-									</tr>
-									<tr>
-									<td>Consumer Price Plus Rent index</td>
-									<td>89.08</td>
-									</tr>
-									<tr>
-									<td>Groceries Index</td>
-									<td>111.96</td>
-									</tr>
-									<tr>
-									<td>Restaurant Price Index</td>
-									<td>101.16</td>
-									</tr>
-									
-									<tr>
-									<td>Local Purchasing Power Index</td>
-									<td>100.49</td>
-									</tr>
-									</tbody>
-									</table>
-									</td>
-								</tr>
-								<tr style="margin-top: 10px;">
-									<td align="left" colspan="2"><strong>Individual Income Tax Rate:</strong></td> 
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td align="right">45</td>
-								</tr>
-								<tr style="margin-top: 10px;">
-									<td align="left" colspan="2"><strong>Pension</strong></td> 
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td align="right">Median Earner: 75.6 (70)</td>
-								</tr>
-								
-							<tr style="margin-top: 10px;">
-									<td align="left" nowrap="true" colspan="2"><u><strong>Daily Working Hours:</strong></u></td>
-									<td colspan="3">&nbsp;</td>
-							</tr>
-							<tr style="margin-top: 2px;">
-							
-								<td colspan="5">
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<table border="0">
-								<tbody>
-								<tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">50-hour workweek allowed for 2 months a year in case of a seasonal increase in workload?</td>
-									<td align="right">No</td>
-								</tr>
-								<tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">Maximum working days per week</td>
-									<td align="right">7.0</td>
-								</tr>
-								<tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">Premium for night work (% of hourly pay)</td>
-									<td align="right">88%</td>
-								</tr>
-								<tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">Premium for work on weekly rest day (% of hourly pay)</td>
-									<td align="right">100%</td>
-								</tr>
-								<tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">Major restrictions on night work?</td>
-									<td align="right">No</td>
-								</tr><tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">Major restrictions on weekly holiday?</td>
-									<td align="right">No</td>
-								</tr>
-								
-								</tbody>
-								</table>
-								</td>
-							</tr>
-							
-							<tr style="margin-top: 10px;">
-									<td align="left" nowrap="true" colspan="2"><u><strong>Daily Working Hours:</strong></u></td>
-									<td colspan="3">&nbsp;</td>
-							</tr>
-							<tr style="margin-top: 2px;">
-								<td colspan="5">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<table border="0">
-								<tbody>
-								</tr><tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">For a worker with 1 year of tenure (in working days)</td>
-									<td align="right">20.0</td>
-								</tr></tr><tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">For a worker with 5 years of tenure (in working days)</td>
-									<td align="right">20.0</td>
-								</tr></tr><tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">For a worker with 10 years of tenure (in working days)</td>
-									<td align="right">20.0</td>
-								</tr></tr><tr valign="center">
-									<td width="50%" style="padding-bottom: 10px;">Aaverage for workers with 1, 5 and 10 years of tenure (in working days)</td>
-									<td align="right">20.0</td>
-								</tr>
-								
-								</tbody>
-								</table>
-								</td>
-							</tr>
-							<tr style="margin-top: 10px;">
-									<td align="left" colspan="2"><strong>Crime Index:</strong></td> 
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td align="right">41.65</td>
-							</tr>
-																		
-									
-							</table>		
-							
-						</span>
-						<span style="color:#000000;"><br /></span>
-					</div>
-		<div class="row">
-					<div class="col-md-4">
-					  <h2>Job Opportunities</h2>
-						<span style="color:#B2B2B2;">
-							<h3>Job Opportunites</h3>
-							<h4>UX DESIGNERS - MULTIPLE ROLES - MID, SNR & LEAD - SYDNEY CBD</h4>
+			
+			<div id="accordion">
+				<h1>Economic Incentives </h1>
+				<div>
+					<iframe src="/salaryprofession.html" width="730" height="550"></iframe>
+				</div>
+				<h1>Job Opportunities</h1>
+				<div>
+					<h4>UX DESIGNERS - MULTIPLE ROLES - MID, SNR & LEAD - SYDNEY CBD</h4>
 							Our client is one of Australia's leading financial organisations with a Digital Team providing integrated financial services to millions of Australians...
 							Location: Sydney, AU
 							Posted on: Wed, 29 Oct 2014 by<a href="http://www.overseasjobs.com/do/profile/2601/ikas-international"> iKas International</a>
 							<br /></span>
-							<br><br>
-						<span style="color:#B2B2B2;">
-							<h3>Unemployment Rate</h3>
-							total: 11.7%<br>
-							country comparison to the world: 102<br>
-							male: 12.4%<br>
-							female: 11% (2012) <br>
-							<br /></span>
-						<span style="color:#000000;"><br /></span>
-						<span style="color:#B2B2B2;">
+						<span style="color:#333;">
 							<h3>The Number of Biggest Companies in the Country: 45 </h3>
 							
 							<br /></span>
-						<span style="color:#000000;"><br /></span>
-					</div>
-					<br>
-				<div class="row">
-					<div class="col-md-4">
-					  <h2>Immigration Dynamics</h2>
-						<span style="color:#B2B2B2;">
-							<h3>Immigrant Inflow</h3>
-							<h4>Inflows of foreign population into selected OECD countries and the Russian Federation </h4>
-							2005: 161.7<br>
-							2006: 176.2<br>
-							2007: 189.5<br>
-							2008: 222.6<br>
-							2009: 203.9<br>
-							2010: 206.7<br>
-							2011: 210.7<br>
-							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>Immigrant Children</h3>
-							<h4>International migrant stock at mid-year -  Migrants by Age by age</h4>
-							<h5>1990</h5>
-							0-4 years: 3,491 <br>
-							5-9 years: 6,789 <br>
-							10-14 years: 9,876 <br>
-							
-							<h5>2000</h5>
-							0-4 years: 3,471 <br>
-							5-9 years: 6,489 <br>
-							10-14 years: 8,876 <br>
-							<h5>2010</h5>
-							0-4 years: 2,491 <br>
-							5-9 years: 4,779 <br>
-							10-14 years: 9,876 <br>
-							<h5>2013</h5>
-							0-4 years: 2,461 <br>
-							5-9 years: 6,389 <br>
-							10-14 years: 9,776 <br>
-							
-							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>International Immigration Flow</h3>
-							<img src="/assets/IIF.png" width="680" height="170"/>
-							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>International Migrant stock by Origin</h3>
-							UN_MigrantStockByOriginAndDestination_2013.xls
-							<br /></span>
-						
-					</div>
-					<br>
-					<div class="row">
-					<div class="col-md-4">
-					  <h2>Medical Care</h2>
-						<span style="color:#B2B2B2;">
-							<h3>Health Care system</h3>
+				</div>
+				<h1>Immigration Dynamics</h1>
+				<div>
+				
+				</div>
+				<h1>Medical Care</h1>
+				<div>
+					<span style="color:#333;">
+							<h2>Health Care system</h2>
 							In Australia the current system, known as Medicare, was instituted in 1984. It coexists with a private health system. All legal permanent residents are entitled to government-paid public hospital care. Treatment by private doctors is also paid by the government when the doctor direct bills the Health Department (Bulk Billing). Medicare is funded partly by a 1.5% income tax levy (with exceptions for low-income earners), but mostly out of general revenue. An additional levy of 1% is imposed on high-income earners without private health insurance. There is a means tested 30% subsidy on private health insurance. As well as Medicare, there is a separate Pharmaceutical Benefits Scheme under which listing and a government subsidy is dependent on expert evaluation of the comparative cost-effectiveness of new pharmaceuticals. In 2005, Australia spent 8.8% of GDP on health care, or US$3,181 per capita. Of that, approximately 67% was government expenditure.
 							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>Health Expenditure 9% of GDP (2011)</h3>
+						<span style="color:#333;">
+							<h2>Health Expenditure 9% of GDP (2011)</h2>
 							
 							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>Quality of Medical Services</h3>
+						<span style="color:#333;">
+							<h2>Quality of Medical Services</h2>
 							Health Care Index 2014 Mid Year: 71.90
-							<br />
-						</span>
-						
-						
-					</div>
-					<br>
-					
+							<br /></span>
+				</div>
+				<h1>Education</h1>
+				<div>
+					<iframe src="/pie.html" width="600" height="430"></iframe>
+				</div>
+				
+				
+			</div> <!-- End Accordion -->
+			
+			
+			
+			
+			</div> <!-- End contents -->
+		</div> <!-- End contentContainer -->
+				
 
-<div id="chartContainer" ></div>
-					<div class="row">
-					<div class="col-md-4">
-					  <h2>Education</h2>
-						<span style="color:#B2B2B2;">
-							<h3>Official Languages</h3>
-							English
-							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>Minority Languages</h3>
-							Mandarin 1.6%, Italian 1.4%, Arabic 1.3%, Greek 1.2%, Cantonese 1.2%, Vietnamese 1.1%, other 10.4%, unspecified 5% 
-							<br /></span>
-						<span style="color:#B2B2B2;">
-							<h3>Percentage of English Speaking 76.8%</h3>
-							
-							<br /></span>
-						
-						
-					</div> 
-						
-						
-	
-<script type="text/javascript" charset="utf-8">
-    var options = {
-        chart: {
-            type: 'pie',
-            plotBackgroundColor: null,
-            plotBorderWidth: 1,//null,
-            plotShadow: false
-        },
-        
-        title: {
-         text: 'Languages'
-        },
-        subtitle: {
-         text: 'Percentage of languages spoken in Australia'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                },
-                showInLegend: true
-            }
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        series: [{
-            type: 'pie',
-            name: 'Languages Percentage',
-            data: [
-                
-                ['English',       76.8],
-                ['Mandarin',   1.6],
-                ['Italian',    1.4],
-                ['Arabic',     1.3],
-                ['Greek',     1.2],
-                ['Cantonese',     1.2],
-                ['Vietnamese',     1.1],
-                {
-                    name: 'Unspecified',
-                    y: 5,
-                    sliced: true,
-                    selected: true
-                },
-                ['Others',   10.4]
-            ]
-        }]
-    };
-createChart();
-function createChart(){
-    options.chart.renderTo = 'chartContainer';
-    chart = new Highcharts.Chart(options);
-    //chart.renderTo(container);
-    chart.redraw();
-}
 
-<!-- This is just prints the content of @query as HTML
-<% @query.each do |q| %>
-    <%= q[0]+' -- '+q[1]+' -> '+q[2] %><br/>
-<% end %>
--->
+		<div id="footer"><!-- Start Footer -->
+				<p>Immigrate Smart Inc.</p>
+				
+		</div><!-- End Footer -->
+	</div><!-- End container -->	      
