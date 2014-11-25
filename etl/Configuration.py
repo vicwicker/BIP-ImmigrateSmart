@@ -30,7 +30,9 @@ class Configuration:
         self.country_in  = int(config[1])          # Column in the CSV file where the country name is
         self.file_uri    = utils.to_str(config[2]) # URI of the file to read
         self.file_type   = utils.to_str(config[3]) # File type
-        self.delimiter   = utils.to_str(config[4]) # Delimiter
+        self.delimiter   = None                    # Delimiter
+        if not config[4] is None:
+            self.delimiter = utils.to_str(config[4]) 
         
         # Read Criteria-Column pairs (must be ordered by index)
         self.columns = []

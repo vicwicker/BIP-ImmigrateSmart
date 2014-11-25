@@ -12,35 +12,46 @@ class Instance:
         self.config = Configuration(config_name)
         
     def run(self):
-        def read():
+        # Extract
+        def extract():
             if self.config.file_type == 'csv':
-                contents = ContentReader.csv(self.config.file_uri, self.config.delimiter)
+                return ContentReader.csv(self.config.file_uri, self.config.delimiter)
             elif self.config.file_type == 'xls':
-                contents = ContentReader.xls(self.config.file_uri)
-                
-            filtering = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, contents)
-            result = []
-            for row in filtering:
-                country = {'country':row[self.config.country_in], 'values':{}}
+                return ContentReader.xls(self.config.file_uri)
+            elif self.config.file_type == 'html':
+                return ContentReader.html(self.config.file_uri, self.config.config_name)
+        
+        # Transform
+        def transform(data):
+            transformed = []
+            filtered = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
+            for row in filtered:
+                current = {'country':row[self.config.country_in], 'values':{}}
                 for c in self.config.columns:
-                    country['values'][utils.to_str(c['property'])] = row[int(c['id'])] 
-                result.append(country)
-            return result
+                    current['values'][utils.to_str(c['property'])] = row[int(c['id'])] 
+                transformed.append(current)
+            return transformed
 
-        to_import = read()
+        # Load in Neo4j
+        def load(data):
+            neo4j = Neo4jDriver()
+            batch = neo4j.openBatch()
+            
+            for row in data:
+                country = batch.create(node(name = row['country']))
+                for value in row['values']:
+                    criteria = batch.create(node(criteria = value))
+                    fact = batch.create(node(value = row['values'][value]))
+                    batch.create(rel(country, 'has_criteria', criteria))
+                    batch.create(rel(criteria, 'has_value', fact))
+            
+            neo4j.submitBatch()
+            
+        data = extract()
+        data = transform(data)
+        load(data)
+        
         # Print it out!
-        for row in to_import:
-            for value in row['values']:
-                print row['country']+' --[:'+value+']--> '+row['values'][value]
-                
-        # Load it in Neo4j
-        neo4j = Neo4jDriver()
-        batch = neo4j.openBatch()
-        
-        for row in to_import:
-            country = batch.create(node(name = row['country']))
-            for value in row['values']:
-                fact = batch.create(node(value = row['values'][value]))
-                batch.create(rel(country, value, fact))
-        
-        neo4j.submitBatch()
+        #for row in data:
+        #    for value in row['values']:
+        #        print row['country']+' --[:'+value+']--> '+row['values'][value]

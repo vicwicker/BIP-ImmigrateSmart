@@ -47,8 +47,8 @@ class SQLiteDriver:
                 
         self.execute('''CREATE TABLE '''+SQLiteDriver.config_columns_table+''' (
                             config_name TEXT,
-                            fact_name TEXT,
-                            fact_column TEXT)''', True)
+                            fact_column TEXT,
+                            fact_name TEXT)''', True)
         
     def drop(self):
         self.execute('DROP TABLE '+SQLiteDriver.config_instances_table)
@@ -80,42 +80,76 @@ sql = SQLiteDriver()
 def sample():
     sql.execute('DELETE FROM '+SQLiteDriver.config_instances_table)
     sql.execute('DELETE FROM '+SQLiteDriver.config_columns_table)
-    
-    # CSV configuration instance sample
-    sql.execute('''INSERT INTO '''+SQLiteDriver.config_instances_table+''' VALUES (
-                        'Sample ETL',
-                        '0',
-                        'workingHours.csv',
-                        'csv',
-                        ';')''')
-            
-    sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
-                        'Sample ETL',
-                        '2',
-                        'maximum_working_days_per_week')''')
-                
-    sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
-                        'Sample ETL',
-                        '10',
-                        'paid_annual_leave')''')     
                    
-    # XLS configuration instance sample 
+    # XLS configuration instance sample - Minimum Wage / Paid Annual Leave
     sql.execute('''INSERT INTO '''+SQLiteDriver.config_instances_table+''' VALUES (
-                        'Sample ETL Excel',
+                        'doingbusiness',
                         '0',
                         'http://www.doingbusiness.org/~/media/GIAWB/Doing%20Business/Documents/Miscellaneous/LMR-DB15-DB14-service-sector-data-points-and-details.xlsx',
                         'xls',
                         ';')''')
             
     sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
-                        'Sample ETL Excel',
+                        'doingbusiness',
                         '4',
                         'minimum_wage')''')
                 
     sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
-                        'Sample ETL Excel',
+                        'doingbusiness',
                         '16',
                         'paid_annual_leave')''', True)  
+                        
+    # HTML configuration instance sample 1 - Foreign Worker Salaries
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_instances_table+''' VALUES (
+                        'nationmaster',
+                        '1',
+                        'http://www.nationmaster.com/country-info/stats/People/Migration/Foreign-worker-salaries',
+                        'html',
+                        NULL)''')
+            
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
+                        'nationmaster',
+                        '2',
+                        'foreign_worker_salaries')''', True)
+                        
+    # HTML configuration instance sample - Area
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_instances_table+''' VALUES (
+                        'cia-area',
+                        '1',
+                        'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2147rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=6#as',
+                        'html',
+                        NULL)''')
+            
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
+                        'cia-area',
+                        '2',
+                        'area')''', True)
+                        
+    # HTML configuration instance sample - Population
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_instances_table+''' VALUES (
+                        'cia-population',
+                        '1',
+                        'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2119rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=56#as',
+                        'html',
+                        NULL)''')
+            
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
+                        'cia-population',
+                        '2',
+                        'population')''', True)
+                        
+    # HTML configuration instance sample - GDP per capita
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_instances_table+''' VALUES (
+                        'cia-gdp-per-capita',
+                        '1',
+                        'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2004rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=21#as',
+                        'html',
+                        NULL)''')
+            
+    sql.execute('''INSERT INTO '''+SQLiteDriver.config_columns_table+''' VALUES (
+                        'cia-gdp-per-capita',
+                        '2',
+                        'gdp-per-capita')''', True)
 
 for i in range(1, len(sys.argv)):
     cmd = sys.argv[i]
