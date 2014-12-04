@@ -1,7 +1,7 @@
 <div id="bodyGrad">
 		<img class="pngfix" src="/assets/body_grad.png" alt="" style="width: 3000px; height: 400px;" />
 	</div>
-	<div id="container"><!-- Start container -->
+	<div><!-- Start container -->
 		
 		<div id="pageHeader"><!-- Start page header -->
 			<div id="grad"><img class="pngfix" src="/assets/header_top_grad.png" alt="" style="width: 3000px; height: 72px;" /></div>
@@ -15,10 +15,9 @@
 				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
 				<li><a href="blog/" rel="" color:white;>Country List</a>
 					<ul>
-						<li><a href="" rel="">Australia</a></li>
-						<li><a href="" rel="">Canada</a></li>
-						<li><a href="" rel="">France</a></li>
-						<li><a href="" rel="">Germany</a></li>
+						<% @countryList.each do |country| %>
+							<li><a href="http://128.199.55.105:3100/home/index.html?country=<%= country %>"><%= country %></a></li>
+						<% end %>
 					</ul>
 				</li>
 				<li><a href="styled/" rel="">Comparison by Criteria</a>
@@ -38,27 +37,35 @@
 			</ul>
 		</div><!-- End navigation -->
 
-		<div id="sidebarContainer"><!-- Start Sidebar wrapper -->
-			<div id="sidebar"><!-- Start sidebar content -->
-				<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
-				Jobs Offers, etc etc etc
+		<!--<div id="sidebarContainer"><!-- Start Sidebar wrapper -->
+			<!--<div id="sidebar"><!-- Start sidebar content -->
+			<!--	<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
+				<!--Jobs Offers, etc etc etc
 
 			</div><!-- End sidebar content -->
-		</div><!-- End sidebar wrapper -->
+		<!--</div><!-- End sidebar wrapper -->
 		
 		
 		
 		
 		<!--    Start the content of Immigrate Smart -->
 		
-		<div id="contentContainer"><!-- Start main content wrapper -->
-			<div id="contents"><!-- Start content -->
-				<hr><br /><br />
+		<!--<div id="contentContainer"><!-- Start main content wrapper -->
+			<!--<div id="contents"><!-- Start content -->
+				<!--<hr><br /><br />-->
 				
+<br>				
+<div id="mapContainer" style="min-width: 410px; height: 500px; max-width: 800px; margin: 0 auto"></div>
+<br>
+
+<div id="footer"><!-- Start Footer -->
+			<p>Immigrate Smart Inc. </p>
+			<div id="breadcrumbcontainer"><!-- Start the breadcrumb wrapper -->
 				
-<div id="mapContainer" style="min-width: 410px; height: 500px; max-width: 800px; margin: 0 auto">Checking.....</div>
-<br>
-<br>
+			</div><!-- End breadcrumb -->
+		</div><!-- End Footer -->
+	</div><!-- End container -->
+	
 <script type="text/javascript" charset="utf-8">
 // Load the fonts
 Highcharts.createElement('link', {
@@ -279,7 +286,7 @@ Highcharts.setOptions(Highcharts.theme);
             text : 'Available Countries'
         },
         subtitle : {
-            text:'Demo of drawing all areas in the map, only highlighting partial data'
+            text:'Click on a highlighted country for more information'
         },
 
         legend: {
@@ -291,14 +298,9 @@ Highcharts.setOptions(Highcharts.theme);
             
             events: {
                 click: function (event) {
-                   if(event.point.value==2)
-                      window.location = "/home/index.html?country=UAE";
-                   else if(event.point.value==3)
-                      window.location = "/home/index.html?country=USA";
-                   else if(event.point.value==4)
-                      window.location = "/home/index.html?country=SaudiArabia";
-                   else
                       window.location = "/home/index.html?country="+event.point.name;
+                   if(event.point.value == 3)
+                      window.location = "/home/index.html?country=United States";
                 }
             },
 
@@ -312,32 +314,23 @@ Highcharts.setOptions(Highcharts.theme);
                 name: 'Canada',
                 value: 1
             }, {
-                name: 'Spain',
-                value: 1
-            }, {
                 name: 'France',
                 value: 1
-            },{
-                name: 'Italy',
-                value: 1
-            }, {
-                name: 'Qatar',
-                value: 1
-            },{
-                name: 'Saudi Arabia',
-                value: 4
             },{
                 name: 'Germany',
                 value: 1
             },{
-                name: 'India',
-                value: 1
+                name: 'South Africa',
+                value: 5
             },{
                 name: 'United Arab Emirates',
                 value: 2
             },{
                 name: 'United States of America',
                 value: 3
+            },{
+                name: 'United Kingdom',
+                value: 4
             }],
             joinBy: ['name', 'name'],
             dataLabels: {

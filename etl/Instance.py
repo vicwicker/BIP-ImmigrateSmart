@@ -1,3 +1,4 @@
+import copy
 import utils
 
 from py2neo import node, rel
@@ -17,18 +18,26 @@ class Instance:
             if self.config.file_type == 'csv':
                 return ContentReader.csv(self.config.file_uri, self.config.delimiter)
             elif self.config.file_type == 'xls':
-                return ContentReader.xls(self.config.file_uri)
+                return ContentReader.xls(self.config.file_uri, int(self.config.delimiter))
             elif self.config.file_type == 'html':
                 return ContentReader.html(self.config.file_uri, self.config.config_name)
         
         # Transform
         def transform(data):
             transformed = []
-            filtered = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
-            for row in filtered:
-                current = {'country':row[self.config.country_in], 'values':{}}
+            if self.config.is_multi:
+                data = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
+            else:
+                for row in data:
+                    row.append(self.config.country_in)
+                self.config.country_in = len(data[0])-1
+            for row in data:
+                current = {'country':row[self.config.country_in], 'criterias':{}}
                 for c in self.config.columns:
-                    current['values'][utils.to_str(c['property'])] = row[int(c['id'])] 
+                    criteria = utils.to_str(c['criteria'])
+                    if not criteria in current['criterias']:
+                        current['criterias'][criteria] = [criteria, None]
+                    current['criterias'][criteria][c['fact']] = row[int(c['column'])]
                 transformed.append(current)
             return transformed
 
@@ -36,14 +45,14 @@ class Instance:
         def load(data):
             neo4j = Neo4jDriver()
             batch = neo4j.openBatch()
-            
             for row in data:
                 country = batch.create(node(name = row['country']))
-                for value in row['values']:
-                    criteria = batch.create(node(criteria = value))
-                    fact = batch.create(node(value = row['values'][value]))
-                    batch.create(rel(country, 'has_criteria', criteria))
-                    batch.create(rel(criteria, 'has_value', fact))
+                for criteria in row['criterias']:
+                        print row['country'] + ' -[:has_criteria]->' + criteria + ' -[:' + row['criterias'][criteria][0] + ']->' + row['criterias'][criteria][1]
+                        criteria_node = batch.create(node(criteria = criteria))
+                        fact_node = batch.create(node(value = row['criterias'][criteria][1]))
+                        batch.create(rel(country, 'has_criteria', criteria_node))
+                        batch.create(rel(criteria_node, row['criterias'][criteria][0], fact_node))
             
             neo4j.submitBatch()
             
@@ -52,6 +61,8 @@ class Instance:
         load(data)
         
         # Print it out!
-        #for row in data:
-        #    for value in row['values']:
-        #        print row['country']+' --[:'+value+']--> '+row['values'][value]
+        # for row in data:
+        #    for criteria in row['criterias']:
+        #        print row['country']+' --[:has_criteria]--> ' \
+        #            +criteria+' --[:'+row['criterias'][criteria][0]+']--> ' \
+        #                +row['criterias'][criteria][1]

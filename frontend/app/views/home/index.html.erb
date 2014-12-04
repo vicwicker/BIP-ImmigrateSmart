@@ -15,10 +15,9 @@
 				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
 				<li><a href="blog/" rel="" color:white;>Country List</a>
 					<ul>
-						<li><a href="" rel="">Australia</a></li>
-						<li><a href="" rel="">Canada</a></li>
-						<li><a href="" rel="">France</a></li>
-						<li><a href="" rel="">Germany</a></li>
+						<% @countryList.each do |country| %>
+							<li><a href="http://128.199.55.105:3100/home/index.html?country=<%= country %>"><%= country %></a></li>
+						<% end %>
 					</ul>
 				</li>
 				<li><a href="styled/" rel="">Comparison by Criteria</a>
@@ -45,9 +44,7 @@
 
 			</div><!-- End sidebar content -->
 		</div><!-- End sidebar wrapper -->
-		
-		
-		
+
 		
 		<!--    Start the content of Immigrate Smart -->
 		
@@ -56,27 +53,79 @@
 				<hr><br /><br />
 
 							<h1 class="countrymap"><%= params[:country]%></h1>
-							<br /><img class="countrymap" src="/assets/Map<%= params[:country]%>.jpg" width="400" height="400" alt="Site logo"/>
+							<br /><img class="countrymap" src="/assets/Map_<%= params[:country]%>.jpg" width="400" height="400" alt="countryMap"/>
 							<br/>
-							Immigration is the movement of people into another country or region to which they are not native in order to settle there, especially as permanent residents or future citizens.
-							<br /><br /><br /></p><p style="text-align:left;"><br />
+							<!-- Immigration is the movement of people into another country or region to which they are not native in order to settle there, especially as permanent residents or future citizens.
+							<br /><br /><br /></p> -->
+							<p style="text-align:center;"><br />
+							<b>Area: </b> <%= @criteriaDict['area'] %> km2<br />
+							<b>Population: </b> <%= @criteriaDict['population'] %><br />
+							<b>GDP per Capita: </b> <%= @criteriaDict['gdp_per_capita'] %><br />
+							 <!-- <%= @criteriaDict['average_salary_per_profession'] %><br /> -->
 			
 			<div id="accordion">
 				<h1>Economic Incentives </h1>
 				<div>
-					<iframe src="/salaryprofession.html" width="730" height="550"></iframe>
+					<span style="color:#333;">
+						<h3>ِAverage Overall Monthly Salary</h3>
+						<%= @criteriaDict['average_overall_monthly_salary'] %><br /><br />
+					</span>
+					<span>
+						<iframe src="/salaryprofession.html" width="730" height="550"></iframe>
+					</span>
+					<span style="color:#333;">
+						<h3>ِAverage Income Taxes</h3>
+						<%= @criteriaDict['average_income_taxes'] %> %<br />
+					</span>
+					<span style="color:#333;">
+						<h3>Minimum Wage</h3>
+						$ <%= @criteriaDict['minimum_wage'] %><br />
+					</span>
+					<span style="color:#333;">
+						<h3>Paid Annual Leave</h3>
+						<%= @criteriaDict['paid_annual_leave'] %> days<br />
+					</span>
+					<span style="color:#333;">
+						<h3>Cost of Living</h3>
+						<%= @criteriaDict['cost_of_living'] %><br />
+						<font size="0.5"><i>
+							This index is a relative indicator of consumer goods price, including groceries, restaurants, transportation, utilities and rent. 
+							It is relative to New York City (NYC), which means that for New York City, the index should be 100(%). If a country has a CPI 
+							index of 120, it means that it is approximately 20% more expensive than New York.
+						</i></font>
+					</span>
+					<span style="color:#333;">
+						<h3>Foreign Workers Salaries</h3>
+						$ <%= @criteriaDict['foreign_worker_salaries'] %><br />
+					</span>
+					<span style="color:#333;">
+						<h3>Crime Rate</h3>
+						<%= @criteriaDict['crime_rate'] %><br />
+						<font size="0.5"><i>
+							This index is an estimation of overall level of crime in a given country. Crime Levels up to 50 are reasonable, 
+							and crime index levels more than 100 are too high.
+						</i></font>
+					</span>
 				</div>
 				<h1>Job Opportunities</h1>
 				<div>
+					<span style="color:#333;">
+						<h3>Unemployment Rate</h3>
+						<%= @criteriaDict['unemployment_rate'] %> %<br />
+					</span>
+					<span>
+						<iframe src="/unemployment.html" width="600" height="350"></iframe>
+					</span>
 					<h4>UX DESIGNERS - MULTIPLE ROLES - MID, SNR & LEAD - SYDNEY CBD</h4>
 							Our client is one of Australia's leading financial organisations with a Digital Team providing integrated financial services to millions of Australians...
 							Location: Sydney, AU
 							Posted on: Wed, 29 Oct 2014 by<a href="http://www.overseasjobs.com/do/profile/2601/ikas-international"> iKas International</a>
-							<br /></span>
+							<br />
+					</span>
 						<span style="color:#333;">
 							<h3>The Number of Biggest Companies in the Country: 45 </h3>
-							
-							<br /></span>
+							<br />
+						</span>
 				</div>
 				<h1>Immigration Dynamics</h1>
 				<div>
@@ -85,36 +134,41 @@
 				<h1>Medical Care</h1>
 				<div>
 					<span style="color:#333;">
-							<h2>Health Care system</h2>
+							<h3>Health Care system</h3>
 							In Australia the current system, known as Medicare, was instituted in 1984. It coexists with a private health system. All legal permanent residents are entitled to government-paid public hospital care. Treatment by private doctors is also paid by the government when the doctor direct bills the Health Department (Bulk Billing). Medicare is funded partly by a 1.5% income tax levy (with exceptions for low-income earners), but mostly out of general revenue. An additional levy of 1% is imposed on high-income earners without private health insurance. There is a means tested 30% subsidy on private health insurance. As well as Medicare, there is a separate Pharmaceutical Benefits Scheme under which listing and a government subsidy is dependent on expert evaluation of the comparative cost-effectiveness of new pharmaceuticals. In 2005, Australia spent 8.8% of GDP on health care, or US$3,181 per capita. Of that, approximately 67% was government expenditure.
-							<br /></span>
-						<span style="color:#333;">
-							<h2>Health Expenditure 9% of GDP (2011)</h2>
-							
-							<br /></span>
-						<span style="color:#333;">
-							<h2>Quality of Medical Services</h2>
-							Health Care Index 2014 Mid Year: 71.90
-							<br /></span>
+							<br />
+					</span>
+					<span style="color:#333;">
+						<h3>Health Expenditure (percentage of GDP)</h3>
+						<%= @criteriaDict['health_care_expenditure'] %> %<br />
+					</span>
+					<span style="color:#333;">
+						<h3>Quality of Health Care System</h3>
+						<%= @criteriaDict['quality_of_health_care_system'] %><br />
+						<font size="0.5"><i>
+							This index is an estimation of the overall quality of the health care system, health care professionals, equipment, staff, 
+							doctors, cost, etc. The closer the country's score is to 100, the better the health care system is in that country.
+						</i></font>
+					</span>
 				</div>
 				<h1>Education</h1>
 				<div>
-					<iframe src="/pie.html" width="600" height="430"></iframe>
+					<span>
+						<iframe src="/pie.html" width="600" height="430"></iframe>
+					</span>
+					<span style="color:#333;">
+						<h3>Percentage of English Speakers</h3>
+						<%= @criteriaDict['percentage_of_english_speakers'] %> %<br />
+					</span>
 				</div>
 				
-				
 			</div> <!-- End Accordion -->
-			
-			
-			
-			
+
 			</div> <!-- End contents -->
 		</div> <!-- End contentContainer -->
-				
-
 
 		<div id="footer"><!-- Start Footer -->
 				<p>Immigrate Smart Inc.</p>
 				
 		</div><!-- End Footer -->
-	</div><!-- End container -->	      
+	</div><!-- End container -->

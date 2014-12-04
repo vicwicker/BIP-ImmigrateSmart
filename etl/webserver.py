@@ -5,6 +5,7 @@ import traceback
 # gunicorn (python webserver) finds it
 def app(environ, start_response):
     try:
+        param = cgi.parse_qs(environ['QUERY_STRING']).get('param', [''])[0]
         data = """<html>
                     <script>
                         function setDelimiterVisibility() {
@@ -114,7 +115,7 @@ def app(environ, start_response):
                             <h2> ETL Web Interface</h2>
                         </div>
                         <div>
-                            <form id="etlconfig" name="etlconfig" method="post">
+                            <form id="etlconfig" name="etlconfig" method="post" action="./runEtlConfig.py">
                                 <table align="center">
                                     <tr>
                                         <td align="right">
