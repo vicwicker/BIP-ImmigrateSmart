@@ -13,20 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-function drawChart(chartContainer,chartType,chartData,seriesName,chartTitle,subtitle,chartYaxis,chartXaxis){
+
+function drawPieChart(chartContainer,chartType,chartData,seriesName,chartTitle,subtitle,chartYaxis,chartXaxis)
+{
         
-    var piePOs= {pie:{    
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.y:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                },
-                showInLegend: true
-        }};
+    
     $(chartContainer).highcharts({
         chart: {
 
@@ -43,7 +34,18 @@ function drawChart(chartContainer,chartType,chartData,seriesName,chartTitle,subt
          text: subtitle
         },
         xAxis:{categories:chartXaxis},
-        plotOptions: piePOs,
+        plotOptions:{ pie:{    
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                showInLegend: true
+        }},
         tooltip: {
           pointFormat: '{series.name}: <b>{point.y:.1f}%</b>'
         },
