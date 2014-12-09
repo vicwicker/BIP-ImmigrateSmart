@@ -11,6 +11,155 @@
 </head>
 <body>
     <script type="text/javascript" charset="utf-8">
+    var chartContainer='#salsContainer';
+    var chartType= 'column';
+    var seriesName='Languages Percentage';
+    var chartTitle='Languages';
+    var subtitle='Percentage of languages spoken, 2014';
+    
+    var chartData2=[
+                                     ['Recreation and Sports',2583],
+                                     ['Fashion and Apparel',3625],
+                                     ['Gardening / Farming / Fishing',3776],
+                                     ['Media / Broadcasting / Arts / Entertainment',4043],
+                                     ['Care Giving and Child Care',4106],
+                                     ['Food /Hospitality / Tourism / Catering',4247],
+                                     ['Administration / Reception / Secretarial',4298],
+                                     ['Counseling',4333],
+                                     ['Automotive',4471],
+                                     ['Photography',4479],
+                                     ['Customer Service and Call Center',4638],
+                                     ['Real Estate',4685],
+                                     ['Import and Export',4792],
+                                     ['Law Enforcement / Security / Fire',4830],
+                                     ['Electrical and Electronics Trades',5296],
+                                     ['Insurance',5750],
+                                     ['Courier / Delivery / Transport / Drivers',5813],
+                                     ['Sales Retail and Wholesale',5866],
+                                     ['Advertising / Grapic Design / Event Management',6127],
+                                     ['Purchasing and Inventory',6186],
+                                     ['Science and Technical Services',6382],
+                                     ['Architecture',6390],
+                                     ['Teaching / Education',6411],
+                                     ['Factory and Manufacturing',6557],
+                                     ['Environmental',6567],
+                                     ['Health and Medical',6595],
+                                     ['Accounting and Finance',6679],
+                                     ['Business Planning',6835],
+                                     ['Banking',6990],
+                                     ['Telecommunication',7023],
+                                     ['Construction / Building / Installation',7069],
+                                     ['Publishing and Printing',7107],
+                                     ['Pharmaceutical and Biotechnology',7150],
+                                     ['Airlines / Aviation / Aerospace / Defense',7305],
+                                     ['Quality Control and Compliance',7313],
+                                     ['Government and Defence',7472],
+                                     ['Marketing',7529],
+                                     ['Human Resources',7589],
+                                     ['Information Technology',7849],
+                                     ['Legal',7897],
+                                     ['Engineering',7942],
+                                     ['Facilities / Maintenance / Repair',8169],
+                                     ['Oil / Gas / Energy / Mining',9514],
+                                     ['Cleaning and Housekeeping',10542],
+                                     ['Executive and Management',11794]
+                               ];    
+            var chartXaxis2=['Recreation and Sports',
+                                     'Fashion and Apparel',
+                                     'Gardening / Farming / Fishing',
+                                     'Media / Broadcasting / Arts / Entertainment',
+                                     'Care Giving and Child Care',
+                                     'Food /Hospitality / Tourism / Catering',
+                                     'Administration / Reception / Secretarial',
+                                     'Counseling',
+                                     'Automotive',
+                                     'Photography',
+                                     'Customer Service and Call Center',
+                                     'Real Estate',
+                                     'Import and Export',
+                                     'Law Enforcement / Security / Fire',
+                                     'Electrical and Electronics Trades',
+                                     'Insurance',
+                                     'Courier / Delivery / Transport / Drivers',
+                                     'Sales Retail and Wholesale',
+                                     'Advertising / Grapic Design / Event Management',
+                                     'Purchasing and Inventory',
+                                     'Science and Technical Services',
+                                     'Architecture',
+                                     'Teaching / Education',
+                                     'Factory and Manufacturing',
+                                     'Environmental',
+                                     'Health and Medical',
+                                     'Accounting and Finance',
+                                     'Business Planning',
+                                     'Banking',
+                                     'Telecommunication',
+                                     'Construction / Building / Installation',
+                                     'Publishing and Printing',
+                                     'Pharmaceutical and Biotechnology',
+                                     'Airlines / Aviation / Aerospace / Defense',
+                                     'Quality Control and Compliance',
+                                     'Government and Defence',
+                                     'Marketing',
+                                     'Human Resources',
+                                     'Information Technology',
+                                     'Legal',
+                                     'Engineering',
+                                     
+                                     'Facilities / Maintenance / Repair',
+                                     'Oil / Gas / Energy / Mining',
+                                     'Cleaning and Housekeeping','Executive and Management'];
+            
+var chartYaxis2=[
+                                     2583
+                                     ,3625
+                                     ,3776
+                                     ,4043
+                                     ,4106
+                                     ,4247
+                                     ,4298
+                                     ,4333
+                                     ,4471
+                                     ,4479
+                                     ,4638
+                                     ,4685
+                                     ,4792
+                                     ,4830
+                                     ,5296
+                                     ,5750
+                                     ,5813
+                                     ,5866
+                                     ,6127
+                                     ,6186
+                                     ,6382
+                                     ,6390
+                                     ,6411
+                                     ,6557
+                                     ,6567
+                                     ,6595
+                                     ,6679
+                                     ,6835
+                                     ,6990
+                                     ,7023
+                                     ,7069
+                                     ,7107
+                                     ,7150
+                                     ,7305
+                                     ,7313
+                                     ,7472
+                                     ,7529
+                                     ,7589
+                                     ,7849
+                                     ,7897
+                                     ,7942
+                                     ,8169
+                                     ,9514
+                                     ,10542
+                                 ,11794
+                               ];                   
+
+    
+    
         $(function () {
          $('#salsContainer').highcharts({
              chart: {
@@ -65,53 +214,7 @@
                                              textShadow: '0 0 3px black'
                                      }
                              },
-                 data: [
-                                     ['Recreation and Sports',2583],
-                                     ['Fashion and Apparel',3625],
-                                     ['Gardening / Farming / Fishing',3776],
-                                     ['Media / Broadcasting / Arts / Entertainment',4043],
-                                     ['Care Giving and Child Care',4106],
-                                     ['Food /Hospitality / Tourism / Catering',4247],
-                                     ['Administration / Reception / Secretarial',4298],
-                                     ['Counseling',4333],
-                                     ['Automotive',4471],
-                                     ['Photography',4479],
-                                     ['Customer Service and Call Center',4638],
-                                     ['Real Estate',4685],
-                                     ['Import and Export',4792],
-                                     ['Law Enforcement / Security / Fire',4830],
-                                     ['Electrical and Electronics Trades',5296],
-                                     ['Insurance',5750],
-                                     ['Courier / Delivery / Transport / Drivers',5813],
-                                     ['Sales Retail and Wholesale',5866],
-                                     ['Advertising / Grapic Design / Event Management',6127],
-                                     ['Purchasing and Inventory',6186],
-                                     ['Science and Technical Services',6382],
-                                     ['Architecture',6390],
-                                     ['Teaching / Education',6411],
-                                     ['Factory and Manufacturing',6557],
-                                     ['Environmental',6567],
-                                     ['Health and Medical',6595],
-                                     ['Accounting and Finance',6679],
-                                     ['Business Planning',6835],
-                                     ['Banking',6990],
-                                     ['Telecommunication',7023],
-                                     ['Construction / Building / Installation',7069],
-                                     ['Publishing and Printing',7107],
-                                     ['Pharmaceutical and Biotechnology',7150],
-                                     ['Airlines / Aviation / Aerospace / Defense',7305],
-                                     ['Quality Control and Compliance',7313],
-                                     ['Government and Defence',7472],
-                                     ['Marketing',7529],
-                                     ['Human Resources',7589],
-                                     ['Information Technology',7849],
-                                     ['Legal',7897],
-                                     ['Engineering',7942],
-                                     ['Facilities / Maintenance / Repair',8169],
-                                     ['Oil / Gas / Energy / Mining',9514],
-                                     ['Cleaning and Housekeeping',10542],
-                                     ['Executive and Management',11794]
-                               ]
+                 data: chartData2
              }]
          });
         });

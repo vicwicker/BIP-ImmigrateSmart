@@ -42,4 +42,14 @@ class HomeController < ApplicationController
     Neo4j::Session.open(:server_db)
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
   end
+  
+  def login
+    Neo4j::Session.open(:server_db)
+    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+  end
+  
+  def register
+    Neo4j::Session.open(:server_db)
+    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+  end
 end

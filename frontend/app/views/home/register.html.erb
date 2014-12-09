@@ -1,0 +1,151 @@
+<div id="sidebarContainer"><!-- Start Sidebar wrapper -->
+	<div id="sidebar"><!-- Start sidebar content -->
+		<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
+		Jobs Offers, etc etc etc
+
+	</div><!-- End sidebar content -->
+</div><!-- End sidebar wrapper -->
+
+		
+<!--    Start the content of Immigrate Smart -->
+<div id="contentContainer"><!-- Start main content wrapper -->		
+		
+<div id="contents"><!-- Start content -->
+
+<script type="text/javascript">
+    function preSubmitCheck()
+    {
+        var err=document.getElementById('error');
+        if(err.value==1)
+            return false;
+        else
+            {
+                document.getElementById('regForm').submit();
+            }
+    }
+    function matchPasswords()
+    {
+        //window.alert('heyy');
+        var p1=document.getElementById('password');
+        var p2=document.getElementById('cPassword');
+        var err=document.getElementById('error');
+        var pErr=document.getElementById('passError');
+        if(p1.value==p2.value)
+        {
+            pErr.innerHTML='';
+            err.value='0';
+            return true;
+            
+        }else
+        {
+            //window.alert('Passwords do not match!'); 
+            err.value='1';
+            pErr.innerHTML='Passwords do not match!';
+            return false;
+            
+        }    
+    }
+    
+</script>
+
+<center style="padding-top:20px;padding-bottom:20px">
+<form id="regForm">
+    <input type="hidden" id="error" name="error" value="0"/>
+<h1 class="register-title">Registration</h1>
+<div style="border-style:solid;border-width:1px; border-color:grey; width:500px;">
+  <div align="left" style="padding-left:100px;padding-right:100px;"><form>
+<table>
+    <tr>
+<td><label>Name*:</label></td><td><input type="text" name="name" id="name"></td>
+</tr>
+<tr>
+<td><label>Email*:</label></td><td><input type="password" name="email" id="email"></td>
+</tr>
+<tr><td><label>Password*:</label></td><td><input type="password" name="password" id="password"></td></tr>
+<tr><td><label>Confirm Password*:</label></td>
+<td><input type="password" id="cPassword" onfocusout="return matchPasswords();" class="register-input"><div id="passError" style="color:red;"></div></td></tr>
+<tr>
+   <td><label>Gender*:</label></td>
+  <td><select name="gender" id="gender">
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+</td>
+    </tr>
+    <tr><td><label>Age*:</label></td>
+    <td>
+<select name="age" id="age">
+<option value="15">15-20</option>
+<option value="21">21-25</option>
+<option value="26">26-30</option>
+<option value="31">31-35</option>
+<option value="40">40 or above</option>
+</select></td></tr>
+<tr>
+<td><label>Country of Origin*:</label></td>
+<td><select name="origin_country" id="origin_country">
+<option value="USA">USA</option>
+<option value="DB">Dubai</option>
+<option value="AUS">Australia</option>
+<option value="UK">United Kingdom</option>
+<option value="NZ">New Zealand</option>
+<option value="CN">Canada</option>
+</select></td></tr>
+<tr><td><label>Country of Interest:</label></td>
+<td><select name="interest_country" id="interest_country">
+<option value="USA">USA</option>
+<option value="DB">Dubai</option>
+<option value="AUS">Australia</option>
+<option value="UK">United Kingdom</option>
+<option value="NZ">New Zealand</option>
+<option value="CN">Canada</option>
+</select></td></tr>
+<tr>
+<td><label>Native Language:</label></td>
+<td><select name="language" id="language">
+<option value="USA">English</option>
+<option value="DB">Arabic</option>
+<option value="AUS">Spanish</option>
+<option value="UK">French</option>
+</select></td></tr>
+
+<tr><td><label>Other Language:</label></td>
+<td><select name="other_lang" id="other_lang">
+<option value="USA">English</option>
+<option value="DB">Arabic</option>
+<option value="AUS">Spanish</option>
+<option value="UK">French</option>
+</select></td></tr>
+
+<tr><td><label>Education level:</label></td>
+<td><select name="education" id="education">
+<option value="OL">O Levels</option>
+<option value="AL">A Levels</option>
+<option value="inter">Intermediate Level</option>
+<option value="Bachelor">Bachelors</option>
+<option value="Master">Masters</option>
+<option value="Doctor">Phd</option>
+</select></td></tr>
+<tr><td><label>Profession field:</label></td>
+<td><select name="Profession" id="profession">
+<option value="IT">Information Technology</option>
+<option value="HR">HR</option>
+<option value="AC">Accounting</option>
+<option value="Doctor">Doctor</option>
+</select></td></tr>
+<tr><td><label>Martial Status:</label></td>
+  <td><select name="m_status" id="m_status">
+<option value="Single">Single</option>
+<option value="Married">Married</option>
+</select></td></tr>
+   <tr><td colspan="2" align="center"><input onClick="return preSubmitCheck();" type="button" value="Create Account" class="register-button"></td></tr>
+ </table>     
+  </form>
+
+</div>
+</div>
+</center>
+
+			
+	</div> <!-- End contents -->
+</div> <!-- End contentContainer -->

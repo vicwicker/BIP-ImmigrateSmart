@@ -13,3 +13,47 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+function drawChart(chartContainer,chartType,chartData,seriesName,chartTitle,subtitle,chartYaxis,chartXaxis){
+        
+    var piePOs= {pie:{    
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                showInLegend: true
+        }};
+    $(chartContainer).highcharts({
+        chart: {
+
+            type: chartType,
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+
+        title: {
+         text: chartTitle
+        },
+        subtitle: {
+         text: subtitle
+        },
+        xAxis:{categories:chartXaxis},
+        plotOptions: piePOs,
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.y:.1f}%</b>'
+        },
+        legend:{
+            title:chartXaxis
+        },
+        series: [{
+            type:chartType,
+            name: seriesName,
+            data: chartData
+        }]
+    });
+}

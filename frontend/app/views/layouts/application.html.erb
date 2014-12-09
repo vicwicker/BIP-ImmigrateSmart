@@ -11,6 +11,7 @@
   <%= javascript_include_tag "jquery-ui","collapsiblemenu2" %>
   <!-- <%= javascript_include_tag "mapdata/world"%>-->
 
+
 <%= yield(:head) %>
  <script>
     $(function() 
@@ -20,11 +21,59 @@
     );
 </script>
 </head>
-<body>
 
+<body>
+    
+<div id="bodyGrad">
+		<img class="pngfix" src="/assets/body_grad.png" alt="" style="width: 3000px; height: 400px;" />
+	</div>
+	<div id="container"><!-- Start container -->
+		
+		<div id="pageHeader"><!-- Start page header -->
+			<div id="grad"><img class="pngfix" src="/assets/header_top_grad.png" alt="" style="width: 3000px; height: 72px;" /></div>
+			<img src="/assets/ImmigrateSmart.jpg" width="220" height="100"/>
+			<h1>Immigrate Smart</h1>
+			<h2>Changing the way you choose where to live... </h2>
+		</div><!-- End page header -->
+		
+		<div id="navcontainer"><!-- Start Navigation -->
+			<ul>
+				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
+				<li><a href="blog/" rel="" color:white;>Country List</a>
+					<ul>
+						<% @countryList.each do |country|%>
+							<li><a href="http://128.199.55.105:3100/home/index.html?country=<%= country %>"><%=country %></a></li>
+						<% end %>
+					</ul>
+				</li>
+				<li><a href="styled/" rel="">Comparison by Criteria</a>
+					<ul>
+						<li><a href="" rel="">Economic Incentives</a></li>
+						<li><a href="" rel="">Job Opportunities</a></li>
+						<li><a href="" rel="">Immigration Dynamics</a>
+							<ul>
+								<li><a href="" rel="">Page 1</a></li>
+								<li><a href="" rel="">Page 2</a></li>
+								<li><a href="" rel="">Page 3</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a href="contact-form/" rel="">Contact Immigrate Smart Team</a></li>
+				<li><a href="/home/register/" rel="">Register</a></li>
+				<li><a href="/home/login/" rel="">Login</a></li>
+			</ul>
+		</div><!-- End navigation -->
+
+		
 <%= yield %>
 
 	
+		<div id="footer"><!-- Start Footer -->
+				<p>Immigrate Smart Inc.</p>
+				
+		</div><!-- End Footer -->
+	</div><!-- End container -->	
 </body>
 </html>
 
