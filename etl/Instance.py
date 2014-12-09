@@ -1,4 +1,3 @@
-import copy
 import utils
 
 from py2neo import node, rel
@@ -16,11 +15,14 @@ class Instance:
         # Extract
         def extract():
             if self.config.file_type == 'csv':
-                return ContentReader.csv(self.config.file_uri, self.config.delimiter)
+                return ContentReader.csv(self.config.file_uri, self.config.extras)
             elif self.config.file_type == 'xls':
-                return ContentReader.xls(self.config.file_uri, int(self.config.delimiter))
+                return ContentReader.xls(self.config.file_uri)
             elif self.config.file_type == 'html':
-                return ContentReader.html(self.config.file_uri, self.config.config_name)
+                info = self.config.extras.split(':')
+                csv_number = int(info[0])
+                headers = True if info[1] == 'true' else False
+                return ContentReader.html(self.config.file_uri, self.config.config_name, csv_number, headers)
         
         # Transform
         def transform(data):
@@ -39,6 +41,7 @@ class Instance:
                         current['criterias'][criteria] = [criteria, None]
                     current['criterias'][criteria][c['fact']] = row[int(c['column'])]
                 transformed.append(current)
+                
             return transformed
 
         # Load in Neo4j
@@ -48,7 +51,7 @@ class Instance:
             for row in data:
                 country = batch.create(node(name = row['country']))
                 for criteria in row['criterias']:
-                        print row['country'] + ' -[:has_criteria]->' + criteria + ' -[:' + row['criterias'][criteria][0] + ']->' + row['criterias'][criteria][1]
+                        print row['country']+' --[:has_criteria]-> '+criteria+' --[:' + row['criterias'][criteria][0] + ']-> '+row['criterias'][criteria][1]
                         criteria_node = batch.create(node(criteria = criteria))
                         fact_node = batch.create(node(value = row['criterias'][criteria][1]))
                         batch.create(rel(country, 'has_criteria', criteria_node))

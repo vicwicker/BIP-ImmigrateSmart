@@ -27,7 +27,7 @@ class ContentReader:
         
     # Read HTML file
     @staticmethod
-    def html(file_uri, config_name, which = []):
+    def html(file_uri, config_name, which = -1, headers = False):
         class ImmigrateSmartParser(HTMLParser.HTMLParser):
         
         	tags = ['table', 'td', 'tr', 'th']
@@ -96,17 +96,15 @@ class ContentReader:
         		            
         		    results.append(current)
         		    
-        		    # Return the potential CSV asked for
-        		    result = []
+        		    # In case of nothing is asked we return everything
+        		    if which == -1:
+        		        return results
         		    
-        		    # In case of nothing is asked for then return the largest
-        		    # one (only for testing)
-        		    if len(which) == 0:
-        		        for p in results:
-        		            if len(p) > len(result):
-        		                result = p
-        		                
-        		    return result
+        		    to_return = results[which]
+        		    if headers:
+        		        to_return.pop(0)
+        		        
+        		    return to_return
         	
         	def root(self):
         		self.ast = ImmigrateSmartParser.AST('root', None, None)

@@ -1,0 +1,146 @@
+<head>
+    <title>ETL web interface</title>
+</head>
+<body>
+    <div align="center">
+        <h1> ImmigrateSmart SysAdmin</h1>
+        <h2> ETL Web Interface</h2>
+    </div>
+    <div>
+        <form id="etlconfig" name="etlconfig" method="post">
+            <table align="center">
+                <tr>
+                    <td align="right">
+                        <label for="config_name">Configuration Name</label>
+                    </td>
+                    <td align="left">
+                        <input type="text" id="config_name" name="config_name" maxlength="50" size="30">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="source_file">Source File</label>
+                    </td>
+                    <td align="left">
+                        <input type="text" id="source_file" name="source_file" size="30">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="source_file_type">Source File Type</label>
+                    </td>
+                    <td align="left">
+                        <select id ="source_file_type" name="source_file_type" onchange="setSourceFileType()">
+                            <option value="csv" selected="true">CSV</option>
+                            <option value="xls">XLS</option>
+                            <option value="html">HTML</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="delimiter_char_tr">
+                    <td align="right">
+                        <label for="delimiter_char">Delimiter Character</label>
+                    </td>
+                    <td align="left">
+                        <input type="text" id="delimiter_char" name="delimiter_char" maxlength="1" size="5">
+                    </td>
+                </tr>
+                <tr id="potential_csv_tr" style="visibility: hidden;">
+                    <td align="right">
+                        <label for="potential_csv">CSV Number</label>
+                    </td>
+                    <td align="left">
+                        <input type="text" id="potential_csv" name="potential_csv" maxlength="1" size="5">
+                        <button id="potential_csv_submit" name="potential_csv_submit" onClick = "submitFormInPopUp()">
+                            Check Potential CSVs
+                        </button>
+                    </td>
+                </tr>
+                <tr id="has_headers_tr" style="visibility: hidden;">
+                    <td align="right">
+                        <label for="potential_csv">Has headers</label>
+                    </td>
+                    <td align="left">
+                        <input type="checkbox" id="has_headers" name="has_headers" maxlength="1" size="5">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="country_name">Country</label>
+                    </td>
+                    <td align="left">
+                        <select id ="country_name" name="country_name" onchange="setCountriesColVisibility()">
+                            <option value="multiple" selected="true">MULTIPLE</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Canada">Canada</option>
+                            <option value="France">France</option>
+                            <option value="Germany">Germany</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="UAE">UAE</option>
+                            <option value="UK">UK</option>
+                            <option value="USA">USA</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="countries_col_tr" name="countries_col_tr">
+                    <td align="right">
+                        <label for="countries_col">Countries Column</label>
+                    </td>
+                    <td align="left">
+                        <input type="text" id="countries_col" name="countries_col" maxlength="3" size="3">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <table id="criteria_table">
+                            <tr>
+                                <td align="left">
+                                    <br/>
+                                    <b>Criteria to Import</b>
+                                </td>
+                                <td>
+                                    <button id="add_criteria" name="add_criteria" type="button" onClick="addCriteriaFields()">Add New Criteria</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <label for="criteria_1">Criteria 1</label>
+                                </td>
+                                <td align="left">
+                                    <input type="text" id="criteria_1" name="criteria_1">
+                                    <!--
+                                    <select id="criteria_1" name="criteria_1">
+                                        <option value="paid_annual_leave" selected="true">Paid Annual Leave</option>
+                                        <option value="minimum_wage">Minimum Wage</option>
+                                        <option value="unemplyment_rate">Unemployment Rate</option>
+                                    </select>
+                                    -->
+                                </td>
+                                <td align="right">
+                                    <label for="col_num1">Column</label>
+                                </td>
+                                <td align="left">
+                                    <input type="text" id="col_num1" name="col_num1" maxlength="3" size="3">
+                                </td>
+                                <td>
+                                    <button id="remove_criteria1" name="remove_criteria1" type="button" onClick="removeCriteriaFields(this.id)">Remove Criteria</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <input type="hidden" id="criteria_count" name="criteria_count" value="1">
+                <tr>
+                    <td align="center" colspan="2">
+                        <label id="error_panel" name="error_panel" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <input type="submit" value="Import Data">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
