@@ -1,0 +1,37 @@
+<div id="sidebarContainer"><!-- Start Sidebar wrapper -->
+	<div id="sidebar"><!-- Start sidebar content -->
+		<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
+		Jobs Offers, etc etc etc
+
+	</div><!-- End sidebar content -->
+</div><!-- End sidebar wrapper -->
+
+		
+<!--    Start the content of Immigrate Smart -->
+<div id="contentContainer"><!-- Start main content wrapper -->		
+	<div id="contents"><!-- Start content -->
+		<hr><br /><br />
+			<table align="center" cellspacing="40">
+				<tr>
+					<td>
+						<h1 class="countrymap"><%= params[:a] %></h1>
+						<br /><img class="countrymap" src="/assets/Map_<%= params[:a] %>.jpg" width="250" height="250" alt="countryMap"/>
+						<br/>
+					</td>
+					<td>
+						<h1 class="countrymap"><%= params[:b] %></h1>
+						<br /><img class="countrymap" src="/assets/Map_<%= params[:b] %>.jpg" width="250" height="250" alt="countryMap"/>
+						<br/>
+					</td>
+				</tr>
+				<tr align="left">
+					<td>
+						<font size="4"><%= @criteria %>: <%= @country_a %></font>
+					</td>
+					<td>
+						<font size="4"><%= @criteria %>: <%= @country_b %></font>
+					</td>
+				</tr>
+			</table>
+	</div> <!-- End contents -->
+</div> <!-- End contentContainer -->

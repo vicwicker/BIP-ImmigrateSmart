@@ -52,4 +52,16 @@ class HomeController < ApplicationController
     Neo4j::Session.open(:server_db)
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
   end
+  
+  def comparison
+    Neo4j::Session.open(:server_db)
+    @criteria = params[:criteria].gsub('_', ' ').split.map(&:capitalize)*' '
+    @country_a = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
+                  .where('n.name = \''+params[:a]+'\' AND m.criteria = \''+params[:criteria]+'\'')
+                  .pluck('v.value')[0]
+    @country_b = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
+                  .where('n.name = \''+params[:b]+'\' AND m.criteria = \''+params[:criteria]+'\'')
+                  .pluck('v.value')[0]
+    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+  end
 end

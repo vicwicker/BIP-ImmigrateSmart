@@ -44,6 +44,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
+    highcharts-rails (4.0.4.1)
+      railties (>= 3.1)
     hike (1.2.3)
     httparty (0.13.3)
       json (~> 1.8)
@@ -143,6 +145,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+  highcharts-rails (~> 4.0.4.1)
   jbuilder (~> 1.2)
   jquery-rails
   neo4j

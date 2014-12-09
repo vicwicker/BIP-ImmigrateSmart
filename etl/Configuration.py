@@ -588,13 +588,27 @@ if __name__ == "__main__":
                             '1',
                             'yes')''', True)
                             
-        # Excel configuration instance sample one country - Unemployment Rate Australia
+        # CSV configuration instance sample - Health Care System Description
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'health-care-system-description',
+                            '0',
+                            'healthCareSystemByCountry.csv',
+                            'csv',
+                            ';')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'health-care-system-description',
+                            'health_care_system',
+                            '1',
+                            'yes')''', True)
+                            
+        # CSV configuration instance sample one country - Unemployment Rate Australia
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-australia',
                             'Australia',
-                            'http://www.bls.gov/fls/intl_unemployment_rates_monthly.xls',
-                            'xls',
-                            '1')''')
+                            'unemploymentRatePerYear.csv',
+                            'csv',
+                            ';')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-australia',
@@ -604,97 +618,97 @@ if __name__ == "__main__":
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-australia',
+                            'unemployment_rate_per_year',
+                            '3',
+                            'yes')''', True)
+                            
+        # CSV configuration instance sample one country - Unemployment Rate Canada
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'unemployment-rate-canada',
+                            'Canada',
+                            'unemploymentRatePerYear.csv',
+                            'csv',
+                            ';')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'unemployment-rate-canada',
+                            'unemployment_rate_per_year',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'unemployment-rate-canada',
+                            'unemployment_rate_per_year',
+                            '2',
+                            'yes')''', True)
+                            
+        # CSV configuration instance sample one country - Unemployment Rate France
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'unemployment-rate-france',
+                            'France',
+                            'unemploymentRatePerYear.csv',
+                            'csv',
+                            ';')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'unemployment-rate-france',
+                            'unemployment_rate_per_year',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'unemployment-rate-france',
+                            'unemployment_rate_per_year',
+                            '5',
+                            'yes')''', True)
+                            
+        # CSV configuration instance sample one country - Unemployment Rate Germany
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'unemployment-rate-germany',
+                            'Germany',
+                            'unemploymentRatePerYear.csv',
+                            'csv',
+                            ';')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'unemployment-rate-germany',
+                            'unemployment_rate_per_year',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'unemployment-rate-germany',
                             'unemployment_rate_per_year',
                             '6',
                             'yes')''', True)
                             
-        # Excel configuration instance sample one country - Unemployment Rate Canada
+        # CSV configuration instance sample one country - Unemployment Rate UK
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
-                            'unemployment-rate-canada',
-                            'Canada',
-                            'http://www.bls.gov/fls/intl_unemployment_rates_monthly.xls',
-                            'xls',
-                            '1')''')
+                            'unemployment-rate-uk',
+                            'United Kingdom',
+                            'unemploymentRatePerYear.csv',
+                            'csv',
+                            ';')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-canada',
+                            'unemployment-rate-uk',
                             'unemployment_rate_per_year',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-canada',
-                            'unemployment_rate_per_year',
-                            '4',
-                            'yes')''', True)
-                            
-        # Excel configuration instance sample one country - Unemployment Rate France
-        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
-                            'unemployment-rate-france',
-                            'France',
-                            'http://www.bls.gov/fls/intl_unemployment_rates_monthly.xls',
-                            'xls',
-                            '1')''')
-                
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-france',
-                            'unemployment_rate_per_year',
-                            '0',
-                            'no')''')
-                            
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-france',
+                            'unemployment-rate-uk',
                             'unemployment_rate_per_year',
                             '10',
                             'yes')''', True)
                             
-        # Excel configuration instance sample one country - Unemployment Rate Germany
-        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
-                            'unemployment-rate-germany',
-                            'Germany',
-                            'http://www.bls.gov/fls/intl_unemployment_rates_monthly.xls',
-                            'xls',
-                            '1')''')
-                
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-germany',
-                            'unemployment_rate_per_year',
-                            '0',
-                            'no')''')
-                            
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-germany',
-                            'unemployment_rate_per_year',
-                            '12',
-                            'yes')''', True)
-                            
-        # Excel configuration instance sample one country - Unemployment Rate UK
-        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
-                            'unemployment-rate-uk',
-                            'United Kingdom',
-                            'http://www.bls.gov/fls/intl_unemployment_rates_monthly.xls',
-                            'xls',
-                            '1')''')
-                
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-uk',
-                            'unemployment_rate_per_year',
-                            '0',
-                            'no')''')
-                            
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'unemployment-rate-uk',
-                            'unemployment_rate_per_year',
-                            '20',
-                            'yes')''', True)
-                            
-        # Excel configuration instance sample one country - Unemployment Rate USA
+        # CSV configuration instance sample one country - Unemployment Rate USA
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-usa',
                             'United States',
-                            'http://www.bls.gov/fls/intl_unemployment_rates_monthly.xls',
-                            'xls',
-                            '1')''')
+                            'unemploymentRatePerYear.csv',
+                            'csv',
+                            ';')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
@@ -705,7 +719,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
                             'unemployment_rate_per_year',
-                            '2',
+                            '1',
                             'yes')''', True)
                             
         # CSV configuration instance sample - Health Care System Description

@@ -46,3 +46,6 @@ end
 
 # Neo4j
 gem 'neo4j'
+
+# Highcharts
+gem 'highcharts-rails', '~> 4.0.4.1'

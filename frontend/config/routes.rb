@@ -8,6 +8,7 @@ root to: 'home#index'
 get 'home/home'
 get 'home/login'
 get 'home/register'
+get 'home/comparison'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

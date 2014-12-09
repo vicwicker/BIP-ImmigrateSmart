@@ -27,12 +27,13 @@ class Instance:
         # Transform
         def transform(data):
             transformed = []
-            if self.config.is_multi:
-                data = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
-            else:
+            if not self.config.is_multi:
+                aux = 0
                 for row in data:
                     row.append(self.config.country_in)
-                self.config.country_in = len(data[0])-1
+                    aux = len(row)-1
+                self.config.country_in = aux
+            data = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
             for row in data:
                 current = {'country':row[self.config.country_in], 'criterias':{}}
                 for c in self.config.columns:
