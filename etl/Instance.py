@@ -17,7 +17,7 @@ class Instance:
             if self.config.file_type == 'csv':
                 return ContentReader.csv(self.config.file_uri, self.config.extras)
             elif self.config.file_type == 'xls':
-                return ContentReader.xls(self.config.file_uri)
+                return ContentReader.xls(self.config.file_uri, self.config.extras)
             elif self.config.file_type == 'html':
                 info = self.config.extras.split(':')
                 csv_number = int(info[0])
