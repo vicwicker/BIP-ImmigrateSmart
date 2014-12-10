@@ -90,7 +90,59 @@
 				</div>
 				<h1>Immigration Dynamics</h1>
 				<div>
-				
+					<h2>Share your Visa Experience!</h2>
+					
+					<form name="visashare" action="" method="post">
+						<h3>I applied for: </h3>
+						Student Visa
+						<input type="radio" name="visat" value="student" />
+						Work Permit
+					    <input type="radio" name="visat" value="work" />
+					    <br>
+					    
+					    <h3>How do you rate your visa process?</h3>
+					    Easy
+						<input type="radio" name="rating" value="1" />
+						Medium
+					    <input type="radio" name="rating" value="2" />
+					    Hard
+					    <input type="radio" name="rating" value="3" /><br>
+					    Comment: <textarea name:"comment" rows="1" cols="50"></textarea><br>
+					    
+					    <table>
+					    	<tr>
+					    		<td><h5>How long you took to make an appointment with the Consulate?</h5></td>
+					    		<td><select name="time">
+								    	<option value="10">Less than 10 days</option>
+								    	<option value="20">Between 10 and 30 days</option>
+								    	<option value="30">More than 30 days</option>
+					    			</select>
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td><h5>How many documents apart from the application form you needed to apply?</h5></td>
+					    		<td><select name="documents">
+								    	<option value="5">Less than 5</option>
+								    	<option value="7">Between 5 and 10</option>
+								    	<option value="10">More than 10</option>
+					    			</select>
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td><h5>How many visits you did to the Consulate in order to get your visa in your hands?</h5></td>
+					    		<td><select name="visits">
+								    	<option value="2">2</option>
+								    	<option value="4">Between 3 and 5</option>
+								    	<option value="6">More than 5</option>
+					    			</select>
+					    		</td>
+					    	</tr>
+					    </table>
+					    
+					    
+					    <br><br>
+					    <input type="submit" value="Submit Experience">
+					</form>
 				</div>
 				<h1>Medical Care</h1>
 				<div>
