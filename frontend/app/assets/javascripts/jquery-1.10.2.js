@@ -18,6 +18,13 @@ THIS CODE WAS COPY + PASTE FROM THE URL: http://code.jquery.com/jquery-1.10.2.js
  *
  * Date: 2013-07-03T13:48Z
  */
+ 
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
+
 (function( window, undefined ) {
 
 // Can't do this because several apps including ASP.NET trace

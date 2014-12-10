@@ -1,3 +1,18 @@
+<script>
+    function countriesSelected() {
+    	var e = document.getElementById("country_a");
+    	var country_a = e.options[e.selectedIndex].value;
+
+    	var e = document.getElementById("country_b");
+    	var country_b = e.options[e.selectedIndex].value;
+    	
+    	var e = document.getElementById("criteria");
+    	var criteria = e.value;
+    	
+    	window.location = "/home/comparison.html?criteria=" + criteria + "&country_a=" + country_a + "&country_b=" + country_b;
+    }
+</script>
+
 <div id="sidebarContainer"><!-- Start Sidebar wrapper -->
 	<div id="sidebar"><!-- Start sidebar content -->
 		<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
@@ -5,33 +20,190 @@
 
 	</div><!-- End sidebar content -->
 </div><!-- End sidebar wrapper -->
-
 		
 <!--    Start the content of Immigrate Smart -->
 <div id="contentContainer"><!-- Start main content wrapper -->		
 	<div id="contents"><!-- Start content -->
 		<hr><br /><br />
 			<table align="center" cellspacing="40">
+				<input type="hidden" id="criteria" name="criteria" value="<%= params[:criteria]%>">
 				<tr>
+					<td></td>
+					<td>
+						<select name="country_a" id="country_a" onchange="countriesSelected()">
+							<% @countryList.each do |country|%>
+								<% if country == params[:country_a] then %>
+									<option value="<%= country %>" selected="true"> <%= country %> </option>
+								<% else %>
+									<option value="<%= country %>"> <%= country %> </option>
+								<% end %>
+							<% end %>
+		    			</select>
+		    		</td>
+		    		<td>
+						<select name="country_b" id="country_b" onchange="countriesSelected()">
+							<% @countryList.each do |country|%>
+								<% if country == params[:country_b] then %>
+									<option value="<%= country %>" selected="true"> <%= country %> </option>
+								<% else %>
+									<option value="<%= country %>"> <%= country %> </option>
+								<% end %>
+							<% end %>
+		    			</select>
+		    		</td>
+				</tr>
+				<tr>
+					<td></td>
 					<td>
 						<h1 class="countrymap"><%= params[:a] %></h1>
-						<br /><img class="countrymap" src="/assets/Map_<%= params[:a] %>.jpg" width="250" height="250" alt="countryMap"/>
+						<br /><img class="countrymap" src="/assets/Map_<%= params[:country_a] %>.jpg" width="250" height="250" alt="countryMap"/>
 						<br/>
 					</td>
 					<td>
 						<h1 class="countrymap"><%= params[:b] %></h1>
-						<br /><img class="countrymap" src="/assets/Map_<%= params[:b] %>.jpg" width="250" height="250" alt="countryMap"/>
+						<br /><img class="countrymap" src="/assets/Map_<%= params[:country_b] %>.jpg" width="250" height="250" alt="countryMap"/>
 						<br/>
 					</td>
 				</tr>
-				<tr align="left">
-					<td>
-						<font size="4"><%= @criteria %>: <%= @country_a %></font>
-					</td>
-					<td>
-						<font size="4"><%= @criteria %>: <%= @country_b %></font>
-					</td>
-				</tr>
+				<% if params[:criteria] == "EI" then %>
+					<tr>
+						<td>
+							<h3>Average Overall Monthly Salary</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['average_overall_monthly_salary'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['average_overall_monthly_salary'] %><br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Average Income Taxes</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['average_income_taxes'] %> %<br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['average_income_taxes'] %> %<br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Minimum Wage</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['minimum_wage'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['minimum_wage'] %><br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Paid Annual Leave</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['paid_annual_leave'] %> days<br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['paid_annual_leave'] %> days<br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Cost of Living</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['cost_of_living'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['cost_of_living'] %><br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Foreign Workers Salaries</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['foreign_worker_salaries'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['foreign_worker_salaries'] %><br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Crime Rate</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['crime_rate'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['crime_rate'] %><br />
+						</td>
+					</tr>
+				<% end %>
+				<% if params[:criteria] == "JO" then %>
+					<tr>
+						<td>
+							<h3>Unemployment Rate</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['unemployment_rate'] %> %<br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['unemployment_rate'] %> %<br />
+						</td>
+					</tr>
+				<% end %>
+				<% if params[:criteria] == "MC" then %>
+					<tr>
+						<td>
+							<h3>Health Care System</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['health_care_system'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['health_care_system'] %><br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Health Care Expenditure</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['health_care_expenditure'] %> %<br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['health_care_expenditure'] %> %<br />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h3>Quality of Health Care System</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['quality_of_health_care_system'] %><br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['quality_of_health_care_system'] %><br />
+						</td>
+					</tr>
+				<% end %>
+				<% if params[:criteria] == "ED" then %>
+						<td>
+							<h3>Percentage of English Speakers</h3>
+						</td>
+						<td>
+							<%= @criteriaDict_a['percentage_of_english_speakers'] %> %<br />
+						</td>
+						<td>
+							<%= @criteriaDict_b['percentage_of_english_speakers'] %> %<br />
+						</td>
+					</tr>
+				<% end %>
 			</table>
 	</div> <!-- End contents -->
 </div> <!-- End contentContainer -->

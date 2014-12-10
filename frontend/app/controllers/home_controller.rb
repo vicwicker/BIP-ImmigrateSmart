@@ -55,13 +55,49 @@ class HomeController < ApplicationController
   
   def comparison
     Neo4j::Session.open(:server_db)
-    @criteria = params[:criteria].gsub('_', ' ').split.map(&:capitalize)*' '
-    @country_a = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
-                  .where('n.name = \''+params[:a]+'\' AND m.criteria = \''+params[:criteria]+'\'')
-                  .pluck('v.value')[0]
-    @country_b = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
-                  .where('n.name = \''+params[:b]+'\' AND m.criteria = \''+params[:criteria]+'\'')
-                  .pluck('v.value')[0]
+#    @criteria = params[:criteria].gsub('_', ' ').split.map(&:capitalize)*' '
+#    @country_a = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
+#                  .where('n.name = \''+params[:a]+'\' AND m.criteria = \''+params[:criteria]+'\'')
+#                  .pluck('v.value')[0]
+#    @country_b = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
+#                  .where('n.name = \''+params[:b]+'\' AND m.criteria = \''+params[:criteria]+'\'')
+#                  .pluck('v.value')[0]
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+    
+    #Country A Criteria
+    @criteriaList_a = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT m.criteria')
+    @criteriaDict_a = Hash.new("N/A")
+    @criteriaList_a.each do |crt|
+		    @criteriaVal_a = Neo4j::Session.query.match('n-[r:has_criteria]->m-[r2]->v')
+		                      .where('n.name=\'' + params[:country_a] + '\' AND m.criteria=\'' + crt + '\'')
+		                      .pluck('type(r2), v.value')
+		    if @criteriaVal_a.size == 1 then
+		      @criteriaDict_a[crt] = @criteriaVal_a[0][1]
+		    else
+		      @criteriaDims_a = Hash.new("N/A")
+		      @criteriaVal_a.each do |dim|
+		        @criteriaDims_a[dim[0]] = dim[1]
+		      @criteriaDict_a[crt] = @criteriaDims_a
+		      end
+		    end
+		end 
+		
+		#Country B Criteria
+    @criteriaList_b = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT m.criteria')
+    @criteriaDict_b = Hash.new("N/A")
+    @criteriaList_b.each do |crt|
+		    @criteriaVal_b = Neo4j::Session.query.match('n-[r:has_criteria]->m-[r2]->v')
+		                      .where('n.name=\'' + params[:country_b] + '\' AND m.criteria=\'' + crt + '\'')
+		                      .pluck('type(r2), v.value')
+		    if @criteriaVal_b.size == 1 then
+		      @criteriaDict_b[crt] = @criteriaVal_b[0][1]
+		    else
+		      @criteriaDims_b = Hash.new("N/A")
+		      @criteriaVal_b.each do |dim|
+		        @criteriaDims_b[dim[0]] = dim[1]
+		      @criteriaDict_b[crt] = @criteriaDims_b
+		      end
+		    end
+		end
   end
 end
