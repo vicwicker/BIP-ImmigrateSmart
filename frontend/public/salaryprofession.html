@@ -11,13 +11,8 @@
 </head>
 <body>
     <script type="text/javascript" charset="utf-8">
-    var chartContainer='#salsContainer';
-    var chartType= 'column';
-    var seriesName='Languages Percentage';
-    var chartTitle='Languages';
-    var subtitle='Percentage of languages spoken, 2014';
     
-    var chartData2=[
+    var chartData=[
                                      ['Recreation and Sports',2583],
                                      ['Fashion and Apparel',3625],
                                      ['Gardening / Farming / Fishing',3776],
@@ -158,26 +153,10 @@ var chartYaxis2=[
                                  ,11794
                                ];                   
 
+    var chartTitle='Average Salary per Profession';
+    var subtitle='Percentage of languages spoken, 2014';
     
-    
-        $(function () {
-         $('#salsContainer').highcharts({
-             chart: {
-                 type: 'column',
-                 width: 800,
-                 height: 500
-             },
-             title: {
-                 text: 'Average Salary per Profession'
-             },
-             plotOptions:{
-                     series: {
-                                     pointWidth: 12,
-                                     pointPadding: .1,
-                                     showCheckbox: true
-                 }
-             },
-             xAxis: {
+    var cxAxis= {
                  type: 'category',
                  labels: {
                      rotation: -45,
@@ -186,13 +165,38 @@ var chartYaxis2=[
                          fontFamily: 'Verdana, sans-serif'
                      }
                  }
-             },
-             yAxis: {
+             };
+    var cyAxis={
                  min: 1000,
                  title: {
                      text: 'Average Salary (Australian Dollars)'
                  }
+             };
+    var chartContainer='#salsContainer';
+    var seriesName='Average Salary';
+    var chartTypeCol="column";
+    
+    function drawColChart(chartType,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis)
+    {
+        $(function () {
+         $(chartContainer).highcharts({
+             chart: {
+                 type: chartType,
+                 width: 800,
+                 height: 500
              },
+             title: {
+                 text: chartTitle
+             },
+             plotOptions:{
+                     series: {
+                                     pointWidth: 12,
+                                     pointPadding: .1,
+                                     showCheckbox: true
+                 }
+             },
+             xAxis:cxAxis,
+             yAxis: cyAxis,
              legend: {
                  enabled: false
              },
@@ -200,7 +204,7 @@ var chartYaxis2=[
                  pointFormat: 'Average Salary in 2014: <b>{point.y:.1f}</b>'
              },
              series: [{
-                 name: 'Average Salary',
+                 name: seriesName,
                  dataLabels: {
                                      enabled: true,
                                      rotation: -90,
@@ -214,11 +218,97 @@ var chartYaxis2=[
                                              textShadow: '0 0 3px black'
                                      }
                              },
-                 data: chartData2
+                 data: chartData
              }]
          });
         });
+        
+    }
+drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);    
+function drawChartsCol(chartTy){
+    chartTypeCol=chartTy;
+    drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);
+    
+}
+var min=['Recreation and Sports',2583];
+var max=['Executive and Management',11794];
+var sPoint;
+var originalChartData=chartData;
+
+function highlightBar(){
+    var pOps=document.getElementById('profession');
+    var sInd=parseInt(pOps.options[pOps.selectedIndex].value);
+    if(sInd==-1){
+        chartData=originalChartData;
+    }
+    else{
+        sPoint={name:chartXaxis2[sInd],y:chartYaxis2[sInd], 
+                 color:'#43D58C', sliced:true};
+        chartData=[min,sPoint,max];
+        //window.alert(sPoint);
+    }
+    drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);
+}
 </script>
+<select name="Profession" id="profession" onChange="highlightBar()">
+<option value="-1">--ALL--</option>
+<option value="0">Recreation and Sports</option>
+<option value="1">Fashion and Apparel</option>
+<option value="2">Gardening / Farming / Fishing</option>
+<option value="3">Media / Broadcasting / Arts / Entertainment</option>
+<option value="4">Care Giving and Child Care</option>
+<option value="5">Food /Hospitality / Tourism / Catering</option>
+<option value="6">Administration / Reception / Secretarial</option>
+<option value="7">Counseling</option>
+<option value="8">Automotive</option>
+<option value="9">Photography</option>
+<option value="10">Customer Service and Call Center</option>
+<option value="11">Real Estate</option>
+<option value="12">Import and Export</option>
+<option value="13">Law Enforcement / Security / Fire</option>
+<option value="14">Electrical and Electronics Trades</option>
+<option value="15">Insurance</option>
+<option value="16">Courier / Delivery / Transport / Drivers</option>
+<option value="17">Sales Retail and Wholesale</option>
+<option value="18">Advertising / Grapic Design / Event Management</option>
+<option value="19">Purchasing and Inventory</option>
+<option value="20">Science and Technical Services</option>
+<option value="21">Architecture</option>
+<option value="22">Teaching / Education</option>
+<option value="23">Factory and Manufacturing</option>
+<option value="24">Environmental</option>
+<option value="25">Health and Medical</option>
+<option value="26">Accounting and Finance</option>
+<option value="27">Business Planning</option>
+<option value="28">Banking</option>
+<option value="29">Telecommunication</option>
+<option value="30">Construction / Building / Installation</option>
+<option value="31">Publishing and Printing</option>
+<option value="32">Pharmaceutical and Biotechnology</option>
+<option value="33">Airlines / Aviation / Aerospace / Defense</option>
+<option value="34">Quality Control and Compliance</option>
+<option value="35">Government and Defence</option>
+<option value="36">Marketing</option>
+<option value="37">Human Resources</option>
+<option value="38">Information Technology</option>
+<option value="39">Legal</option>
+<option value="40">Engineering</option>
+<option value="41">Facilities / Maintenance / Repair</option>
+<option value="42">Oil / Gas / Energy / Mining</option>
+<option value="43">Cleaning and Housekeeping</option>
+<option value="44">Executive and Management</option>
+        
+</select>
+<br>
+<select id="chartTypesCol" onChange="drawChartsCol(this.value)">
+    <option value="bar">Bar Chart</option>
+    <option value="column">Column Chart</option>
+    <option value="area">Area Chart</option>
+    <option value="pie">Pie Chart</option>
+    <option value="line">Line Chart</option>
+    <option value="spline">Spline Chart</option>
+    <option value="scatter">Scatter Plot</option>
+</select>
 <div id="salsContainer"></div>
 </body>
 </html>

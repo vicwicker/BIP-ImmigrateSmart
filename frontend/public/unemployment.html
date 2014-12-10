@@ -12,24 +12,7 @@
 </head>
 <body>
 <script type="text/javascript" charset="utf-8">
-
-  $(function () {
-      // Create the chart
-        $('#unemployment_chart').highcharts('StockChart', {
-
-
-            rangeSelector : {
-                selected : 1
-            },
-
-            title : {
-                text : 'Unemployment Rate'
-            },
-
-            series : [{
-                name : 'Unemployment',
-
-                data: [ //2007
+var chartData=[ //2007
 						[(new Date('01,01,2007').getTime()), 4.5],
 						[(new Date('02,01,2007').getTime()), 4.6],
 						[(new Date('03,01,2007').getTime()), 4.4],
@@ -117,7 +100,26 @@
 						[(new Date('04,01,2013').getTime()), 5.6],
 						[(new Date('05,01,2013').getTime()), 5.6],
 						[(new Date('06,01,2013').getTime()), 5.7]
-					]
+					];
+					var chartContainer='#unemployment_chart';
+function drawUnemploymentChart(chartData,chartContainer){					
+  $(function () {
+      // Create the chart
+        $(chartContainer).highcharts('StockChart', {
+
+
+            rangeSelector : {
+                selected : 1
+            },
+
+            title : {
+                text : 'Unemployment Rate'
+            },
+
+            series : [{
+                name : 'Unemployment',
+
+                data:chartData
 					,
                 tooltip: {
                     valueDecimals: 2
@@ -127,8 +129,8 @@
 
 
 });
-
-
+}
+ drawUnemploymentChart(chartData,chartContainer);
 </script>
 <div id="unemployment_chart" style="width:560px; height:300px;"></div>
 
