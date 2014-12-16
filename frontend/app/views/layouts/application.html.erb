@@ -1,3 +1,4 @@
+<% if(@countryList!=nil)%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,9 +51,10 @@
 				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
 				<li><a href="blog/" rel="" color:white;>Country List</a>
 					<ul>
-						<% @countryList.each do |country|%>
+						
+						<%@countryList.each do |country|%>
 							<li><a href="http://128.199.55.105:3100/home/index.html?country=<%= country %>"><%=country %></a></li>
-						<% end %>
+						<%end %>
 					</ul>
 				</li>
 				<li><a href="styled/" rel="">Comparison by Criteria</a>
@@ -64,8 +66,14 @@
 					</ul>
 				</li>
 				<li><a href="contact-form/" rel="">Contact Immigrate Smart Team</a></li>
+				<%if(session[:current_user_id]!=nil)%>
+				<li><a href="/home/profile/" rel="">Welcome <%=session[:current_user_id]%></a></li>
+				<li><a href="/home/logout/" rel="" onclick="return confirm('Are you sure you want to logout?');">Logout</a></li>
+				
+				<%else%>
 				<li><a href="/home/register/" rel="">Register</a></li>
 				<li><a href="/home/login/" rel="">Login</a></li>
+				<%end%>
 			</ul>
 		</div><!-- End navigation -->
 
@@ -80,5 +88,7 @@
 	</div><!-- End container -->	
 </body>
 </html>
-
+<%else%>
+<%= yield %>
+<%end%>
 			

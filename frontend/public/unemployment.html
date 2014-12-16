@@ -12,96 +12,8 @@
 </head>
 <body>
 <script type="text/javascript" charset="utf-8">
-var chartData=[ //2007
-						[(new Date('01,01,2007').getTime()), 4.5],
-						[(new Date('02,01,2007').getTime()), 4.6],
-						[(new Date('03,01,2007').getTime()), 4.4],
-						[(new Date('04,01,2007').getTime()), 4.4],
-						[(new Date('05,01,2007').getTime()), 4.3],
-						[(new Date('06,01,2007').getTime()), 4.3],
-						[(new Date('07,01,2007').getTime()), 4.3],
-						[(new Date('08,01,2007').getTime()), 4.3],
-						[(new Date('09,01,2007').getTime()), 4.2],
-						[(new Date('10,01,2007').getTime()), 4.3],
-						[(new Date('11,01,2007').getTime()), 4.5],
-						[(new Date('12,01,2007').getTime()), 4.3],
-
-						//2008
-						[(new Date('01,01,2008').getTime()), 4.2],
-						[(new Date('02,01,2008').getTime()), 4.0],
-						[(new Date('03,01,2008').getTime()), 4.1],
-						[(new Date('04,01,2008').getTime()), 4.3],
-						[(new Date('05,01,2008').getTime()), 4.3],
-						[(new Date('06,01,2008').getTime()), 4.3],
-						[(new Date('07,01,2008').getTime()), 4.3],
-						[(new Date('08,01,2008').getTime()), 4.1],
-						[(new Date('09,01,2008').getTime()), 4.3],
-						[(new Date('10,01,2008').getTime()), 4.3],
-						[(new Date('11,01,2008').getTime()), 4.5],
-						[(new Date('12,01,2008').getTime()), 4.6],
-						 //2009
-						[(new Date('01,01,2009').getTime()), 4.9],
-						[(new Date('02,01,2009').getTime()), 5.3],
-						[(new Date('03,01,2009').getTime()), 5.7],
-						[(new Date('04,01,2009').getTime()), 5.5],
-						[(new Date('05,01,2009').getTime()), 5.8],
-						[(new Date('06,01,2009').getTime()), 5.9],
-						[(new Date('07,01,2009').getTime()), 5.8],
-						[(new Date('08,01,2009').getTime()), 5.8],
-						[(new Date('09,01,2009').getTime()), 5.7],
-						[(new Date('10,01,2009').getTime()), 5.6],
-						[(new Date('11,01,2009').getTime()), 5.6],
-						[(new Date('12,01,2009').getTime()), 5.5],
-
-						//2010
-						[(new Date('01,01,2010').getTime()), 5.3],
-						[(new Date('02,01,2010').getTime()), 5.3],
-						[(new Date('03,01,2010').getTime()), 5.4],
-						[(new Date('04,01,2010').getTime()), 5.5],
-						[(new Date('05,01,2010').getTime()), 5.2],
-						[(new Date('06,01,2010').getTime()), 5.2],
-						[(new Date('07,01,2010').getTime()), 5.3],
-						[(new Date('08,01,2010').getTime()), 5.1],
-						[(new Date('09,01,2010').getTime()), 5.1],
-						[(new Date('10,01,2010').getTime()), 5.3],
-						[(new Date('11,01,2010').getTime()), 5.1],
-						[(new Date('12,01,2010').getTime()), 5.9],
-						 //2011
-						[(new Date('01,01,2011').getTime()), 5.1],
-						[(new Date('02,01,2011').getTime()), 5.0],
-						[(new Date('03,01,2011').getTime()), 4.9],
-						[(new Date('04,01,2011').getTime()), 4.9],
-						[(new Date('05,01,2011').getTime()), 5.0],
-						[(new Date('06,01,2011').getTime()), 5.0],
-						[(new Date('07,01,2011').getTime()), 5.1],
-						[(new Date('08,01,2011').getTime()), 5.3],
-						[(new Date('09,01,2011').getTime()), 5.2],
-						[(new Date('10,01,2011').getTime()), 5.2],
-						[(new Date('11,01,2011').getTime()), 5.2],
-						[(new Date('12,01,2011').getTime()), 5.2],
-
-						//2012
-						[(new Date('01,01,2012').getTime()), 5.1],
-						[(new Date('02,01,2012').getTime()), 5.2],
-						[(new Date('03,01,2012').getTime()), 5.2],
-						[(new Date('04,01,2012').getTime()), 5.0],
-						[(new Date('05,01,2012').getTime()), 5.2],
-						[(new Date('06,01,2012').getTime()), 5.2],
-						[(new Date('07,01,2012').getTime()), 5.2],
-						[(new Date('08,01,2012').getTime()), 5.1],
-						[(new Date('09,01,2012').getTime()), 5.5],
-						[(new Date('10,01,2012').getTime()), 5.4],
-						[(new Date('11,01,2012').getTime()), 5.3],
-						[(new Date('12,01,2012').getTime()), 5.4],
-						//2013
-						[(new Date('01,01,2013').getTime()), 5.4],
-						[(new Date('02,01,2013').getTime()), 5.4],
-						[(new Date('03,01,2013').getTime()), 5.6],
-						[(new Date('04,01,2013').getTime()), 5.6],
-						[(new Date('05,01,2013').getTime()), 5.6],
-						[(new Date('06,01,2013').getTime()), 5.7]
-					];
-					var chartContainer='#unemployment_chart';
+var chartData;
+var chartContainer='#unemployment_chart';
 function drawUnemploymentChart(chartData,chartContainer){					
   $(function () {
       // Create the chart
@@ -130,6 +42,34 @@ function drawUnemploymentChart(chartData,chartContainer){
 
 });
 }
+
+
+function getUnemploymentDataAjax(country)
+{
+
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+      }
+    else
+      {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    xmlhttp.onreadystatechange=function()
+      {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            var data=JSON.parse(xmlhttp.responseText);
+            chartData=data.chartData;
+
+        }
+      }
+    xmlhttp.open("GET","http://128.199.55.105:3300/home/getunemploymentdata?country=Australia",false);
+    xmlhttp.send();
+    
+}
+getUnemploymentDataAjax(window.parent.country);
  drawUnemploymentChart(chartData,chartContainer);
 </script>
 <div id="unemployment_chart" style="width:560px; height:300px;"></div>

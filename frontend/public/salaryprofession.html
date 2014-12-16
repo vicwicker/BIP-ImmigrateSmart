@@ -12,170 +12,18 @@
 <body>
     <script type="text/javascript" charset="utf-8">
     
-    var chartData=[
-                                     ['Recreation and Sports',2583],
-                                     ['Fashion and Apparel',3625],
-                                     ['Gardening / Farming / Fishing',3776],
-                                     ['Media / Broadcasting / Arts / Entertainment',4043],
-                                     ['Care Giving and Child Care',4106],
-                                     ['Food /Hospitality / Tourism / Catering',4247],
-                                     ['Administration / Reception / Secretarial',4298],
-                                     ['Counseling',4333],
-                                     ['Automotive',4471],
-                                     ['Photography',4479],
-                                     ['Customer Service and Call Center',4638],
-                                     ['Real Estate',4685],
-                                     ['Import and Export',4792],
-                                     ['Law Enforcement / Security / Fire',4830],
-                                     ['Electrical and Electronics Trades',5296],
-                                     ['Insurance',5750],
-                                     ['Courier / Delivery / Transport / Drivers',5813],
-                                     ['Sales Retail and Wholesale',5866],
-                                     ['Advertising / Grapic Design / Event Management',6127],
-                                     ['Purchasing and Inventory',6186],
-                                     ['Science and Technical Services',6382],
-                                     ['Architecture',6390],
-                                     ['Teaching / Education',6411],
-                                     ['Factory and Manufacturing',6557],
-                                     ['Environmental',6567],
-                                     ['Health and Medical',6595],
-                                     ['Accounting and Finance',6679],
-                                     ['Business Planning',6835],
-                                     ['Banking',6990],
-                                     ['Telecommunication',7023],
-                                     ['Construction / Building / Installation',7069],
-                                     ['Publishing and Printing',7107],
-                                     ['Pharmaceutical and Biotechnology',7150],
-                                     ['Airlines / Aviation / Aerospace / Defense',7305],
-                                     ['Quality Control and Compliance',7313],
-                                     ['Government and Defence',7472],
-                                     ['Marketing',7529],
-                                     ['Human Resources',7589],
-                                     ['Information Technology',7849],
-                                     ['Legal',7897],
-                                     ['Engineering',7942],
-                                     ['Facilities / Maintenance / Repair',8169],
-                                     ['Oil / Gas / Energy / Mining',9514],
-                                     ['Cleaning and Housekeeping',10542],
-                                     ['Executive and Management',11794]
-                               ];    
-            var chartXaxis2=['Recreation and Sports',
-                                     'Fashion and Apparel',
-                                     'Gardening / Farming / Fishing',
-                                     'Media / Broadcasting / Arts / Entertainment',
-                                     'Care Giving and Child Care',
-                                     'Food /Hospitality / Tourism / Catering',
-                                     'Administration / Reception / Secretarial',
-                                     'Counseling',
-                                     'Automotive',
-                                     'Photography',
-                                     'Customer Service and Call Center',
-                                     'Real Estate',
-                                     'Import and Export',
-                                     'Law Enforcement / Security / Fire',
-                                     'Electrical and Electronics Trades',
-                                     'Insurance',
-                                     'Courier / Delivery / Transport / Drivers',
-                                     'Sales Retail and Wholesale',
-                                     'Advertising / Grapic Design / Event Management',
-                                     'Purchasing and Inventory',
-                                     'Science and Technical Services',
-                                     'Architecture',
-                                     'Teaching / Education',
-                                     'Factory and Manufacturing',
-                                     'Environmental',
-                                     'Health and Medical',
-                                     'Accounting and Finance',
-                                     'Business Planning',
-                                     'Banking',
-                                     'Telecommunication',
-                                     'Construction / Building / Installation',
-                                     'Publishing and Printing',
-                                     'Pharmaceutical and Biotechnology',
-                                     'Airlines / Aviation / Aerospace / Defense',
-                                     'Quality Control and Compliance',
-                                     'Government and Defence',
-                                     'Marketing',
-                                     'Human Resources',
-                                     'Information Technology',
-                                     'Legal',
-                                     'Engineering',
-                                     
-                                     'Facilities / Maintenance / Repair',
-                                     'Oil / Gas / Energy / Mining',
-                                     'Cleaning and Housekeeping','Executive and Management'];
-            
-var chartYaxis2=[
-                                     2583
-                                     ,3625
-                                     ,3776
-                                     ,4043
-                                     ,4106
-                                     ,4247
-                                     ,4298
-                                     ,4333
-                                     ,4471
-                                     ,4479
-                                     ,4638
-                                     ,4685
-                                     ,4792
-                                     ,4830
-                                     ,5296
-                                     ,5750
-                                     ,5813
-                                     ,5866
-                                     ,6127
-                                     ,6186
-                                     ,6382
-                                     ,6390
-                                     ,6411
-                                     ,6557
-                                     ,6567
-                                     ,6595
-                                     ,6679
-                                     ,6835
-                                     ,6990
-                                     ,7023
-                                     ,7069
-                                     ,7107
-                                     ,7150
-                                     ,7305
-                                     ,7313
-                                     ,7472
-                                     ,7529
-                                     ,7589
-                                     ,7849
-                                     ,7897
-                                     ,7942
-                                     ,8169
-                                     ,9514
-                                     ,10542
-                                 ,11794
-                               ];                   
-
+    var cxAxis,cyAxis,chartXaxis,chartYaxis,chartData;
     var chartTitle='Average Salary per Profession';
     var subtitle='Percentage of languages spoken, 2014';
     
-    var cxAxis= {
-                 type: 'category',
-                 labels: {
-                     rotation: -45,
-                     style: {
-                         fontSize: '10px',
-                         fontFamily: 'Verdana, sans-serif'
-                     }
-                 }
-             };
-    var cyAxis={
-                 min: 1000,
-                 title: {
-                     text: 'Average Salary (Australian Dollars)'
-                 }
-             };
     var chartContainer='#salsContainer';
     var seriesName='Average Salary';
     var chartTypeCol="column";
-    
+    var min;//=['Recreation and Sports',2583];
+    var max;//=['Executive and Management',11794];
+    var sPoint;
+    var originalChartData=chartData;
+
     function drawColChart(chartType,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis)
     {
         $(function () {
@@ -224,85 +72,93 @@ var chartYaxis2=[
         });
         
     }
-drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);    
+
 function drawChartsCol(chartTy){
     chartTypeCol=chartTy;
     drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);
     
 }
-var min=['Recreation and Sports',2583];
-var max=['Executive and Management',11794];
-var sPoint;
-var originalChartData=chartData;
 
 function highlightBar(){
-    var pOps=document.getElementById('profession');
+    var pOps=document.getElementById('profSelect');
     var sInd=parseInt(pOps.options[pOps.selectedIndex].value);
     if(sInd==-1){
         chartData=originalChartData;
     }
     else{
-        sPoint={name:chartXaxis2[sInd],y:chartYaxis2[sInd], 
+        sPoint={name:chartXaxis[sInd],y:chartYaxis[sInd], 
                  color:'#43D58C', sliced:true};
         chartData=[min,sPoint,max];
         //window.alert(sPoint);
     }
     drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);
 }
+
+
+function getSalariesDataAjax(country)
+{
+
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+      }
+    else
+      {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    xmlhttp.onreadystatechange=function()
+      {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            var data=JSON.parse(xmlhttp.responseText);
+            cxAxis=data.cxAxis;
+            cyAxis=data.cyAxis;
+            chartXaxis=data.chartXaxis;
+            chartYaxis=data.chartYaxis;
+            chartData=data.chartData;
+            originalChartData=data.chartData;
+            min=data.minSal;
+            max=data.maxSal;
+            //fillProfessions();
+            //alert(data.chartXaxis);
+        }
+      }
+    xmlhttp.open("GET","http://128.199.55.105:3300/home/getsalariesdata?country=Australia",false);
+    xmlhttp.send();
+    
+}
+window.onload = function(){
+    var i=-1;
+    var select=document.getElementById("profSelect");
+    var opt= document.createElement('option');
+    opt.text="--ALL--";
+    opt.value= i;
+    select.add(opt);
+    //alert(select.id);
+    for(i=0;i<chartXaxis.length;i++){
+        var opt1= document.createElement('option');
+        opt1.text=chartXaxis[i];
+        opt1.value= i;
+        select.add(opt1);
+
+    }
+    
+
+}
+getSalariesDataAjax(window.parent.country);
+
+drawColChart(chartTypeCol,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);    
+
+
 </script>
-<select name="Profession" id="profession" onChange="highlightBar()">
-<option value="-1">--ALL--</option>
-<option value="0">Recreation and Sports</option>
-<option value="1">Fashion and Apparel</option>
-<option value="2">Gardening / Farming / Fishing</option>
-<option value="3">Media / Broadcasting / Arts / Entertainment</option>
-<option value="4">Care Giving and Child Care</option>
-<option value="5">Food /Hospitality / Tourism / Catering</option>
-<option value="6">Administration / Reception / Secretarial</option>
-<option value="7">Counseling</option>
-<option value="8">Automotive</option>
-<option value="9">Photography</option>
-<option value="10">Customer Service and Call Center</option>
-<option value="11">Real Estate</option>
-<option value="12">Import and Export</option>
-<option value="13">Law Enforcement / Security / Fire</option>
-<option value="14">Electrical and Electronics Trades</option>
-<option value="15">Insurance</option>
-<option value="16">Courier / Delivery / Transport / Drivers</option>
-<option value="17">Sales Retail and Wholesale</option>
-<option value="18">Advertising / Grapic Design / Event Management</option>
-<option value="19">Purchasing and Inventory</option>
-<option value="20">Science and Technical Services</option>
-<option value="21">Architecture</option>
-<option value="22">Teaching / Education</option>
-<option value="23">Factory and Manufacturing</option>
-<option value="24">Environmental</option>
-<option value="25">Health and Medical</option>
-<option value="26">Accounting and Finance</option>
-<option value="27">Business Planning</option>
-<option value="28">Banking</option>
-<option value="29">Telecommunication</option>
-<option value="30">Construction / Building / Installation</option>
-<option value="31">Publishing and Printing</option>
-<option value="32">Pharmaceutical and Biotechnology</option>
-<option value="33">Airlines / Aviation / Aerospace / Defense</option>
-<option value="34">Quality Control and Compliance</option>
-<option value="35">Government and Defence</option>
-<option value="36">Marketing</option>
-<option value="37">Human Resources</option>
-<option value="38">Information Technology</option>
-<option value="39">Legal</option>
-<option value="40">Engineering</option>
-<option value="41">Facilities / Maintenance / Repair</option>
-<option value="42">Oil / Gas / Energy / Mining</option>
-<option value="43">Cleaning and Housekeeping</option>
-<option value="44">Executive and Management</option>
-        
+<select name="profSelect" id="profSelect" onChange="highlightBar()">
+
 </select>
 <br>
 <select id="chartTypesCol" onChange="drawChartsCol(this.value)">
     <option value="bar">Bar Chart</option>
-    <option value="column">Column Chart</option>
+    <option value="column" SELECTED>Column Chart</option>
     <option value="area">Area Chart</option>
     <option value="pie">Pie Chart</option>
     <option value="line">Line Chart</option>

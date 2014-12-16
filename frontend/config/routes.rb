@@ -9,6 +9,14 @@ get 'home/home'
 get 'home/login'
 get 'home/register'
 get 'home/comparison'
+get 'home/logout'
+post 'home/userlogin'
+get 'home/profile'
+post 'home/registeruser'
+get 'home/getlanguagesdata'
+get 'home/getsalariesdata'
+get 'home/getunemploymentdata'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
