@@ -48,16 +48,17 @@ class HomeController < ApplicationController
   def profile
     Neo4j::Session.open(:server_db)
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    @name="Sehrish Ijaz";
-    @gender="Female";
-    @email="sehrish.ansari11@gmail.com";
-    @maritial_status="Single";
-    @profession_field="Information Technology";
-    @education_level="Masters";
-    @origin_country="Pakistan";
-    @residence_country="Spain";
-    @native_language="Urdu";
-    @other_language="English";
+    
+    @name               = session[:name]
+    @gender             = session[:gender]
+    @email              = session[:current_user_id]
+    @maritial_status    = session[:m_status] 
+    @profession_field   = session[:profession] 
+    @education_level    = session[:education]
+    @origin_country     = session[:origin_country]
+    @residence_country  = session[:residence_country]
+    @native_language    = session[:native_language]
+    @other_language     = session[:other_lang]
       
     #LOAD PROFILE FOR THE CURRENT USER
     if(session[:current_user_id]!=nil)
@@ -84,14 +85,25 @@ class HomeController < ApplicationController
   def userlogin
     Neo4j::Session.open(:server_db)
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    exists = true;
+    
+    info = Neo4j::Session.query.match('n').where('n.email =\''+params['username']+'\' AND n.password = \''+params['password']+'\'').pluck('n');
     #Confirm from database 
     #whether the username and password combination exists or not
     #and then set the session variable.
-    if (exists)
-      session[:current_user_id] = params['username'];
-      session[:current_password] = params['password'];
-      @username=params['username'];
+    if info.size() > 0
+      session[:name]              = info[0]['name']
+      session[:gender]            = info[0]['gender']
+      session[:current_user_id]   = info[0]['email']
+      session[:m_status]          = info[0]['m_status']
+      session[:profession]        = info[0]['profession']
+      session[:education]         = info[0]['education']
+      session[:origin_country]    = info[0]['origin_country']
+      session[:residence_country] = info[0]['residence_country']
+      session[:native_language]   = info[0]['native_language']
+      session[:other_lang]        = info[0]['other_lang']
+      
+      @username = session[:current_user_id]
+      
       redirect_to({ action: 'home' })
     else
         @loginError="Username and Password combination does not exist!";
@@ -122,10 +134,18 @@ class HomeController < ApplicationController
           :other_lang         => params['other_lang'])
       end
       
-      session[:current_user_id]   = params['email'];
-      session[:current_password]  = params['password'];
+      session[:name]              = params['name']
+      session[:gender]            = params['gender']
+      session[:current_user_id]   = params['email']
+      session[:m_status]          = params['m_status']
+      session[:profession]        = params['profession']
+      session[:education]         = params['education']
+      session[:origin_country]    = params['origin_country']
+      session[:residence_country] = params['residence_country']
+      session[:native_language]   = params['native_language']
+      session[:other_lang]        = params['other_lang']
       
-      redirect_to({ action: 'home' });
+      redirect_to({ action: 'home' })
     else
       # What to do here?
       redirect_to 'https://support.google.com/a/answer/1071113?hl=en'
