@@ -82,14 +82,13 @@ class HomeController < ApplicationController
   #Confirms user's login credentials from database
   #Initiate a session and sets current_user_id and current_user_password in it.
   def userlogin
-  	
     Neo4j::Session.open(:server_db)
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    exists=true;
+    exists = true;
     #Confirm from database 
     #whether the username and password combination exists or not
     #and then set the session variable.
-    if(exists)
+    if (exists)
       session[:current_user_id] = params['username'];
       session[:current_password] = params['password'];
       @username=params['username'];
@@ -102,24 +101,35 @@ class HomeController < ApplicationController
   
   #Save user's rehistration info in the database
   def registeruser
-  
     Neo4j::Session.open(:server_db)
     @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    @name=params['name'];
-    @gender=params['gender'];
-    @email=params['email'];
-    @maritial_status=params['m_status'];
-    @profession_field=params['profession'];
-    @education_level=params['education'];
-    @origin_country=params['origin_country'];
-    @residence_country=params['residence_country'];
-    @native_language=params['native_language'];
-    @other_language=params['other_lang'];
     
-    session[:current_user_id] = params['email'];
-    session[:current_password] = params['password'];
-    redirect_to({ action: 'home' });
+    exists = (Neo4j::Session.query.match('n').where('n.email = \''+params['email']+'\'').pluck('DISTINCT n.email')).size() > 0
     
+    if (not exists)
+      Neo4j::Transaction.run do
+        user = Neo4j::Node.create(
+          :name               => params['name'],
+          :gender             => params['gender'],
+          :email              => params['email'],
+          :password           => params['password'],
+          :m_status           => params['m_status'],
+          :profession         => params['profession'],
+          :education          => params['education'],
+          :origin_country     => params['origin_country'],
+          :residence_country  => params['residence_country'],
+          :native_language    => params['native_language'],
+          :other_lang         => params['other_lang'])
+      end
+      
+      session[:current_user_id]   = params['email'];
+      session[:current_password]  = params['password'];
+      
+      redirect_to({ action: 'home' });
+    else
+      # What to do here?
+      redirect_to 'https://support.google.com/a/answer/1071113?hl=en'
+    end
   end
   
   def getlanguagesdata
