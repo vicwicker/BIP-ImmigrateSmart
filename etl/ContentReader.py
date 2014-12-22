@@ -10,22 +10,28 @@ class ContentReader:
     
      # Read CSV file
     @staticmethod
-    def csv(file_uri, delimiter = ','):
+    def csv(file_uri, delimiter = ',', headers = False):
         file = open(file_uri, 'r')
         data = []
         for row in csv.reader(file, delimiter = utils.to_str(delimiter)):
             data.append([str(val) for val in row])
+        if headers:
+            data.pop(0)
+            
         return data
     
     # Read XLS file
     @staticmethod
-    def xls(file_uri, sheet = 0):
+    def xls(file_uri, sheet = 0, headers = False):
         socket = urllib2.urlopen(file_uri)
         xlfile = xlrd.open_workbook(file_contents = socket.read())
         xlsheet = xlfile.sheet_by_index(sheet)
         data = []
         for rownum in range(xlsheet.nrows):
             data.append([utils.to_str(val) for val in xlsheet.row_values(rownum)])
+        if headers:
+            data.pop(0)
+            
         return data
         
     # Read HTML file

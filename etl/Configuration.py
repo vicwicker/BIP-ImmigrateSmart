@@ -26,105 +26,12 @@ class Configuration:
     
     @staticmethod
     def filters():
-        def potential_names(country, subject):
-            def clean(start, length = 1):
-                name = cleaner.sub('', words[start])
-                for i in range(1, length-1):
-                    name = name+' '+cleaner.sub('', words[start+i])
-                # If what we are cleaning is a concatenation of words that finishes
-                # with an exception we do not include such exception
-                if length > 1 and not words[start+length-1] in exceptions:
-                    name = name+' '+cleaner.sub('', words[start+length-1])
-                return name.strip()
-                
-            sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-            sparql.setQuery('''
-                SELECT ?abstract
-                WHERE {
-                    <'''+subject+'''> dbpedia-owl:abstract ?abstract .
-                    FILTER (lang(?abstract) = 'en')
-                }
-            ''')
-            
-            sparql.setReturnFormat(JSON)
-            results = sparql.query().convert()
-            
-            # Tags about pronunciation (e.g., UK: this, US: this)
-            tag_removal = re.compile('[A-Za-z]+:')
-            cleaner = re.compile('\W+')
-            
-            words = tag_removal.sub('', results['results']['bindings'][0]['abstract']['value'].split('.')[0]).split()
-            
-            exceptions = ['of', 'and', 'de']
-            
-            start = 0
-            length = 0
-            current = 0
-            
-            names = []
-            
-            for word in words:
-                word = word.strip('"') # To avoid emphasis, but this is too hard-coded
-                if word.isupper(): # If acronym
-                    if length > 0: # If something was already being built then flush it
-                        names.append({'name':clean(start, length), 'score':0.0})
-                        length = 0
-                    names.append({'name':clean(current), 'score':0.0})
-                elif word[0].isupper(): # If current word starts with uppercase then it 
-                                        # must be considered as part of a potential name
-                    if length == 0:
-                        start = current
-                    length = length+1
-                elif word in exceptions and length > 0: # If current word is an exception
-                                                        # word but there is something
-                                                        # already being built, we include it
-                    length = length+1
-                elif length > 0:    # If current word is not valid but something has been
-                                    # built then it is time to flush it
-                    names.append({'name':clean(start, length), 'score':0.0})
-                    length = 0
-                    
-                current = current+1
-            
-            country = country.replace('_', ' ')
-            
-            for name in names:
-                if name['name'].isupper():
-                    name['score'] = 0.0
-                else:
-                    terms = name['name'].split(' ')
-                    min_distance = 10L
-                    for t in terms:
-                        current_distance = distance.levenshtein(t, country)/float(len(country))
-                        if current_distance < min_distance:
-                            name['score'] = current_distance
-            
-            avg = 0    
-            
-            for name in names:
-                avg = avg+name['score']
-                
-            avg = avg/float(len(names))
-            
-            result = []
-            
-            for name in names:
-                if (name['score'] <= avg or name['score'] <= 0.9) and name['name'] != country:
-                    result.append(name['name'])
-            
-            print result
-            return result
-            
         sql = SQLiteDriver()
         
         with open(Configuration.filters_file, 'r') as f:
             lines = f.readlines()
             for line in lines:
                 aux = line.split(';')
-                #country = aux[0].strip()
-                #subject = aux[1].strip()
-                #names = [country]+potential_names(country, subject)
-                #for country in names:
                 for country in aux:
                     sql.execute('''INSERT INTO '''+Configuration.config_filters_table+'''
                         VALUES (\''''+country.strip().lower()+'''\')''')
@@ -154,7 +61,8 @@ class Configuration:
                         \''''+countries_col+'''\',
                         \''''+source_file+'''\',
                         \''''+source_file_type+'''\',
-                        \''''+extras+'''\')''')
+                        \''''+extras+'''\',
+                        \''''+headers+'''\')''')
             
         for k in criteria_cols:
            sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
@@ -175,7 +83,8 @@ class Configuration:
                             country_in TEXT,
                             file_uri TEXT,
                             file_type TEXT,
-                            extras TEXT)''')
+                            extras TEXT,
+                            headers TEXT)''')
                 
         sql.execute('''CREATE TABLE '''+Configuration.config_columns_table+''' (
                             config_name TEXT,
@@ -209,17 +118,24 @@ class Configuration:
         
         # Load basic instance configuration properties
         self.config_name = utils.to_str(config[0]) # Name of this ETL configuration
-        self.country_in  = str(config[1])          # Column in the CSV file where the country name is
-        self.file_uri    = utils.to_str(config[2]) # URI of the file to read
-        self.file_type   = utils.to_str(config[3]) # File type
-        self.extras      = config[4]            
-        if self.file_type == 'xls':
-            self.extras = int(self.extras)
+        
+        self.country_in  = utils.to_str(config[1])          # Column in the CSV file where the country name is
         if not re.search('^[0-9]+$', self.country_in) is None:
             self.country_in = int(self.country_in)
             self.is_multi = True
         else:
             self.is_multi = False
+            
+        self.file_uri    = utils.to_str(config[2]) # URI of the file to read
+        
+        self.file_type   = utils.to_str(config[3]) # File type
+        self.extras      = utils.to_str(config[4]) # Delimiter, sheet, CSV number...
+        
+        self.headers     = utils.to_str(config[5])
+        if self.headers != 'yes':
+            self.headers = False
+        else:
+            self.headers = True
         
         # Read Criteria-Column pairs (must be ordered by index)
         self.columns = []
@@ -246,7 +162,8 @@ if __name__ == "__main__":
                             '0',
                             'http://www.doingbusiness.org/~/media/GIAWB/Doing%20Business/Documents/Miscellaneous/LMR-DB15-DB14-service-sector-data-points-and-details.xlsx',
                             'xls',
-                            '0')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'doingbusiness',
@@ -266,7 +183,8 @@ if __name__ == "__main__":
                             '1',
                             'http://www.nationmaster.com/country-info/stats/People/Migration/Foreign-worker-salaries',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'nationmaster',
@@ -280,7 +198,8 @@ if __name__ == "__main__":
                             '1',
                             'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2147rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=6#as',
                             'html',
-                            '2:false')''')
+                            '2',
+                            'no')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-area',
@@ -294,7 +213,8 @@ if __name__ == "__main__":
                             '1',
                             'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2119rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=56#as',
                             'html',
-                            '2:false')''')
+                            '2',
+                            'no')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-population',
@@ -308,7 +228,8 @@ if __name__ == "__main__":
                             '1',
                             'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2004rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=21#as',
                             'html',
-                            '2:false')''')
+                            '2',
+                            'no')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-gdp-per-capita',
@@ -322,7 +243,8 @@ if __name__ == "__main__":
                             '0',
                             'http://www.numbeo.com/cost-of-living/rankings_by_country.jsp',
                             'html',
-                            '1:true')''')
+                            '1',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'numbero-cost-of-living',
@@ -336,7 +258,8 @@ if __name__ == "__main__":
                             '0',
                             'http://www.numbeo.com/crime/rankings_by_country.jsp',
                             'html',
-                            '1:true')''')
+                            '1',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'numbero-cime-rate',
@@ -350,7 +273,8 @@ if __name__ == "__main__":
                             '0',
                             'http://www.numbeo.com/health-care/rankings_by_country.jsp',
                             'html',
-                            '1:true')''')
+                            '1',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'numbero-quality-health-care-system',
@@ -364,7 +288,8 @@ if __name__ == "__main__":
                             '1',
                             'http://www.nationmaster.com/country-info/stats/Cost-of-living/Average-monthly-disposable-salary/After-tax',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'nationmaster-avg-overall-salary',
@@ -378,7 +303,8 @@ if __name__ == "__main__":
                             '0',
                             'http://www.kpmg.com/GLOBAL/EN/SERVICES/TAX/TAX-TOOLS-AND-RESOURCES/Pages/individual-income-tax-rates-table.aspx',
                             'html',
-                            '1:true')''')
+                            '1',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'kpmg-avg-income-tax',
@@ -392,7 +318,8 @@ if __name__ == "__main__":
                             '1',
                             'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2129rank.html?countryname=Australia&countrycode=as&regionCode=aus&rank=53#as',
                             'html',
-                            '2:false')''')
+                            '2',
+                            'no')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-unemployment-rate',
@@ -406,7 +333,8 @@ if __name__ == "__main__":
                             '1',
                             'https://www.cia.gov/library/publications/the-world-factbook/rankorder/2225rank.html?countryname=Cambodia&countrycode=cb&regionCode=eas&rank=118#cb',
                             'html',
-                            '2:false')''')
+                            '2',
+                            'no')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-health-care-expenditure',
@@ -420,7 +348,8 @@ if __name__ == "__main__":
                             '0',
                             'http://en.wikipedia.org/wiki/List_of_countries_by_English-speaking_population',
                             'html',
-                            '1:true')''')
+                            '1',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'wiki-pct-english-speakers',
@@ -434,7 +363,8 @@ if __name__ == "__main__":
                             'Australia',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=13',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-australia',
@@ -454,7 +384,8 @@ if __name__ == "__main__":
                             'Canada',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=38',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-canada',
@@ -474,7 +405,8 @@ if __name__ == "__main__":
                             'France',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=74',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-france',
@@ -494,7 +426,8 @@ if __name__ == "__main__":
                             'Germany',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=81',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-germany',
@@ -514,7 +447,8 @@ if __name__ == "__main__":
                             'South Africa',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=201',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-south-africa',
@@ -534,7 +468,8 @@ if __name__ == "__main__":
                             'United Arab Emirates',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=227',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uae',
@@ -554,7 +489,8 @@ if __name__ == "__main__":
                             'United Kingdom',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=228',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uk',
@@ -574,7 +510,8 @@ if __name__ == "__main__":
                             'United States',
                             'http://www.salaryexplorer.com/average-salary.php?&loctype=1&loc=229',
                             'html',
-                            '0:true')''')
+                            '0',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-usa',
@@ -592,9 +529,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'health-care-system-description',
                             '0',
-                            'healthCareSystemByCountry.csv',
+                            'samples_csv/healthCareSystemByCountry.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'no')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'health-care-system-description',
@@ -606,9 +544,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-australia',
                             'Australia',
-                            'unemploymentRatePerYear.csv',
+                            'samples_csv/unemploymentRatePerYear.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-australia',
@@ -626,9 +565,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-canada',
                             'Canada',
-                            'unemploymentRatePerYear.csv',
+                            'samples_csv/unemploymentRatePerYear.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-canada',
@@ -646,9 +586,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-france',
                             'France',
-                            'unemploymentRatePerYear.csv',
+                            'samples_csv/unemploymentRatePerYear.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-france',
@@ -666,9 +607,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-germany',
                             'Germany',
-                            'unemploymentRatePerYear.csv',
+                            'samples_csv/unemploymentRatePerYear.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-germany',
@@ -686,9 +628,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-uk',
                             'United Kingdom',
-                            'unemploymentRatePerYear.csv',
+                            'samples_csv/unemploymentRatePerYear.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-uk',
@@ -706,9 +649,10 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
                             'unemployment-rate-usa',
                             'United States',
-                            'unemploymentRatePerYear.csv',
+                            'samples_csv/unemploymentRatePerYear.csv',
                             'csv',
-                            ';')''')
+                            ';',
+                            'yes')''')
                 
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
@@ -719,20 +663,6 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
                             'unemployment_rate_per_year',
-                            '1',
-                            'yes')''', True)
-                            
-        # CSV configuration instance sample - Health Care System Description
-        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
-                            'health-care-system-description',
-                            '0',
-                            'healthCareSystemByCountry.csv',
-                            'csv',
-                            ';')''')
-                
-        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
-                            'health-care-system-description',
-                            'health_care_system',
                             '1',
                             'yes')''', True)
                             

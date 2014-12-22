@@ -15,25 +15,21 @@ class Instance:
         # Extract
         def extract():
             if self.config.file_type == 'csv':
-                return ContentReader.csv(self.config.file_uri, self.config.extras)
+                return ContentReader.csv(self.config.file_uri, self.config.extras, self.config.headers)
             elif self.config.file_type == 'xls':
-                return ContentReader.xls(self.config.file_uri, self.config.extras)
+                return ContentReader.xls(self.config.file_uri, int(self.config.extras), self.config.headers)
             elif self.config.file_type == 'html':
-                info = self.config.extras.split(':')
-                csv_number = int(info[0])
-                headers = True if info[1] == 'true' else False
-                return ContentReader.html(self.config.file_uri, self.config.config_name, csv_number, headers)
+                return ContentReader.html(self.config.file_uri, self.config.config_name, int(self.config.extras), self.config.headers)
         
         # Transform
         def transform(data):
             transformed = []
-            if not self.config.is_multi:
-                aux = 0
+            if self.config.is_multi:
+                data = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
+            else:
                 for row in data:
                     row.append(self.config.country_in)
-                    aux = len(row)-1
-                self.config.country_in = aux
-            data = filter(lambda row: row[self.config.country_in].lower() in Configuration.filters, data)
+                self.config.country_in = len(data[0])-1
             for row in data:
                 current = {'country':row[self.config.country_in], 'criterias':{}}
                 for c in self.config.columns:
@@ -52,11 +48,11 @@ class Instance:
             for row in data:
                 country = batch.create(node(name = row['country']))
                 for criteria in row['criterias']:
-                        print row['country']+' --[:has_criteria]-> '+criteria+' --[:' + row['criterias'][criteria][0] + ']-> '+row['criterias'][criteria][1]
-                        criteria_node = batch.create(node(criteria = criteria))
-                        fact_node = batch.create(node(value = row['criterias'][criteria][1]))
-                        batch.create(rel(country, 'has_criteria', criteria_node))
-                        batch.create(rel(criteria_node, row['criterias'][criteria][0], fact_node))
+                    print row['country']+' --[:has_criteria]-> '+criteria+' --[:' + row['criterias'][criteria][0] + ']-> '+row['criterias'][criteria][1]
+                    criteria_node = batch.create(node(criteria = criteria))
+                    fact_node = batch.create(node(value = row['criterias'][criteria][1]))
+                    batch.create(rel(country, 'has_criteria', criteria_node))
+                    batch.create(rel(criteria_node, row['criterias'][criteria][0], fact_node))
             
             neo4j.submitBatch()
             
@@ -66,7 +62,7 @@ class Instance:
         
         # Print it out!
         # for row in data:
-        #    for criteria in row['criterias']:
+        #   for criteria in row['criterias']:
         #        print row['country']+' --[:has_criteria]--> ' \
         #            +criteria+' --[:'+row['criterias'][criteria][0]+']--> ' \
         #                +row['criterias'][criteria][1]
