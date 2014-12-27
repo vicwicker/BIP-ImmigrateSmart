@@ -1,81 +1,78 @@
 require 'date'
+require 'Neo4jDriver'
+
 class HomeController < ApplicationController
+  before_filter :get_country_list
+  
+  # No-Routed methods
+  def get_country_list
+    @countryList = Neo4jDriver.getCountryNames
+  end
+  
+  def get_criterias_country(country)
+    # Get all the criterias for that country
+    criterias = Neo4jDriver.getCriteriaNamesForCountry(country)
+    
+    # Init dictionary. The default value is N/A in case we do not have such info
+    dictionary = Hash.new
+    dictionary.default = 'N/A'
+    
+    # Fill the dictionary
+    criterias.each do |crt|
+      criteria_1  = crt[:'criteria_1']
+      criteria_2  = crt[:'criteria_2']
+      value       = crt[:'value']
+      if criteria_1 == criteria_2
+        dictionary[criteria_1] = value
+      else
+        if not dictionary.has_key?(criteria_1)
+          dictionary[criteria_1] = Hash.new
+          dictionary[criteria_1].default = 'N/A'
+        end
+        dictionary[criteria_1][criteria_2] = value
+      end
+    end
+    
+    # Return the dictionary
+    return dictionary
+  end
+  
+  # Routed methods
   def index
-    Neo4j::Session.open(:server_db)
-#    Neo4j::Transaction.run do
-#      me   = Neo4j::Node.create(:name => 'Me',   :age => 31)
-#      bob  = Neo4j::Node.create(:name => 'Bob',  :age => 29)
-#      mark = Neo4j::Node.create(:name => 'Mark', :age => 34)
-#      mary = Neo4j::Node.create(:name => 'Mary', :age => 32)
-#      john = Neo4j::Node.create(:name => 'John', :age => 33)
-#      andy = Neo4j::Node.create(:name => 'Andy', :age => 31)
-      
-#      me.create_rel(:friends, bob, :value => 3)
-#      bob.create_rel(:friends, mark)
-#      mark.create_rel(:friends, mary)
-#      mary.create_rel(:friends, john)
-#      john.create_rel(:friends, andy)
-#   end
-    # Handle Country Name
-    
-    
-    # Get Coutnry Information
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    @criteriaList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT m.criteria')
-    @criteriaDict = Hash.new("N/A")
-    @criteriaList.each do |crt|
-		    @criteriaVal = Neo4j::Session.query.match('n-[r:has_criteria]->m-[r2]->v')
-		                      .where('n.name=\'' + params[:country] + '\' AND m.criteria=\'' + crt + '\'')
-		                      .pluck('type(r2), v.value')
-		    if @criteriaVal.size == 1 then
-		      @criteriaDict[crt] = @criteriaVal[0][1]
-		    else
-		      @criteriaDims = Hash.new("N/A")
-		      @criteriaVal.each do |dim|
-		        @criteriaDims[dim[0]] = dim[1]
-		      @criteriaDict[crt] = @criteriaDims
-		      end
-		    end
-		end
+    @criteriaDict = get_criterias_country(params[:'country'])
   end
   
-  def home
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+  def comparison
+    @criteriaDict_a = get_criterias_country(params[:'country_a'])
+    @criteriaDict_b = get_criterias_country(params[:'country_b'])
   end
-  
   
   def profile
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    
-    @name               = session[:name]
-    @gender             = session[:gender]
-    @email              = session[:current_user_id]
-    @maritial_status    = session[:m_status] 
-    @profession_field   = session[:profession] 
-    @education_level    = session[:education]
-    @origin_country     = session[:origin_country]
-    @residence_country  = session[:residence_country]
-    @native_language    = session[:native_language]
-    @other_language     = session[:other_lang]
+    @name               = session[:'name']
+    @gender             = session[:'gender']
+    @email              = session[:'current_user_id']
+    @maritial_status    = session[:'m_status'] 
+    @profession_field   = session[:'profession'] 
+    @education_level    = session[:'education']
+    @origin_country     = session[:'origin_country']
+    @residence_country  = session[:'residence_country']
+    @native_language    = session[:'native_language']
+    @other_language     = session[:'other_lang']
       
     #LOAD PROFILE FOR THE CURRENT USER
-    if(session[:current_user_id]!=nil)
-          @username=session[:current_user_id];
+    if session[:'current_user_id'] != nil
+          @username = session[:'current_user_id']
     else #LOAD PROFILE OF ANY OTHER USER
-      if (params[:user]!=nil)
-        @username=params[:user];
+      if params[:'user'] != nil
+        @username = params[:'user']
       end
     end  
   end
   
   #RESETS THE USER'S SESSION AND REDIRECTS IT TO THE HOMEPAGE
   def logout
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    if(session[:current_user_id]!=nil)
-      reset_session();
+    if session[:'current_user_id'] != nil
+      reset_session()
       redirect_to({ action: 'home' })
     end
   end
@@ -83,67 +80,47 @@ class HomeController < ApplicationController
   #Confirms user's login credentials from database
   #Initiate a session and sets current_user_id and current_user_password in it.
   def userlogin
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+    user = Neo4jDriver.validCredentials?(params[:'username'], params[:'password'])
     
-    info = Neo4j::Session.query.match('n').where('n.email =\''+params['username']+'\' AND n.password = \''+params['password']+'\'').pluck('n');
-    #Confirm from database 
-    #whether the username and password combination exists or not
-    #and then set the session variable.
-    if info.size() > 0
-      session[:name]              = info[0]['name']
-      session[:gender]            = info[0]['gender']
-      session[:current_user_id]   = info[0]['email']
-      session[:m_status]          = info[0]['m_status']
-      session[:profession]        = info[0]['profession']
-      session[:education]         = info[0]['education']
-      session[:origin_country]    = info[0]['origin_country']
-      session[:residence_country] = info[0]['residence_country']
-      session[:native_language]   = info[0]['native_language']
-      session[:other_lang]        = info[0]['other_lang']
+    # If the returned hash is empty means user does not exists
+    if not user.empty?
+      session[:'name']              = user[:'name']
+      session[:'gender']            = user[:'gender']
+      session[:'current_user_id']   = user[:'email']
+      session[:'m_status']          = user[:'m_status']
+      session[:'profession']        = user[:'profession']
+      session[:'education']         = user[:'education']
+      session[:'origin_country']    = user[:'origin_country']
+      session[:'residence_country'] = user[:'residence_country']
+      session[:'native_language']   = user[:'native_language']
+      session[:'other_lang']        = user[:'other_lang']
       
-      @username = session[:current_user_id]
+      @username = session[:'current_user_id']
       
       redirect_to({ action: 'home' })
     else
-        @loginError="Username and Password combination does not exist!";
-        redirect_to({ action: 'login' }, :flash => { :login_error =>"Username and Password combination does not exist!"  })
+      @loginError="Username and Password combination does not exist!";
+      redirect_to({ action: 'login' }, :flash => { :login_error =>"Username and Password combination does not exist!"  })
     end
   end
   
   #Save user's rehistration info in the database
   def registeruser
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+    exists = Neo4jDriver.existsUser?(params[:email])
     
-    exists = (Neo4j::Session.query.match('n').where('n.email = \''+params['email']+'\'').pluck('DISTINCT n.email')).size() > 0
-    
-    if (not exists)
-      Neo4j::Transaction.run do
-        user = Neo4j::Node.create(
-          :name               => params['name'],
-          :gender             => params['gender'],
-          :email              => params['email'],
-          :password           => params['password'],
-          :m_status           => params['m_status'],
-          :profession         => params['profession'],
-          :education          => params['education'],
-          :origin_country     => params['origin_country'],
-          :residence_country  => params['residence_country'],
-          :native_language    => params['native_language'],
-          :other_lang         => params['other_lang'])
-      end
+    if not exists
+      Neo4jDriver.createUser(params)
       
-      session[:name]              = params['name']
-      session[:gender]            = params['gender']
-      session[:current_user_id]   = params['email']
-      session[:m_status]          = params['m_status']
-      session[:profession]        = params['profession']
-      session[:education]         = params['education']
-      session[:origin_country]    = params['origin_country']
-      session[:residence_country] = params['residence_country']
-      session[:native_language]   = params['native_language']
-      session[:other_lang]        = params['other_lang']
+      session[:'name']              = params['name']
+      session[:'gender']            = params['gender']
+      session[:'current_user_id']   = params['email']
+      session[:'m_status']          = params['m_status']
+      session[:'profession']        = params['profession']
+      session[:'education']         = params['education']
+      session[:'origin_country']    = params['origin_country']
+      session[:'residence_country'] = params['residence_country']
+      session[:'native_language']   = params['native_language']
+      session[:'other_lang']        = params['other_lang']
       
       redirect_to({ action: 'home' })
     else
@@ -405,63 +382,5 @@ class HomeController < ApplicationController
     render :json => @data;
     
 
-  end  
-  def login
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-  end
-  
-  def register
-    Neo4j::Session.open(:server_db)
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    
-  end
-  
-  def comparison
-    Neo4j::Session.open(:server_db)
-#    @criteria = params[:criteria].gsub('_', ' ').split.map(&:capitalize)*' '
-#    @country_a = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
-#                  .where('n.name = \''+params[:a]+'\' AND m.criteria = \''+params[:criteria]+'\'')
-#                  .pluck('v.value')[0]
-#    @country_b = Neo4j::Session.query.match('n-[r:has_criteria]->m-->v')
-#                  .where('n.name = \''+params[:b]+'\' AND m.criteria = \''+params[:criteria]+'\'')
-#                  .pluck('v.value')[0]
-    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
-    
-    #Country A Criteria
-    @criteriaList_a = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT m.criteria')
-    @criteriaDict_a = Hash.new("N/A")
-    @criteriaList_a.each do |crt|
-		    @criteriaVal_a = Neo4j::Session.query.match('n-[r:has_criteria]->m-[r2]->v')
-		                      .where('n.name=\'' + params[:country_a] + '\' AND m.criteria=\'' + crt + '\'')
-		                      .pluck('type(r2), v.value')
-		    if @criteriaVal_a.size == 1 then
-		      @criteriaDict_a[crt] = @criteriaVal_a[0][1]
-		    else
-		      @criteriaDims_a = Hash.new("N/A")
-		      @criteriaVal_a.each do |dim|
-		        @criteriaDims_a[dim[0]] = dim[1]
-		      @criteriaDict_a[crt] = @criteriaDims_a
-		      end
-		    end
-		end 
-		
-		#Country B Criteria
-    @criteriaList_b = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT m.criteria')
-    @criteriaDict_b = Hash.new("N/A")
-    @criteriaList_b.each do |crt|
-		    @criteriaVal_b = Neo4j::Session.query.match('n-[r:has_criteria]->m-[r2]->v')
-		                      .where('n.name=\'' + params[:country_b] + '\' AND m.criteria=\'' + crt + '\'')
-		                      .pluck('type(r2), v.value')
-		    if @criteriaVal_b.size == 1 then
-		      @criteriaDict_b[crt] = @criteriaVal_b[0][1]
-		    else
-		      @criteriaDims_b = Hash.new("N/A")
-		      @criteriaVal_b.each do |dim|
-		        @criteriaDims_b[dim[0]] = dim[1]
-		      @criteriaDict_b[crt] = @criteriaDims_b
-		      end
-		    end
-		end
   end
 end

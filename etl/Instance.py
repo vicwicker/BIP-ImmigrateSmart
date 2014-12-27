@@ -46,9 +46,10 @@ class Instance:
             neo4j = Neo4jDriver()
             batch = neo4j.openBatch()
             for row in data:
-                country = batch.create(node(name = row['country']))
+                #country = batch.create(node(name = row['country']))
+                country = neo4j.get_country(row['country'])
                 for criteria in row['criterias']:
-                    print row['country']+' --[:has_criteria]-> '+criteria+' --[:' + row['criterias'][criteria][0] + ']-> '+row['criterias'][criteria][1]
+                    #print row['country']+' --[:has_criteria]-> '+criteria+' --[:' + row['criterias'][criteria][0] + ']-> '+row['criterias'][criteria][1]
                     criteria_node = batch.create(node(criteria = criteria))
                     fact_node = batch.create(node(value = row['criterias'][criteria][1]))
                     batch.create(rel(country, 'has_criteria', criteria_node))

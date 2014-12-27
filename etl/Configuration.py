@@ -45,7 +45,7 @@ class Configuration:
         Configuration.filters = []
         sql = SQLiteDriver()
         
-        filters_in_db = sql.execute('SELECT * FROM filters')
+        filters_in_db = sql.execute('SELECT * FROM '+Configuration.config_filters_table)
         for f in filters_in_db:
             Configuration.filters.append(utils.to_str(f[0]))
             
