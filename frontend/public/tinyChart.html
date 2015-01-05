@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script src="/assets/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+<div width="650">
+    <div id="q1Container" style="float: left;min-width: 200px; height: 200px; max-width: 250px; "></div>
+    <div id="q2Container" style="float: left;min-width: 200px; height: 200px; max-width: 250px;"></div>
+    <div id="q3Container" style="float: left;min-width: 200px; height: 200px; max-width: 250px;"></div>
+</div>		
+<div id="container"></div>
+<script type="text/javascript" charset="utf-8">
+    // Build the chart
+    var chartContainer='#q1Container';
+    var chartType= 'column';
+    var chartTitle='Time taken for an appointment';
+    var chartYaxis,chartXaxis,chartData;
+    var point;
+    var chartType="column";
+    var valuesLabel='Day(s)';
+
+function drawChart(chartContainer,chartTitle,chartData,chartYaxis,chartXaxis)
+{
+        
+    
+    	seriesName=chartTitle;
+    	point=seriesName +'in 2014: <b>{point.y:.1f}</b>';
+        
+         $(chartContainer).highcharts({
+             chart: {
+            type: chartType,
+            width:200,
+            height:200,
+            spacing:[2,2,2,2]
+        },
+        title: {
+            text: chartTitle,
+            margin:5,
+            style:{"fontSize": "12px"},
+            
+        },
+        xAxis:chartXaxis,
+        yAxis: chartYaxis,
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.y:.1f}</b>'
+        },
+        legend:{
+            itemStyle:{"fontSize": "10px"},
+            itemDistance:1,
+            padding:1,
+            layout:'horizontal',
+            symbolWidth:10
+            
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                pointWidth:7.0
+            }
+        },
+        series: chartData
+             
+         });
+        
+        
+}
+function drawCharts(chartT){
+    chartType=chartT;
+    drawChart(chartContainer,chartTitle,chartData,chartYaxis,chartXaxis);
+    
+}
+
+function getQuestionsDataAjax(country,q)
+{
+
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+      }
+    else
+      {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    xmlhttp.onreadystatechange=function()
+      {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            //alert(country);
+            var data=JSON.parse(xmlhttp.responseText);
+            chartXaxis=data.chartXaxis;
+            chartYaxis=data.chartYaxis;
+            chartTitle=data.chartTitle;
+            chartData=data.chartData;
+        }
+      }
+    xmlhttp.open("GET","http://188.166.59.61:3300/home/getquestionsdata?country=Australia&q="+q,false);
+    xmlhttp.send();
+    
+}
+getQuestionsDataAjax(window.parent.country,'1');
+drawChart(chartContainer,chartTitle,chartData,chartYaxis,chartXaxis);
+getQuestionsDataAjax(window.parent.country,'2');
+drawChart('#q2Container',chartTitle,chartData,chartYaxis,chartXaxis);
+getQuestionsDataAjax(window.parent.country,'3');
+drawChart('#q3Container',chartTitle,chartData,chartYaxis,chartXaxis);
+
+
+</script>
+
+
+</body>
+</html>
+

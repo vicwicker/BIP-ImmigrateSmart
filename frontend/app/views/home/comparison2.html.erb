@@ -1,0 +1,93 @@
+
+<div id="sidebarContainer"><!-- Start Sidebar wrapper -->
+	<div id="sidebar"><!-- Start sidebar content -->
+		<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
+		Jobs Offers, etc etc etc
+
+	</div><!-- End sidebar content -->
+</div><!-- End sidebar wrapper -->
+		
+		
+<!--    Start the content of Immigrate Smart -->
+<div id="contentContainer"><!-- Start main content wrapper -->		
+	<div id="contents"><!-- Start content -->
+	
+	
+	
+		<hr><br /><br />
+			<table align="center" cellspacing="40">
+				<input type="hidden" id="criteria" name="criteria" value="<%= params[:criteria]%>">
+				<tr align="left">
+				    
+				<td nowrap><h3>Select Criteria:</h3></td>
+				<td>
+					<select id="criteriaList" onchange="draw()">
+						<optgroup label="Economic Incentives">
+						<option value="Average Overall Monthly Salary">Average Overall Monthly Salary</option>
+						<option value="Average Income Taxes">Average Income Taxes</option>
+						<option value="Minimum Wage">Minimum Wage</option>
+						<option value="Paid Annual Leave">Paid Annual Leave</option>
+						<option value="Cost of Living">Cost of Living</option>
+						<option value="Foreign Workers Salaries">Foreign Workers Salaries</option>
+						<option value="Crime Rate">Crime Rate</option>
+						<optgroup label="Job Opportunities">
+						<option value="Unemployment Rate">Unemployment Rate</option>
+						<optgroup label="Medical Care">
+						<!--<option value="Health Care System">Health Care System</option>-->
+						<option value="Health Care Expenditure">Health Care Expenditure</option>
+						<option value="Quality of Health Care System">Quality of Health Care System</option>
+						<optgroup label="Education">
+						<option value="Percentage of English Speakers">Percentage of English Speakers</option>
+						
+					</select>
+				</td>
+				<td nowrap colspan="2"><h3>Chart Type:</h3></td><td>
+					<select id="chartTypes" onchange="draw()">
+					    <option value="bar">Bar Chart</option>
+					    <option value="column" SELECTED>Column Chart</option>
+					    <option value="area">Area Chart</option>
+					    <option value="pie" >Pie Chart</option>
+					    <option value="line">Line Chart</option>
+					    <option value="spline">Spline Chart</option>
+					    <option value="scatter">Scatter Plot</option>
+					</select>
+					</td>
+				 <td>&nbsp;</td>
+				 <td></td>
+				</tr>
+				<tr style="width: 400px; height: 400px;  margin: 0 auto">
+				    
+					<td nowrap>
+						<fieldset style="min-height:200px; height:250px;" align="left" valign="top">
+                			<legend><strong>Countries to Compare</strong></legend>
+                				<% @countryList.each do |country|%>
+									<input  type="checkbox" name="countries" id ="countries" value="<%= country %>" CHECKED/> <%= country %> </br>
+								<% end %>
+								</br>
+								</br>
+								<input valign="bottom" type="button" value="Draw" onclick="draw()"/>
+		                </fieldset>
+            		</td>
+		    		
+					<td colspan="4" >
+					   
+                        <iframe  id="chartFrame" src="/comparison.html"style="min-width: 400px; height: 100%; width:100%; margin: 0 auto"  scrolling="no"></iframe>
+					   
+					</td>
+					 <td>&nbsp;</td>
+					</tr>
+			</table>
+			
+	</div> <!-- End contents -->
+</div> <!-- End contentContainer -->
+<script>
+    function draw() 
+    {
+        var ct = document.getElementById('chartTypes');
+        document.getElementById('chartFrame').contentWindow.drawCharts(ct.options[ct.selectedIndex].value);
+        
+        
+    }
+
+    
+</script>

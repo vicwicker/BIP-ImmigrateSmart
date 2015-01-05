@@ -16,6 +16,10 @@ post 'home/registeruser'
 get 'home/getlanguagesdata'
 get 'home/getsalariesdata'
 get 'home/getunemploymentdata'
+get 'home/comparison2'
+get 'home/getcomparisondata'
+get 'home/getquestionsdata'
+post 'home/sharevisaexperience'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

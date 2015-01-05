@@ -8,6 +8,15 @@
 <script type="text/javascript">
 	
 	var country="<%= params[:country]%>";
+	function showDiv(divId)
+	{
+		d=document.getElementById(divId);
+		if(d.style.display=="block")
+			d.style.display="none";
+		else
+			d.style.display="block";	
+	}
+
 </script>
 		
 <!--    Start the content of Immigrate Smart -->
@@ -17,6 +26,7 @@
 				<hr><br /><br />
 
 							<h1 class="countrymap"><%= params[:country]%></h1>
+							<br/><p style="color:green;" id="shareMsg" name="shareMsg"><%=flash[:shareMsg]%></p>
 							<br /><img class="countrymap" src="/assets/Map_<%= params[:country]%>.jpg" width="400" height="400" alt="countryMap"/>
 							<br/>
 							<!-- Immigration is the movement of people into another country or region to which they are not native in order to settle there, especially as permanent residents or future citizens.
@@ -92,7 +102,9 @@
 				<div>
 					
 					<h2>Shared Visa Experiences</h2>
-					
+					<br>
+					<center><iframe src="/tinyChart.html"frameBorder="0" width="650" height="230"></iframe>
+					</center>
 					<table align="center">
 						<tr>
 							<td><h5>Student Visa Rating:</h5></td>
@@ -101,27 +113,54 @@
 							<td><td><span class="stars"><span>2.1416</span></span></td></td>
 						</tr>
 					</table>
+					<%if @comment then %>
+						<input type="button" onclick="return showDiv('expaccord');" value="Comments" style="border-radius:3px"/>
 					
-					<div id="accordion2">
-					<h2>Share your Visa Experience!</h2>
+					<div id="expaccord" name="expaccord" style="display:none; border-width:1px;border-color:lightgrey;border-style:solid; paddind:5px;border-radius: 5px;">
+						<table>
+						
+						<tr>
+							<td><b>Shared by <u><a href='/home/profile?user=<%=@user%>'style="color:blue"> <%=@user%></a></u> on <%=@commenttime%></b></td>
+						
+						</tr>
+						<tr style="padding-top:5px;padding-left:5px;">
+							<td width="200px" align="left"><%=@comment%></td>
+						</tr>
+						<tr><td colspan="2"><br></td></tr>
+						<tr>
+							<td><b>Shared by <u><a href='/home/profile?user=<%=@user%>'style="color:blue"> <%=@user%></a></u> on <%=@commenttime%></b></td>
+						
+						</tr>
+						
+						<tr style="padding-top:5px;padding-left:5px;">
+							<td width="200px" align="left"><%=@comment%></td>
+						</tr>
+						
+						</table>
+					</div>
+					<br>
+					<%end%>
+					<%if session[:current_user_id] then%>
+					<input type="button" onclick="return showDiv('shareaccord');" value="Share your Visa Experience!" style="border-radius:3px"/>
+					<div id="shareaccord" name="shareaccord" style="display:none; border-width:1px;border-color:lightgrey;border-style:solid; paddind:2px;border-radius: 5px;">
 					
-					<form name="visashare" action="" method="post">
+					<form name="visashare" action="http://188.166.59.61:3300/home/sharevisaexperience" method="post">
+						<input type="hidden" name="username" id="username" value="<%=session[:current_user_id]%>"/>
+						<input type="hidden" name="country" id="country" value="<%= params[:country]%>"/>
 						<h3>I applied for: </h3>
 						Student Visa
-						<input type="radio" name="visat" value="student" />
+						<input type="radio" name="visat" value="student" checked />
 						Work Permit
 					    <input type="radio" name="visat" value="work" />
 					    <br>
 					    
 					    <h3>How do you rate your visa process?</h3>
 					    Easy
-						<input type="radio" name="rating" value="1" />
+						<input type="radio" name="rating" value="1" checked/>
 						Medium
 					    <input type="radio" name="rating" value="2" />
 					    Hard
 					    <input type="radio" name="rating" value="3" /><br>
-					    Comment: <textarea name:"comment" rows="1" cols="50"></textarea><br>
-					    
 					    <table>
 					    	<tr>
 					    		<td><h5>How long you took to make an appointment with the Consulate?</h5></td>
@@ -150,13 +189,23 @@
 					    			</select>
 					    		</td>
 					    	</tr>
+					    	<tr>
+					    		<td valign="top"><h5>Comment:</h5></td>
+					    		<td> <textarea name="comment" rows="4" cols="50" ></textarea></td>
+					    	</tr>
 					    </table>
+					    
+					    <br>
+					    
 					    
 					    
 					    <br><br>
 					    <input type="submit" value="Submit Experience">
 					</form>
-				</div>	
+				</div>
+				<br>
+				<%end%>
+				
 				</div>
 				<h1>Medical Care</h1>
 				<div>

@@ -39,7 +39,107 @@ class HomeController < ApplicationController
   
   # Routed methods
   def index
+    @comment='This is a test comment for the visa sharing experience.';
+    @user='asdf';
+    @commenttime = (Time.new).inspect;
+    
     @criteriaDict = get_criterias_country(params[:'country'])
+  end
+  
+  
+  def getquestionsdata
+    country=params[:country];
+    q=params[:q].to_i;
+    
+    if q==1
+    chartTitle='Time taken for an appointment';
+    chartXaxis={
+               categories:['Less than 10','Between 10 and 30','More than 30']
+      
+    };
+    chartYaxis={
+            title: {
+                text: 'Day(s)'
+            }
+        };
+    elsif q==2
+    chartTitle='Documents required apart from application form';
+    chartXaxis={
+               categories:['1 or 2','Between 3 and 5','More than 5']
+      
+    };
+    chartYaxis={
+            title: {
+                text: 'Document(s)'
+            }
+        };
+    elsif q==3
+      chartTitle='Visits required to get the visa';
+      chartXaxis={
+               categories:['Less than 5','Between 5 and 10','More than 10']
+      
+    };
+    chartYaxis={
+            title: {
+                text: 'Visit(s)'
+            }
+        };
+    end
+    chartData=[{
+                name: 'Student Visa',
+                data: [5.0,15.0,25.0],
+                dataLabels: {    
+                             enabled: true,
+                             color: '#8F8F8F'
+                             },
+                }, {
+                  name: 'Work Permit',
+                  data: [2.0,35.0,50.0],
+                  dataLabels: {    
+                               enabled: true,
+                               color: '#e5e4e4'
+                             }
+                  
+                },
+              
+            ];
+    
+    @data={:country=>country,:chartTitle=>chartTitle,:chartXaxis=>chartXaxis,:chartYaxis=>chartYaxis,:chartData=>chartData };
+    render :json => @data;
+  end
+  
+  def sharevisaexperience
+    
+    country=params[:country];
+    username=params[:username];
+    visat=params[:visat];
+    rating=params[:rating];
+    time=params[:time];
+    documents=params[:documents];
+    visits=params[:visits];
+    comment=params[:comment];
+    commenttime=Time.new;
+    redirect_to({ :action => 'index', :country => country }, :flash => { :shareMsg =>"Your visa experience has been shared!"  });
+  end
+  
+  def comparison2
+    Neo4j::Session.open(:server_db)
+    @countryList = Neo4j::Session.query.match('n-[r:has_criteria]->m').pluck('DISTINCT n.name')
+  end
+  
+  def getcomparisondata
+    length=params[:length];
+    i=0;
+    chartData=Array.new;
+      while i<length.to_i do
+        cname='country'+i.to_s;
+        chartData[i]=[params[cname],i];
+        i=i+1;
+      end
+    criteria=params[:criteria];
+    valuesLabel='Percentage of GDP';
+    @data={:length=>length,:chartData=>chartData,:criteria=>criteria,:valuesLabel=>valuesLabel};
+    render :json => @data;
   end
   
   def comparison

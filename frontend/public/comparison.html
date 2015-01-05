@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script src="/assets/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+    <div id="compareContainer" style="width: 500px; height: 400px;  margin: 0 auto"></div>
+	
+			
+<script type="text/javascript">
+        
+    var cxAxis,cyAxis;
+    var chartData;
+    var chartTitle="Test Criteria";
+    var subtitle="Lets Test";
+    var chartContainer='#compareContainer';
+    var seriesName="Test Criteria";
+    var chartType="column";
+    var valuesLabel='Percentage of GDP';
+    var point=seriesName +'in 2014: <b>{point.y:.1f}</b>';
+     cxAxis= {
+                type: 'category',
+                labels: {
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+             };
+     cyAxis={
+            title: {
+                text: valuesLabel
+            }
+     };
+    
+
+    function drawChart(chartType,chartTitle,chartContainer,seriesName,chartData)
+    {
+        $(function () {
+         $(chartContainer).highcharts({
+             chart: {
+                 type: chartType,
+                 height:350,
+                 width:500
+             },
+             title: {
+                 text: chartTitle
+             },
+             plotOptions:{
+                     series: {
+                                     pointWidth: 12,
+                                     pointPadding: .1,
+                                     showCheckbox: true
+                 }
+             },
+             xAxis:cxAxis,
+             yAxis: cyAxis,
+             legend: {
+                 enabled: false
+             },
+             tooltip: {
+                 pointFormat: point
+             },
+             series: [{
+                 name: seriesName,
+                 dataLabels: {    
+                                     enabled: true,
+                                     color: '#F8F8F8',
+                                     align: 'right',
+                                     x: 2,
+                                     y: 5,
+                                     style: {
+                                             fontSize: '10px',
+                                             fontFamily: 'Verdana, sans-serif',
+                                             textShadow: '0 0 3px black'
+                                     }
+                             },
+                 data: chartData
+             }]
+         });
+        });
+        
+    }
+//drawChart(chartType,chartTitle,chartContainer,seriesName,chartData);
+
+function getComparisonDataAjax()
+{
+
+    //alert("in AJAX...");
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+      }
+    else
+      {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    xmlhttp.onreadystatechange=function()
+      {
+         // alert("in AJAX..."+xmlhttp.readyState);
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            var data=JSON.parse(xmlhttp.responseText);
+            chartData=data.chartData;
+            valuesLabel=data.valuesLabel;
+            //alert(xmlhttp.responseText);
+        }
+      }
+    var pdata=postData();
+    //alert("http://128.199.55.105:3300/home/getcomparisondata"+pdata);
+
+    xmlhttp.open("GET","http://188.166.59.61:3300/home/getcomparisondata"+pdata,false);
+    xmlhttp.send(null);
+    
+}
+                    
+         
+function postData(){
+    
+    
+    var countries= window.parent.countries;     
+    
+    var criteria= window.parent.document.getElementById("criteriaList");        
+    var selC=window.parent.document.getElementById("criteriaList").selectedindex;
+    
+    var params = "";
+    var value;
+    var j=0;
+    for (var i = 0; i < countries.length; i++) {
+        if (countries[i].checked) {
+            value = countries[i].value;
+            if(params=="")
+                params += "?country"+j+ "=" + encodeURIComponent(value);
+            else
+                params += "&country"+j+ "=" + encodeURIComponent(value);
+            j++;
+        }
+    }
+    params+="&length="+encodeURIComponent(j);
+    params+="&criteria="+encodeURIComponent(criteria.options[criteria.selectedIndex].value);
+    chartTitle=criteria.options[criteria.selectedIndex].value;
+    seriesName=criteria.options[criteria.selectedIndex].value;
+    point=seriesName +' in 2014: <b>{point.y:.1f}</b>';
+    
+    //alert(params);
+    return params;
+}
+function drawCharts(chartTy)
+{
+    //alert("going to draw..."+chartTy);
+    chartType=chartTy;
+    getComparisonDataAjax();
+    drawChart(chartType,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);
+}
+drawCharts("column");
+</script>			
+</body>
+</html>
