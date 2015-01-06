@@ -21,7 +21,7 @@
     var chartContainer='#compareContainer';
     var seriesName="Test Criteria";
     var chartType="column";
-    var valuesLabel='Percentage of GDP';
+    var valuesLabel='';
     var point=seriesName +'in 2014: <b>{point.y:.1f}</b>';
      cxAxis= {
                 type: 'category',
@@ -115,12 +115,11 @@ function getComparisonDataAjax()
     var pdata=postData();
     //alert("http://128.199.55.105:3300/home/getcomparisondata"+pdata);
 
-    xmlhttp.open("GET","http://188.166.59.61:3300/home/getcomparisondata"+pdata,false);
+    xmlhttp.open("GET","http://188.166.59.61:3100/home/getcomparisondata" + pdata,false);
     xmlhttp.send(null);
     
 }
-                    
-         
+
 function postData(){
     
     
@@ -142,10 +141,10 @@ function postData(){
             j++;
         }
     }
-    params+="&length="+encodeURIComponent(j);
-    params+="&criteria="+encodeURIComponent(criteria.options[criteria.selectedIndex].value);
-    chartTitle=criteria.options[criteria.selectedIndex].value;
-    seriesName=criteria.options[criteria.selectedIndex].value;
+    params += "&length="+encodeURIComponent(j);
+    params += "&criteria="+encodeURIComponent(criteria.options[criteria.selectedIndex].value);
+    chartTitle = toTitleCase(criteria.options[criteria.selectedIndex].value.replace(/_/g, ' '));
+    seriesName = criteria.options[criteria.selectedIndex].value;
     point=seriesName +' in 2014: <b>{point.y:.1f}</b>';
     
     //alert(params);
@@ -159,6 +158,12 @@ function drawCharts(chartTy)
     drawChart(chartType,chartTitle,chartContainer,seriesName,chartData,cxAxis,cyAxis);
 }
 drawCharts("column");
+
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 </script>			
 </body>
 </html>

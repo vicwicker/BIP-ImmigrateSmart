@@ -12,8 +12,6 @@
 <div id="contentContainer"><!-- Start main content wrapper -->		
 	<div id="contents"><!-- Start content -->
 	
-	
-	
 		<hr><br /><br />
 			<table align="center" cellspacing="40">
 				<input type="hidden" id="criteria" name="criteria" value="<%= params[:criteria]%>">
@@ -23,22 +21,20 @@
 				<td>
 					<select id="criteriaList" onchange="draw()">
 						<optgroup label="Economic Incentives">
-						<option value="Average Overall Monthly Salary">Average Overall Monthly Salary</option>
-						<option value="Average Income Taxes">Average Income Taxes</option>
-						<option value="Minimum Wage">Minimum Wage</option>
-						<option value="Paid Annual Leave">Paid Annual Leave</option>
-						<option value="Cost of Living">Cost of Living</option>
-						<option value="Foreign Workers Salaries">Foreign Workers Salaries</option>
-						<option value="Crime Rate">Crime Rate</option>
+						<!--<option value="average_overall_monthly_salary">Average Overall Monthly Salary</option>-->
+						<option value="average_income_taxes">Average Income Taxes</option>
+						<option value="minimum_wage">Minimum Wage</option>
+						<option value="paid_annual_leave">Paid Annual Leave</option>
+						<option value="cost_of_living">Cost of Living</option>
+						<!--<option value="foreign_worker_salaries">Foreign Workers Salaries</option>-->
+						<option value="crime_rate">Crime Rate</option>
 						<optgroup label="Job Opportunities">
-						<option value="Unemployment Rate">Unemployment Rate</option>
+						<option value="unemployment_rate">Unemployment Rate</option>
 						<optgroup label="Medical Care">
-						<!--<option value="Health Care System">Health Care System</option>-->
-						<option value="Health Care Expenditure">Health Care Expenditure</option>
-						<option value="Quality of Health Care System">Quality of Health Care System</option>
+						<option value="health_care_expenditure">Health Care Expenditure</option>
+						<option value="quality_of_health_care_system">Quality of Health Care System</option>
 						<optgroup label="Education">
-						<option value="Percentage of English Speakers">Percentage of English Speakers</option>
-						
+						<option value="percentage_of_english_speakers">Percentage of English Speakers</option>
 					</select>
 				</td>
 				<td nowrap colspan="2"><h3>Chart Type:</h3></td><td>

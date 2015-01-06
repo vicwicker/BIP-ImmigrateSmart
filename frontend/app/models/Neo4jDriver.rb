@@ -20,18 +20,33 @@ class Neo4jDriver
             START n = node:node_auto_index(schema = \'country\')
             MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q
             WHERE m.name = \''+country+'\'
-            RETURN p.criteria, type(r), q.value')
+            RETURN p.criteria, TYPE(r), q.value')
         values = []
         result.each do |e|
             values.push({
-                :criteria_1 => e[:'p.criteria'], 
-                :criteria_2 => e[:'type(r)'],
+                :criteria => e[:'p.criteria'], 
+                :attribute => e[:'TYPE(r)'],
                 :value      => e[:'q.value'] 
             })
         end
         return values
     end
     
+    def self.getCountryCriteriaValue(country, criteria)
+        Neo4j::Session.open(:server_db)
+        result = Neo4j::Session.query('
+            START n = node:node_auto_index(schema = \'country\')
+            MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q
+            WHERE m.name = \'' + country + '\'
+              AND p.criteria = \'' + criteria + '\'
+            RETURN TYPE(r), q.value')
+        values = []
+        result.each do |e|
+            values.push([e[:'TYPE(r)'], e[:'q.value']])
+        end
+        return values
+    end
+
     def self.existsUser?(email)
         Neo4j::Session.open(:server_db)
         result = Neo4j::Session.query('

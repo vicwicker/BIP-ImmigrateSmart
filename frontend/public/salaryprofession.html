@@ -49,7 +49,7 @@
                  enabled: false
              },
              tooltip: {
-                 pointFormat: 'Average Salary in 2014: <b>{point.y:.1f}</b>'
+                 pointFormat: 'Average Salary: <b>{point.y:.0f}</b>'
              },
              series: [{
                  name: seriesName,
@@ -124,7 +124,7 @@ function getSalariesDataAjax(country)
             //alert(data.chartXaxis);
         }
       }
-    xmlhttp.open("GET","http://128.199.55.105:3300/home/getsalariesdata?country=Australia",false);
+    xmlhttp.open("GET","http://188.166.59.61:3100/home/getsalariesdata?country=" + country,false);
     xmlhttp.send();
     
 }

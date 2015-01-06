@@ -53,7 +53,7 @@
 					</span>
 					<span style="color:#333;">
 						<h3>Minimum Wage</h3>
-						$ <%= @criteriaDict['minimum_wage'] %><br />
+						$ <%= @criteriaDict['minimum_wage'].to_i %><br />
 					</span>
 					<span style="color:#333;">
 						<h3>Paid Annual Leave</h3>
@@ -144,7 +144,7 @@
 					<input type="button" onclick="return showDiv('shareaccord');" value="Share your Visa Experience!" style="border-radius:3px"/>
 					<div id="shareaccord" name="shareaccord" style="display:none; border-width:1px;border-color:lightgrey;border-style:solid; paddind:2px;border-radius: 5px;">
 					
-					<form name="visashare" action="http://188.166.59.61:3300/home/sharevisaexperience" method="post">
+					<form name="visashare" action="http://188.166.59.61:3100/home/sharevisaexperience" method="post">
 						<input type="hidden" name="username" id="username" value="<%=session[:current_user_id]%>"/>
 						<input type="hidden" name="country" id="country" value="<%= params[:country]%>"/>
 						<h3>I applied for: </h3>

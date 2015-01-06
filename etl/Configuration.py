@@ -666,6 +666,174 @@ if __name__ == "__main__":
                             '1',
                             'yes')''', True)
                             
+        # HTML configuration instance sample one country - Languages Australia
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-australia',
+                            'Australia',
+                            'samples_csv/languages_australia.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-australia',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-australia',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages Canada
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-canada',
+                            'Canada',
+                            'samples_csv/languages_canada.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-canada',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-canada',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages France
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-france',
+                            'France',
+                            'samples_csv/languages_france.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-france',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-france',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages Germany
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-germany',
+                            'Germany',
+                            'samples_csv/languages_germany.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-germany',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-germany',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages South Africa
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-south-africa',
+                            'South Africa',
+                            'samples_csv/languages_south_africa.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-south-africa',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-south-africa',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages UAE
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-uae',
+                            'United Arab Emirates',
+                            'samples_csv/languages_uae.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-uae',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-uae',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages UK
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-uk',
+                            'United Kingdom',
+                            'samples_csv/languages_uk.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-uk',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-uk',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
+        # HTML configuration instance sample one country - Languages USA
+        sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
+                            'languages-usa',
+                            'United States',
+                            'samples_csv/languages_usa.csv',
+                            'csv',
+                            ';',
+                            'no')''')
+                
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-usa',
+                            'most_widely_spoken_languages',
+                            '0',
+                            'no')''')
+                            
+        sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
+                            'languages-usa',
+                            'most_widely_spoken_languages',
+                            '1',
+                            'yes')''', True)
+                            
         sql.close()
     
     for i in range(1, len(sys.argv)):
