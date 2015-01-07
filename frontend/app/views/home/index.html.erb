@@ -6,7 +6,6 @@
 	</div><!-- End sidebar content -->
 </div><!-- End sidebar wrapper -->
 <script type="text/javascript">
-	
 	var country="<%= params[:country]%>";
 	function showDiv(divId)
 	{
@@ -16,7 +15,6 @@
 		else
 			d.style.display="block";	
 	}
-
 </script>
 		
 <!--    Start the content of Immigrate Smart -->
@@ -24,7 +22,6 @@
 
 			<div id="contents"><!-- Start content -->
 				<hr><br /><br />
-
 							<h1 class="countrymap"><%= params[:country]%></h1>
 							<br/><p style="color:green;" id="shareMsg" name="shareMsg"><%=flash[:shareMsg]%></p>
 							<br /><img class="countrymap" src="/assets/Map_<%= params[:country]%>.jpg" width="400" height="400" alt="countryMap"/>
@@ -85,22 +82,14 @@
 				<div>
 					<span style="color:#333;">
 						<h3>Unemployment Rate</h3>
-						<%= @criteriaDict['unemployment_rate'] %> %<br />
+						<%= @criteriaDict['unemployment_rate'] %> %<br/><br/>
 					</span>
 					<span>
 						<iframe src="/unemployment.html" width="600" height="350"></iframe>
 					</span>
-					<h4>UX DESIGNERS - MULTIPLE ROLES - MID, SNR & LEAD - SYDNEY CBD</h4>
-							Our client is one of Australia's leading financial organisations with a Digital Team providing integrated financial services to millions of Australians...
-							Location: Sydney, AU
-							Posted on: Wed, 29 Oct 2014 by<a href="http://www.overseasjobs.com/do/profile/2601/ikas-international"> iKas International</a>
-							<br />
-					</span>
-						
 				</div>
 				<h1>Immigration Dynamics</h1>
 				<div>
-					
 					<h2>Shared Visa Experiences</h2>
 					<br>
 					<center><iframe src="/tinyChart.html"frameBorder="0" width="650" height="230"></iframe>
@@ -108,9 +97,9 @@
 					<table align="center">
 						<tr>
 							<td><h5>Student Visa Rating:</h5></td>
-							<td><span class="stars"><span>4.8618</span></span></td>
+							<td><span class="stars"><%=@visaRatings['student']%></span></td>
 							<td><h5>Work Permit Rating:</h5></td>
-							<td><td><span class="stars"><span>2.1416</span></span></td></td>
+							<td><span class="stars"><%=@visaRatings['work']%></span></td>
 						</tr>
 					</table>
 					<%if @comment then %>
@@ -118,24 +107,14 @@
 					
 					<div id="expaccord" name="expaccord" style="display:none; border-width:1px;border-color:lightgrey;border-style:solid; paddind:5px;border-radius: 5px;">
 						<table>
-						
-						<tr>
-							<td><b>Shared by <u><a href='/home/profile?user=<%=@user%>'style="color:blue"> <%=@user%></a></u> on <%=@commenttime%></b></td>
-						
-						</tr>
-						<tr style="padding-top:5px;padding-left:5px;">
-							<td width="200px" align="left"><%=@comment%></td>
-						</tr>
-						<tr><td colspan="2"><br></td></tr>
-						<tr>
-							<td><b>Shared by <u><a href='/home/profile?user=<%=@user%>'style="color:blue"> <%=@user%></a></u> on <%=@commenttime%></b></td>
-						
-						</tr>
-						
-						<tr style="padding-top:5px;padding-left:5px;">
-							<td width="200px" align="left"><%=@comment%></td>
-						</tr>
-						
+							<% @visaComments.each do |comment| %>
+								<tr>
+									<td><b>Shared by <u><a href='/home/profile?username=<%=comment['username']%>'style="color:blue"> <%=comment['username']%></a></u> on <%=comment['time']%></b></td>
+								</tr>
+								<tr style="padding-top:5px;padding-left:5px;">
+									<td width="200px" align="left"><%=comment['text']%></td>
+								</tr>
+							<% end %>
 						</table>
 					</div>
 					<br>
@@ -149,43 +128,48 @@
 						<input type="hidden" name="country" id="country" value="<%= params[:country]%>"/>
 						<h3>I applied for: </h3>
 						Student Visa
-						<input type="radio" name="visat" value="student" checked />
+						<input type="radio" name="visa_type" value="student" checked />
 						Work Permit
-					    <input type="radio" name="visat" value="work" />
+					    <input type="radio" name="visa_type" value="work" />
 					    <br>
 					    
 					    <h3>How do you rate your visa process?</h3>
-					    Easy
+					    (Hard) 1
 						<input type="radio" name="rating" value="1" checked/>
-						Medium
+						2
 					    <input type="radio" name="rating" value="2" />
-					    Hard
-					    <input type="radio" name="rating" value="3" /><br>
+					    3
+					    <input type="radio" name="rating" value="3" />
+						4
+					    <input type="radio" name="rating" value="4" />
+					    5
+					    <input type="radio" name="rating" value="5" />
+					    (Easy)<br>
 					    <table>
 					    	<tr>
 					    		<td><h5>How long you took to make an appointment with the Consulate?</h5></td>
 					    		<td><select name="time">
-								    	<option value="10">Less than 10 days</option>
-								    	<option value="20">Between 10 and 30 days</option>
-								    	<option value="30">More than 30 days</option>
+								    	<option value="1">Less than 10 days</option>
+								    	<option value="2">Between 10 and 30 days</option>
+								    	<option value="3">More than 30 days</option>
 					    			</select>
 					    		</td>
 					    	</tr>
 					    	<tr>
 					    		<td><h5>How many documents apart from the application form you needed to apply?</h5></td>
 					    		<td><select name="documents">
-								    	<option value="5">Less than 5</option>
-								    	<option value="7">Between 5 and 10</option>
-								    	<option value="10">More than 10</option>
+								    	<option value="1">Less than 5</option>
+								    	<option value="2">Between 5 and 10</option>
+								    	<option value="3">More than 10</option>
 					    			</select>
 					    		</td>
 					    	</tr>
 					    	<tr>
 					    		<td><h5>How many visits you did to the Consulate in order to get your visa in your hands?</h5></td>
 					    		<td><select name="visits">
-								    	<option value="2">1 or 2</option>
-								    	<option value="4">Between 3 and 5</option>
-								    	<option value="6">More than 5</option>
+								    	<option value="1">1 or 2</option>
+								    	<option value="2">Between 3 and 5</option>
+								    	<option value="3">More than 5</option>
 					    			</select>
 					    		</td>
 					    	</tr>
@@ -194,11 +178,7 @@
 					    		<td> <textarea name="comment" rows="4" cols="50" ></textarea></td>
 					    	</tr>
 					    </table>
-					    
 					    <br>
-					    
-					    
-					    
 					    <br><br>
 					    <input type="submit" value="Submit Experience">
 					</form>

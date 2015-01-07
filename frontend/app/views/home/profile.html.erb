@@ -1,4 +1,4 @@
-<p><img src="/assets/profile_<%=@gender%>.png" width="50" height="50" alt="ProfileImage"/> <h1><%=@username%>'s Profile</h1></p>
+<p><img src="/assets/profile_<%=@user[:gender]%>.png" width="50" height="50" alt="ProfileImage"/> <h1><%=@user[:name]%>'s Profile</h1></p>
 <br>
 
 <center style="padding-top:20px;padding-bottom:20px">
@@ -7,44 +7,44 @@
 <table>
 <tr>
 <td></td>
-<td><strong>Name:</strong></td><td>&nbsp;&nbsp;<%=@name%></td>
+<td><strong>Name:</strong></td><td>&nbsp;&nbsp;<%=@user[:name]%></td>
 </tr>
 <tr>
     <td></td>
-<td><strong>Email:</strong></td><td>&nbsp;&nbsp;<%=@email%></td>
+<td><strong>Email:</strong></td><td>&nbsp;&nbsp;<%=@user[:email]%></td>
 </tr>
 <tr>
 <td></td>
-<td><strong>Gender:</strong></td><td>&nbsp;&nbsp;<%=@gender%></td>
+<td><strong>Gender:</strong></td><td>&nbsp;&nbsp;<%=@user[:gender]%></td>
 </tr>
 <tr>
 <td></td>
-<td><strong>Maritial Status:</strong></td><td>&nbsp;&nbsp;<%=@maritial_status%></td>
+<td><strong>Maritial Status:</strong></td><td>&nbsp;&nbsp;<%=@user[:m_status]%></td>
 </tr>
 <tr>
     <td></td>
-<td><strong>Professional Field:</strong></td><td>&nbsp;&nbsp;<%=@profession_field%></td>
+<td><strong>Professional Field:</strong></td><td>&nbsp;&nbsp;<%=@user[:profession]%></td>
 </tr>
 <tr>
     <td></td>
-<td><strong>Education Level:</strong></td><td>&nbsp;&nbsp;<%=@education_level%></td>
+<td><strong>Education Level:</strong></td><td>&nbsp;&nbsp;<%=@user[:education]%></td>
 </tr>
 
 <tr>
 <td></td>
-<td><strong>Country of Origin:</strong></td><td>&nbsp;&nbsp;<%=@origin_country%></td>
+<td><strong>Country of Origin:</strong></td><td>&nbsp;&nbsp;<%=@user[:origin_country]%></td>
 </tr>
 <tr>
     <td></td>
-<td><strong>Country of Residence:</strong></td><td>&nbsp;&nbsp;<%=@residence_country%></td>
+<td><strong>Country of Residence:</strong></td><td>&nbsp;&nbsp;<%=@user[:residence_country]%></td>
 </tr>
 <tr>
     <td></td>
-<td><strong>Native Language:</strong></td><td>&nbsp;&nbsp;<%=@native_language%></td>
+<td><strong>Native Language:</strong></td><td>&nbsp;&nbsp;<%=@user[:native_language]%></td>
 </tr>
 <tr>
     <td></td>
-<td><strong>Other Languages:</strong></td><td>&nbsp;&nbsp;<%=@other_language%></td>
+<td><strong>Other Languages:</strong></td><td>&nbsp;&nbsp;<%=@user[:other_lang]%></td>
 </tr>
 
 </table>

@@ -15,6 +15,19 @@
 
 <%= yield(:head) %>
  <script>
+	 $.fn.stars = function() {
+	    return $(this).each(function() {
+	        // Get the value
+	        var val = parseFloat($(this).html());
+	        // Make sure that the value is in 0 - 5 range, multiply to get width
+	        val = Math.round(val * 2) / 2;
+	        var size = Math.max(0, (Math.min(5, val))) * 16;
+	        // Create stars holder
+	        var $span = $('<span />').width(size);
+	        // Replace the numerical value with stars
+	        $(this).html($span);
+	    });
+	}
     $(function() 
     {
         $( "#accordion" ).accordion();
@@ -51,23 +64,16 @@
 				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
 				<li><a href="blog/" rel="" color:white;>Country List</a>
 					<ul>
-						
 						<%@countryList.each do |country|%>
 							<li><a href="/home/index.html?country=<%= country %>"><%=country %></a></li>
 						<%end %>
 					</ul>
 				</li>
-								<li><a href="/home/comparison2/" rel="">Compare Countries</a>
-					<!--<ul>
-						<li><a href="/home/comparison.html?criteria=EI&country_a=Australia&country_b=Canada">Economic Incentives</a></li>
-						<li><a href="/home/comparison.html?criteria=JO&country_a=Australia&country_b=Canada">Job Opportunities</a></li>
-						<li><a href="/home/comparison.html?criteria=MC&country_a=Australia&country_b=Canada">Medical Care</a></li>
-						<li><a href="/home/comparison.html?criteria=ED&country_a=Australia&country_b=Canada">Education</a></li>
-					</ul>-->
+				<li><a href="/home/comparison2/" rel="">Compare Countries</a>
 				</li>
 				<li><a href="contact-form/" rel="">Contact Immigrate Smart Team</a></li>
 				<%if(session[:current_user_id]!=nil)%>
-				<li><a href="/home/profile/" rel="">Welcome <%=session[:current_user_id]%></a></li>
+				<li><a href="/home/profile/" rel="">Welcome <%=session[:current_user_name]%></a></li>
 				<li><a href="/home/logout/" rel="" onclick="return confirm('Are you sure you want to logout?');">Logout</a></li>
 				
 				<%else%>

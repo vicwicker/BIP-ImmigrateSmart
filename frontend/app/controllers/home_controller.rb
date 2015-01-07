@@ -41,84 +41,93 @@ class HomeController < ApplicationController
   def index
     @comment='This is a test comment for the visa sharing experience.';
     @user='asdf';
-    @commenttime = (Time.new).inspect;
+    @commenttime = Time.new.to_s.gsub(' +0000', '');
     
     @criteriaDict = get_criterias_country(params[:'country'])
+    @visaComments = Neo4jDriver.getVisaExperienceComments(params[:'country'])
+    @visaRatings = Neo4jDriver.getVisaExperienceRatings(params[:'country'])
   end
-  
-  
+
   def getquestionsdata
-    country=params[:country];
-    q=params[:q].to_i;
+    country = params[:country];
+    q = params[:q].to_i;
+    question = '';
     
-    if q==1
-    chartTitle='Time taken for an appointment';
-    chartXaxis={
-               categories:['Less than 10','Between 10 and 30','More than 30']
-      
-    };
-    chartYaxis={
-            title: {
-                text: 'Day(s)'
-            }
-        };
-    elsif q==2
-    chartTitle='Documents required apart from application form';
-    chartXaxis={
-               categories:['1 or 2','Between 3 and 5','More than 5']
-      
-    };
-    chartYaxis={
-            title: {
-                text: 'Document(s)'
-            }
-        };
-    elsif q==3
-      chartTitle='Visits required to get the visa';
-      chartXaxis={
+    if q == 1
+      chartTitle = 'Time taken for an appointment';
+      chartXaxis = {
+                 categories:['Less than 10','Between 10 and 30','More than 30']
+        
+      };
+      chartYaxis = {
+              title: {
+                  text: 'Day(s)'
+              }
+          };
+      question = 'time';
+
+    elsif q == 2
+      chartTitle = 'Documents required apart from application form';
+      chartXaxis = {
+                 categories:['1 or 2','Between 3 and 5','More than 5']
+        
+      };
+      chartYaxis = {
+              title: {
+                  text: 'Document(s)'
+              }
+          };
+      question = 'documents';
+
+    elsif q == 3
+      chartTitle = 'Visits required to get the visa';
+      chartXaxis = {
                categories:['Less than 5','Between 5 and 10','More than 10']
       
-    };
-    chartYaxis={
-            title: {
-                text: 'Visit(s)'
-            }
-        };
+      };
+      chartYaxis = {
+              title: {
+                  text: 'Visit(s)'
+              }
+          };
+      question = 'visits';
     end
-    chartData=[{
-                name: 'Student Visa',
-                data: [5.0,15.0,25.0],
-                dataLabels: {    
-                             enabled: true,
-                             color: '#8F8F8F'
-                             },
-                }, {
-                  name: 'Work Permit',
-                  data: [2.0,35.0,50.0],
-                  dataLabels: {    
-                               enabled: true,
-                               color: '#e5e4e4'
-                             }
-                  
-                },
-              
-            ];
+
+    questionsData = Neo4jDriver.getVisaExperienceQuestions(country, question)
+    chartData = [{
+          name: 'Student Visa',
+          data: questionsData['student'],
+          dataLabels: {    
+                       enabled: true,
+                       color: '#8F8F8F'
+                       },
+          }, {
+            name: 'Work Permit',
+            data: questionsData['work'],
+            dataLabels: {    
+                         enabled: true,
+                         color: '#e5e4e4'
+                       }
+            
+          },
+      ];
     
     @data={:country=>country,:chartTitle=>chartTitle,:chartXaxis=>chartXaxis,:chartYaxis=>chartYaxis,:chartData=>chartData };
     render :json => @data;
   end
   
   def sharevisaexperience
+    country = params[:country];
+    username = params[:username];
+    visa_type = params[:visa_type];
+    rating = params[:rating];
+    time = params[:time];
+    documents = params[:documents];
+    visits = params[:visits];
+    comment = params[:comment];
+    comment_time = Time.new;
     
-    country=params[:country];
-    username=params[:username];
-    visat=params[:visat];
-    rating=params[:rating];
-    time=params[:time];
-    documents=params[:documents];
-    visits=params[:visits];
-    comment=params[:comment];
-    commenttime=Time.new;
+    Neo4jDriver.createVisaExperience(params)
     redirect_to({ :action => 'index', :country => country }, :flash => { :shareMsg =>"Your visa experience has been shared!"  });
   end
   
@@ -153,25 +162,15 @@ class HomeController < ApplicationController
   end
   
   def profile
-    @name               = session[:'name']
-    @gender             = session[:'gender']
-    @email              = session[:'current_user_id']
-    @maritial_status    = session[:'m_status'] 
-    @profession_field   = session[:'profession'] 
-    @education_level    = session[:'education']
-    @origin_country     = session[:'origin_country']
-    @residence_country  = session[:'residence_country']
-    @native_language    = session[:'native_language']
-    @other_language     = session[:'other_lang']
-      
+    @username = ''
     #LOAD PROFILE FOR THE CURRENT USER
-    if session[:'current_user_id'] != nil
-          @username = session[:'current_user_id']
-    else #LOAD PROFILE OF ANY OTHER USER
-      if params[:'user'] != nil
-        @username = params[:'user']
-      end
+    if params[:'username'] != nil
+        @username = params[:'username']
+    elsif session[:'current_user_id'] != nil
+        @username = session[:'current_user_id']
     end  
+    
+    @user = Neo4jDriver.getUserByEmail(@username)
   end
   
   #RESETS THE USER'S SESSION AND REDIRECTS IT TO THE HOMEPAGE
@@ -189,16 +188,8 @@ class HomeController < ApplicationController
     
     # If the returned hash is empty means user does not exists
     if not user.empty?
-      session[:'name']              = user[:'name']
-      session[:'gender']            = user[:'gender']
-      session[:'current_user_id']   = user[:'email']
-      session[:'m_status']          = user[:'m_status']
-      session[:'profession']        = user[:'profession']
-      session[:'education']         = user[:'education']
-      session[:'origin_country']    = user[:'origin_country']
-      session[:'residence_country'] = user[:'residence_country']
-      session[:'native_language']   = user[:'native_language']
-      session[:'other_lang']        = user[:'other_lang']
+      session[:'current_user_id'] = user[:'email']
+      session[:'current_user_name'] = user[:'name']
       
       @username = session[:'current_user_id']
       
@@ -215,17 +206,8 @@ class HomeController < ApplicationController
     
     if not exists
       Neo4jDriver.createUser(params)
-      
-      session[:'name']              = params['name']
-      session[:'gender']            = params['gender']
       session[:'current_user_id']   = params['email']
-      session[:'m_status']          = params['m_status']
-      session[:'profession']        = params['profession']
-      session[:'education']         = params['education']
-      session[:'origin_country']    = params['origin_country']
-      session[:'residence_country'] = params['residence_country']
-      session[:'native_language']   = params['native_language']
-      session[:'other_lang']        = params['other_lang']
+      session[:'current_user_name'] = params[:'name']
       
       redirect_to({ action: 'home' })
     else
