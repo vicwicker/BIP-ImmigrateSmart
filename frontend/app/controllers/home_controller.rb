@@ -200,6 +200,10 @@ class HomeController < ApplicationController
     end
   end
   
+  def register
+    @languages = Neo4jDriver.getLanguagesList()
+  end
+
   #Save user's rehistration info in the database
   def registeruser
     exists = Neo4jDriver.existsUser?(params[:email])

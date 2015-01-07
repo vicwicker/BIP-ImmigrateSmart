@@ -218,4 +218,20 @@ class Neo4jDriver
         
         return ratings
     end
+    
+    def self.getLanguagesList()
+        Neo4j::Session.open(:server_db)
+        result = Neo4j::Session.query('
+            MATCH n-[r]->v 
+            WHERE n.criteria = \'most_widely_spoken_languages\'
+            RETURN TYPE(r), COUNT(*)
+            ORDER BY TYPE(r)')
+        
+        languages = Array.new
+        result.each do |r|
+            languages.push(r[0])
+        end
+        
+        return languages
+    end
 end

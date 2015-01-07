@@ -610,18 +610,16 @@ function registerPreSubmitCheck()
 <tr>
 <td><label>Native Language:</label></td>
 <td><select name="native_language" id="native_language">
-<option value="Arabic">Arabic</option>
-<option value="English">English</option>
-<option value="French">French</option>
-<option value="Spanish">Spanish</option>
+	<%@languages.each do |lang|%>
+		<option value="<%=lang%>"><%=lang%></option>
+	<%end %>
 </select></td></tr>
 
 <tr><td><label>Other Language:</label></td>
 <td><select name="other_lang[]" id="other_lang" multiple>
-<option value="Arabic">Arabic</option>
-<option value="English">English</option>
-<option value="French">French</option>
-<option value="Spanish">Spanish</option>
+	<%@languages.each do |lang|%>
+		<option value="<%=lang%>"><%=lang%></option>
+	<%end %>
 </select></td></tr>
 
 <tr><td><label>Education level:</label></td>
