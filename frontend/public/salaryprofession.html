@@ -124,7 +124,7 @@ function getSalariesDataAjax(country)
             //alert(data.chartXaxis);
         }
       }
-    xmlhttp.open("GET","http://188.166.59.61:3100/home/getsalariesdata?country=" + country,false);
+    xmlhttp.open("GET","/home/getsalariesdata?country=" + country,false);
     xmlhttp.send();
     
 }

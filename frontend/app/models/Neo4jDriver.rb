@@ -18,14 +18,15 @@ class Neo4jDriver
         Neo4j::Session.open(:server_db)
         result = Neo4j::Session.query('
             START n = node:node_auto_index(schema = \'country\')
-            MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q
-            WHERE m.name = \''+country+'\'
-            RETURN p.criteria, TYPE(r), q.value')
+            MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q, p-[:is_category]->s
+            WHERE m.name = \''+country+'\' AND TYPE(r) <> \'is_category\'
+            RETURN p.criteria, s.name, TYPE(r), q.value')
         values = []
         result.each do |e|
             values.push({
-                :criteria => e[:'p.criteria'], 
-                :attribute => e[:'TYPE(r)'],
+                :criteria   => e[:'p.criteria'], 
+                :category   => e[:'s.name'],
+                :attribute  => e[:'TYPE(r)'],
                 :value      => e[:'q.value'] 
             })
         end
@@ -39,6 +40,7 @@ class Neo4jDriver
             MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q
             WHERE m.name = \'' + country + '\'
               AND p.criteria = \'' + criteria + '\'
+              AND TYPE(r) <> \'is_category\'
             RETURN TYPE(r), q.value')
         values = []
         result.each do |e|

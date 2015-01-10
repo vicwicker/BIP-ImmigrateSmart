@@ -1,9 +1,12 @@
+import sys
+sys.path.insert(0, 'webserver/html')
+import main
+
 import cgi, cgitb
 import traceback
 
 from Configuration import Configuration
 from ContentReader import ContentReader
-
 
 # Do not change this name function... It needs to be webserver:app so
 # gunicorn (python webserver) finds it
@@ -17,26 +20,28 @@ def app(environ, start_response):
             delimiter_char      = form['delimiter_char'][0] if 'delimiter_char' in form else None
             potential_csv       = form['potential_csv'][0] if 'potential_csv' in form else None
             countries_col       = form['country_name'][0]
-            if (countries_col == 'multiple'):
+            if countries_col == 'multiple':
                 countries_col = form['countries_col'][0]
-            
-            criteria_cols = {}
-            for i in range(1, int(form['criteria_count'][0])+1):
-                key = form['col_num'+str(i)][0]
-                value = form['criteria_'+str(i)][0]
-                criteria_cols[key] = value
                 
             extras = 'NULL'
             if not delimiter_char is None:
                 extras = delimiter_char
             elif not potential_csv is None:
                 extras = potential_csv
-                if 'has_headers' in form:
-                    extras = extras+':'+'true'
-                else:
-                    extras = extras+':'+'false'
+                    
+            headers = 'false'
+            if 'has_headers' in form:
+                headers = 'true'
             
-            Configuration.insert(config_name, source_file, source_file_type, extras, countries_col, criteria_cols)
+            criterias = []
+            for i in range(1, int(form['criteria_count'][0])+1):
+                criterias.append({
+                    'criteria':form['criteria_'+str(i)][0], 
+                    'column':form['col_num'+str(i)][0],
+                    'category':form['category_'+str(i)][0]
+                })
+            
+            Configuration.insert(config_name, source_file, source_file_type, extras, headers, countries_col, criterias)
             
         def potentialCsv(form):
             potential_csv_list = ContentReader.html(form['source_file'][0], form['config_name'][0])
@@ -70,12 +75,7 @@ def app(environ, start_response):
             data = parse_req(form)
         
         if data is None:
-            data = '''<html>
-<script>
-    '''+open('./webserver/javascripts/script.js').read()+'''
-</script>
-'''+open('./webserver/html/main.html', 'r').read()+'''
-</html>'''
+            data = main.html()
                 
         # This is how we play with the HTTP
         status = '200 OK'

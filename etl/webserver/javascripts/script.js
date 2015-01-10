@@ -18,15 +18,13 @@ function setSourceFileType() {
         
     if (fileType == "html") {
         document.getElementById("potential_csv_tr").style.visibility = 'visible';
-        document.getElementById("has_headers_tr").style.visibility = 'visible';
     }
     else {
         document.getElementById("potential_csv_tr").style.visibility = 'hidden';
-        document.getElementById("has_headers_tr").style.visibility = 'hidden';
     }
 }
 
-function addCriteriaFields() {
+function addCriteriaFields(categories) {
     var criteriaCount = document.getElementById("criteria_count").value;
     criteriaCount = parseInt(criteriaCount, 10) + 1;
     document.getElementById("criteria_count").value = criteriaCount;
@@ -50,28 +48,50 @@ function addCriteriaFields() {
     cell2.appendChild(element2);
     
     var cell3 = row.insertCell(2);
+    cell3.align = "right";
     var element3 = document.createElement("label");
-    element3.for = "col_num" + criteriaCount;
-    element3.innerHTML="Column ";
+    element3.for = "category_" + criteriaCount;
+    element3.innerHTML="Category " + criteriaCount;
     cell3.appendChild(element3);
     
     var cell4 = row.insertCell(3);
-    var element4 = document.createElement("input");
-    element4.type = "text";
-    element4.id = "col_num" + criteriaCount;
-    element4.name = "col_num" + criteriaCount;
-    element4.maxlength = "3";
-    element4.size = "3";
+    var element4 = document.createElement("select");
+    
+    //Create and append the options
+    for (var i = 0; i < categories.length; i++) {
+        var option = document.createElement("option");
+        option.value = categories[i];
+        option.text = categories[i];
+        element4.appendChild(option);
+    }
+    
+    element4.id = "category_" + criteriaCount;
+    element4.name = "category_" + criteriaCount;
     cell4.appendChild(element4);
     
     var cell5 = row.insertCell(4);
-    var element5 = document.createElement("button");
-    element5.type = "button";
-    element5.id = "remove_criteria" + criteriaCount;
-    element5.name = "remove_criteria" + criteriaCount;
-    element5.innerHTML = "Remove Criteria";
-    element5.onclick = function() { removeCriteriaFields(this.id); }
+    var element5 = document.createElement("label");
+    element5.for = "col_num" + criteriaCount;
+    element5.innerHTML="Column ";
     cell5.appendChild(element5);
+    
+    var cell6 = row.insertCell(5);
+    var element6 = document.createElement("input");
+    element6.type = "text";
+    element6.id = "col_num" + criteriaCount;
+    element6.name = "col_num" + criteriaCount;
+    element6.maxlength = "3";
+    element6.size = "3";
+    cell6.appendChild(element6);
+    
+    var cell7 = row.insertCell(6);
+    var element7 = document.createElement("button");
+    element7.type = "button";
+    element7.id = "remove_criteria" + criteriaCount;
+    element7.name = "remove_criteria" + criteriaCount;
+    element7.innerHTML = "Remove Criteria";
+    element7.onclick = function() { removeCriteriaFields(this.id); }
+    cell7.appendChild(element7);
 }
 
 function removeCriteriaFields(id) {

@@ -1,3 +1,24 @@
+import sys
+sys.path.insert(0, '../..')
+from Neo4jDriver import Neo4jDriver
+
+def html():
+    
+    neo4j = Neo4jDriver()
+    
+    categories = neo4j.get_category_list()
+    
+    category_array = "['"+str(categories[0])+"'"
+    for category in categories[1:]:
+        category_array = category_array+", '"+str(category)+"'"
+        
+    category_array = category_array+"]"
+    
+    data = '''
+<html>
+<script>
+    '''+open('./webserver/javascripts/script.js').read()+'''
+</script>
 <head>
     <title>ETL web interface</title>
 </head>
@@ -37,6 +58,12 @@
                         </select>
                     </td>
                 </tr>
+                <tr id="has_headers_tr">
+                    <td align="right">Has headers</td>
+                    <td align="left">
+                        <input type="checkbox" id="has_headers" name="has_headers" maxlength="1" size="5">
+                    </td>
+                </tr>
                 <tr id="delimiter_char_tr">
                     <td align="right">
                         <label for="delimiter_char">Delimiter Character</label>
@@ -56,29 +83,18 @@
                         </button>
                     </td>
                 </tr>
-                <tr id="has_headers_tr" style="visibility: hidden;">
-                    <td align="right">
-                        <label for="potential_csv">Has headers</label>
-                    </td>
-                    <td align="left">
-                        <input type="checkbox" id="has_headers" name="has_headers" maxlength="1" size="5">
-                    </td>
-                </tr>
                 <tr>
                     <td align="right">
                         <label for="country_name">Country</label>
                     </td>
                     <td align="left">
                         <select id ="country_name" name="country_name" onchange="setCountriesColVisibility()">
-                            <option value="multiple" selected="true">MULTIPLE</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Canada">Canada</option>
-                            <option value="France">France</option>
-                            <option value="Germany">Germany</option>
-                            <option value="South Africa">South Africa</option>
-                            <option value="UAE">UAE</option>
-                            <option value="UK">UK</option>
-                            <option value="USA">USA</option>
+                            <option value="multiple" selected="true">MULTIPLE</option>'''
+                            
+    for country in neo4j.get_country_list():
+        data = data+'<option value="'+str(country)+'">'+str(country)+'</option>'
+    
+    data = data+'''                        
                         </select>
                     </td>
                 </tr>
@@ -99,7 +115,7 @@
                                     <b>Criteria to Import</b>
                                 </td>
                                 <td>
-                                    <button id="add_criteria" name="add_criteria" type="button" onClick="addCriteriaFields()">Add New Criteria</button>
+                                    <button id="add_criteria" name="add_criteria" type="button" onClick="addCriteriaFields('''+category_array+''')">Add New Criteria</button>
                                 </td>
                             </tr>
                             <tr>
@@ -108,13 +124,17 @@
                                 </td>
                                 <td align="left">
                                     <input type="text" id="criteria_1" name="criteria_1">
-                                    <!--
-                                    <select id="criteria_1" name="criteria_1">
-                                        <option value="paid_annual_leave" selected="true">Paid Annual Leave</option>
-                                        <option value="minimum_wage">Minimum Wage</option>
-                                        <option value="unemplyment_rate">Unemployment Rate</option>
-                                    </select>
-                                    -->
+                                </td>
+                                <td align="right">
+                                    <label for="category_1">Category 1</label>
+                                </td>
+                                <td align="left">
+                                    <select id="category_1" name="category_1">'''
+                                    
+    for category in neo4j.get_category_list():
+        data = data+'<option value="'+str(category)+'">'+str(category)+'</option>'
+    
+    data = data+'''                 </select>
                                 </td>
                                 <td align="right">
                                     <label for="col_num1">Column</label>
@@ -144,3 +164,7 @@
         </form>
     </div>
 </body>
+</html>'''
+
+    return data
+    

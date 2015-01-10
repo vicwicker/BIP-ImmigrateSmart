@@ -2,9 +2,6 @@ import sys
 import re, distance
 import utils
 
-
-from SPARQLWrapper import SPARQLWrapper, JSON
-
 from SQLiteDriver import SQLiteDriver
 
 class Configuration:
@@ -20,6 +17,9 @@ class Configuration:
     
     # File from which obtaining the country filter list
     filters_file = './config/filters.list'
+    
+    # File from which obtaining the categories
+    categories_file = './config/categories.list'
     
     # Filters will be shared through all instance
     filters = []
@@ -53,7 +53,7 @@ class Configuration:
         
     # NOTE: Only works for unidimensional criteria
     @staticmethod
-    def insert(config_name, source_file, source_file_type, extras, countries_col, criteria_cols):
+    def insert(config_name, source_file, source_file_type, extras, headers, countries_col, criterias):
         sql = SQLiteDriver()
         
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -64,11 +64,12 @@ class Configuration:
                         \''''+extras+'''\',
                         \''''+headers+'''\')''')
             
-        for k in criteria_cols:
+        for criteria in criterias:
            sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             \''''+config_name+'''\',
-                            \''''+criteria_cols[k]+'''\',
-                            \''''+k+'''\',
+                            \''''+criteria['criteria']+'''\',
+                            \''''+criteria['category']+'''\',
+                            \''''+criteria['column']+'''\',
                             'yes')''')
                             
         sql.commit()
@@ -89,6 +90,7 @@ class Configuration:
         sql.execute('''CREATE TABLE '''+Configuration.config_columns_table+''' (
                             config_name TEXT,
                             criteria TEXT,
+                            category TEXT,
                             column TEXT,
                             fact TEXT)''')
                             
@@ -119,7 +121,7 @@ class Configuration:
         # Load basic instance configuration properties
         self.config_name = utils.to_str(config[0]) # Name of this ETL configuration
         
-        self.country_in  = utils.to_str(config[1])          # Column in the CSV file where the country name is
+        self.country_in  = utils.to_str(config[1]) # Column in the CSV file where the country name is
         if not re.search('^[0-9]+$', self.country_in) is None:
             self.country_in = int(self.country_in)
             self.is_multi = True
@@ -141,8 +143,8 @@ class Configuration:
         self.columns = []
         columns_to_read = sql.execute('SELECT * FROM columns WHERE config_name = \'' + config_name + '\'')
         for col in columns_to_read:
-            to_append = {'criteria':col[1], 'column':col[2], 'fact':1}
-            if col[3] != 'yes':
+            to_append = {'criteria':col[1], 'category':col[2], 'column':col[3], 'fact':1}
+            if col[4] != 'yes':
                 to_append['fact'] = 0
             self.columns.append(to_append)
             
@@ -168,12 +170,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'doingbusiness',
                             'minimum_wage',
+                            'Economic Incentives',
                             '4',
                             'yes')''')
                     
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'doingbusiness',
                             'paid_annual_leave',
+                            'Economic Incentives',
                             '16',
                             'yes')''', True)  
                             
@@ -189,6 +193,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'nationmaster',
                             'foreign_worker_salaries',
+                            'Economic Incentives',
                             '2',
                             'yes')''', True)
                             
@@ -204,6 +209,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-area',
                             'area',
+                            'General',
                             '2',
                             'yes')''', True)
                             
@@ -219,6 +225,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-population',
                             'population',
+                            'General',
                             '2',
                             'yes')''', True)
                             
@@ -234,6 +241,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-gdp-per-capita',
                             'gdp_per_capita',
+                            'General',
                             '2',
                             'yes')''', True)
                             
@@ -249,6 +257,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'numbero-cost-of-living',
                             'cost_of_living',
+                            'Economic Incentives',
                             '3',
                             'yes')''', True)
                             
@@ -264,6 +273,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'numbero-cime-rate',
                             'crime_rate',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -279,6 +289,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'numbero-quality-health-care-system',
                             'quality_of_health_care_system',
+                            'Medical Care',
                             '1',
                             'yes')''', True)
                             
@@ -294,6 +305,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'nationmaster-avg-overall-salary',
                             'average_overall_monthly_salary',
+                            'Economic Incentives',
                             '2',
                             'yes')''', True)
                             
@@ -309,6 +321,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'kpmg-avg-income-tax',
                             'average_income_taxes',
+                            'Economic Incentives',
                             '8',
                             'yes')''', True)
                             
@@ -324,6 +337,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-unemployment-rate',
                             'unemployment_rate',
+                            'Job Opportunities',
                             '2',
                             'yes')''', True)
                             
@@ -339,6 +353,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'cia-health-care-expenditure',
                             'health_care_expenditure',
+                            'Medical Care',
                             '2',
                             'yes')''', True)
                             
@@ -354,6 +369,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'wiki-pct-english-speakers',
                             'percentage_of_english_speakers',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -369,12 +385,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-australia',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-australia',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -390,12 +408,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-canada',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-canada',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -411,12 +431,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-france',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-france',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -432,12 +454,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-germany',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-germany',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -453,12 +477,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-south-africa',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-south-africa',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -474,12 +500,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uae',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uae',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -495,12 +523,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uk',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uk',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -516,12 +546,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-usa',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-usa',
                             'average_salary_per_profession',
+                            'Economic Incentives',
                             '1',
                             'yes')''', True)
                             
@@ -537,6 +569,7 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'health-care-system-description',
                             'health_care_system',
+                            'Medical Care',
                             '1',
                             'yes')''', True)
                             
@@ -552,12 +585,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-australia',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-australia',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '3',
                             'yes')''', True)
                             
@@ -573,12 +608,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-canada',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-canada',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '2',
                             'yes')''', True)
                             
@@ -594,12 +631,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-france',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-france',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '5',
                             'yes')''', True)
                             
@@ -615,12 +654,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-germany',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-germany',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '6',
                             'yes')''', True)
                             
@@ -636,12 +677,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-uk',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-uk',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '10',
                             'yes')''', True)
                             
@@ -657,12 +700,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
                             'unemployment_rate_per_year',
+                            'Job Opportunities',
                             '1',
                             'yes')''', True)
                             
@@ -678,12 +723,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-australia',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-australia',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -699,12 +746,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-canada',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-canada',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -720,12 +769,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-france',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-france',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -741,12 +792,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-germany',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-germany',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -762,12 +815,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-south-africa',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-south-africa',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -783,12 +838,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-uae',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-uae',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -804,12 +861,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-uk',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-uk',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             
@@ -825,12 +884,14 @@ if __name__ == "__main__":
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-usa',
                             'most_widely_spoken_languages',
+                            'Education',
                             '0',
                             'no')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-usa',
                             'most_widely_spoken_languages',
+                            'Education',
                             '1',
                             'yes')''', True)
                             

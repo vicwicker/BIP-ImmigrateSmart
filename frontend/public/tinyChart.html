@@ -101,7 +101,7 @@ function getQuestionsDataAjax(country,q)
             chartData=data.chartData;
         }
       }
-    xmlhttp.open("GET","http://188.166.59.61:3100/home/getquestionsdata?country=" + country + "&q=" + q,false);
+    xmlhttp.open("GET","/home/getquestionsdata?country=" + country + "&q=" + q,false);
     xmlhttp.send();
     
 }

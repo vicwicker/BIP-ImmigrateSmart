@@ -115,7 +115,7 @@ function getComparisonDataAjax()
     var pdata=postData();
     //alert("http://128.199.55.105:3300/home/getcomparisondata"+pdata);
 
-    xmlhttp.open("GET","http://188.166.59.61:3100/home/getcomparisondata" + pdata,false);
+    xmlhttp.open("GET","/home/getcomparisondata" + pdata,false);
     xmlhttp.send(null);
     
 }
