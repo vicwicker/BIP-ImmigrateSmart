@@ -35,7 +35,7 @@ class Instance:
                 for c in self.config.columns:
                     criteria = utils.to_str(c['criteria'])
                     if not criteria in current['criterias']:
-                        current['criterias'][criteria] = [criteria, None, utils.to_str(c['category'])]
+                        current['criterias'][criteria] = [criteria, None, utils.to_str(c['category']), utils.to_str(c['description'])]
                     current['criterias'][criteria][c['fact']] = row[int(c['column'])]
                 transformed.append(current)
                 
@@ -50,7 +50,7 @@ class Instance:
                 country = neo4j.get_country(row['country'])
                 for criteria in row['criterias']:
                     #print row['country']+' --[:has_criteria]-> '+criteria+' --[:' + row['criterias'][criteria][0] + ']-> '+row['criterias'][criteria][1]
-                    criteria_node = batch.create(node(criteria = criteria))
+                    criteria_node = batch.create(node(criteria = criteria, description = row['criterias'][criteria][3]))
                     fact_node = batch.create(node(value = row['criterias'][criteria][1]))
                     batch.create(rel(country, 'has_criteria', criteria_node))
                     batch.create(rel(criteria_node, 'is_category', neo4j.get_category(row['criterias'][criteria][2])))

@@ -5,6 +5,8 @@ import main
 import cgi, cgitb
 import traceback
 
+import oneinstance
+
 from Configuration import Configuration
 from ContentReader import ContentReader
 
@@ -29,9 +31,9 @@ def app(environ, start_response):
             elif not potential_csv is None:
                 extras = potential_csv
                     
-            headers = 'false'
+            headers = 'no'
             if 'has_headers' in form:
-                headers = 'true'
+                headers = 'yes'
             
             criterias = []
             for i in range(1, int(form['criteria_count'][0])+1):
@@ -42,6 +44,7 @@ def app(environ, start_response):
                 })
             
             Configuration.insert(config_name, source_file, source_file_type, extras, headers, countries_col, criterias)
+            oneinstance.run_one(config_name)
             
         def potentialCsv(form):
             potential_csv_list = ContentReader.html(form['source_file'][0], form['config_name'][0])

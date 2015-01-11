@@ -70,7 +70,8 @@ class Configuration:
                             \''''+criteria['criteria']+'''\',
                             \''''+criteria['category']+'''\',
                             \''''+criteria['column']+'''\',
-                            'yes')''')
+                            'yes',
+                            'N/A')''')
                             
         sql.commit()
         return Configuration(config_name)
@@ -92,7 +93,8 @@ class Configuration:
                             criteria TEXT,
                             category TEXT,
                             column TEXT,
-                            fact TEXT)''')
+                            fact TEXT,
+                            description TEXT)''')
                             
         sql.execute('''CREATE TABLE '''+Configuration.config_filters_table+''' (
                             country TEXT)''', True)
@@ -143,7 +145,7 @@ class Configuration:
         self.columns = []
         columns_to_read = sql.execute('SELECT * FROM columns WHERE config_name = \'' + config_name + '\'')
         for col in columns_to_read:
-            to_append = {'criteria':col[1], 'category':col[2], 'column':col[3], 'fact':1}
+            to_append = {'criteria':col[1], 'category':col[2], 'column':col[3], 'fact':1, 'description':str(col[5])}
             if col[4] != 'yes':
                 to_append['fact'] = 0
             self.columns.append(to_append)
@@ -172,14 +174,16 @@ if __name__ == "__main__":
                             'minimum_wage',
                             'Economic Incentives',
                             '4',
-                            'yes')''')
+                            'yes',
+                            'N/A')''')
                     
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'doingbusiness',
                             'paid_annual_leave',
                             'Economic Incentives',
                             '16',
-                            'yes')''', True)  
+                            'yes',
+                            'N/A')''', True)  
                             
         # HTML configuration instance sample - Foreign Worker Salaries
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -195,7 +199,8 @@ if __name__ == "__main__":
                             'foreign_worker_salaries',
                             'Economic Incentives',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Area
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -211,7 +216,8 @@ if __name__ == "__main__":
                             'area',
                             'General',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Population
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -227,7 +233,8 @@ if __name__ == "__main__":
                             'population',
                             'General',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - GDP per capita
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -243,7 +250,8 @@ if __name__ == "__main__":
                             'gdp_per_capita',
                             'General',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Cost of Living
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -259,7 +267,8 @@ if __name__ == "__main__":
                             'cost_of_living',
                             'Economic Incentives',
                             '3',
-                            'yes')''', True)
+                            'yes',
+                            'This index is a relative indicator of consumer goods price, including groceries, restaurants, transportation, utilities and rent. It is relative to New York City (NYC), which means that for New York City, the index should be 100(%). If a country has a CPI index of 120, it means that it is approximately 20% more expensive than New York.')''', True)
                             
         # HTML configuration instance sample - Crimes Rate
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -275,7 +284,8 @@ if __name__ == "__main__":
                             'crime_rate',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'This index is an estimation of overall level of crime in a given country. Crime Levels up to 50 are reasonable, and crime index levels more than 100 are too high.')''', True)
                             
         # HTML configuration instance sample - Quality of Health Care System
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -291,7 +301,8 @@ if __name__ == "__main__":
                             'quality_of_health_care_system',
                             'Medical Care',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'This index is an estimation of the overall quality of the health care system, health care professionals, equipment, staff, doctors, cost, etc. The closer the country''s score is to 100, the better the health care system is in that country.')''', True)
                             
         # HTML configuration instance sample - Average Overall Monthly Salary
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -307,7 +318,8 @@ if __name__ == "__main__":
                             'average_overall_monthly_salary',
                             'Economic Incentives',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Average Income Taxes
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -323,7 +335,8 @@ if __name__ == "__main__":
                             'average_income_taxes',
                             'Economic Incentives',
                             '8',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Unemployment Rate
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -339,7 +352,8 @@ if __name__ == "__main__":
                             'unemployment_rate',
                             'Job Opportunities',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Health Care Expenditure
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -355,7 +369,8 @@ if __name__ == "__main__":
                             'health_care_expenditure',
                             'Medical Care',
                             '2',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample - Percentage of English Speakers
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -371,7 +386,8 @@ if __name__ == "__main__":
                             'percentage_of_english_speakers',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession Australia
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -387,14 +403,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-australia',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession Canada
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -410,14 +428,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-canada',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession France
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -433,14 +453,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-france',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession Germany
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -456,14 +478,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-germany',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession South Africa
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -479,14 +503,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-south-africa',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession UAE
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -502,14 +528,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uae',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession UK
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -525,14 +553,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-uk',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Salary per profession USA
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -548,14 +578,16 @@ if __name__ == "__main__":
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'salary-profession-usa',
                             'average_salary_per_profession',
                             'Economic Incentives',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # CSV configuration instance sample - Health Care System Description
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -571,7 +603,8 @@ if __name__ == "__main__":
                             'health_care_system',
                             'Medical Care',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # CSV configuration instance sample one country - Unemployment Rate Australia
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -587,14 +620,16 @@ if __name__ == "__main__":
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-australia',
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '3',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # CSV configuration instance sample one country - Unemployment Rate Canada
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -610,13 +645,15 @@ if __name__ == "__main__":
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-canada',
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '2',
+                            'N/A',
                             'yes')''', True)
                             
         # CSV configuration instance sample one country - Unemployment Rate France
@@ -633,14 +670,16 @@ if __name__ == "__main__":
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-france',
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '5',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # CSV configuration instance sample one country - Unemployment Rate Germany
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -656,14 +695,16 @@ if __name__ == "__main__":
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-germany',
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '6',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # CSV configuration instance sample one country - Unemployment Rate UK
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -679,14 +720,16 @@ if __name__ == "__main__":
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-uk',
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '10',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # CSV configuration instance sample one country - Unemployment Rate USA
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -702,14 +745,16 @@ if __name__ == "__main__":
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'unemployment-rate-usa',
                             'unemployment_rate_per_year',
                             'Job Opportunities',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages Australia
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -725,14 +770,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-australia',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages Canada
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -748,14 +795,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-canada',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages France
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -771,14 +820,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-france',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages Germany
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -794,14 +845,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-germany',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages South Africa
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -817,14 +870,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-south-africa',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages UAE
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -840,14 +895,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-uae',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages UK
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -863,14 +920,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-uk',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         # HTML configuration instance sample one country - Languages USA
         sql.execute('''INSERT INTO '''+Configuration.config_instances_table+''' VALUES (
@@ -886,14 +945,16 @@ if __name__ == "__main__":
                             'most_widely_spoken_languages',
                             'Education',
                             '0',
-                            'no')''')
+                            'no',
+                            'N/A')''')
                             
         sql.execute('''INSERT INTO '''+Configuration.config_columns_table+''' VALUES (
                             'languages-usa',
                             'most_widely_spoken_languages',
                             'Education',
                             '1',
-                            'yes')''', True)
+                            'yes',
+                            'N/A')''', True)
                             
         sql.close()
     

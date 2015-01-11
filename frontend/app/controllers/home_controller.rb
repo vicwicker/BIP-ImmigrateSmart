@@ -9,7 +9,7 @@ class HomeController < ApplicationController
     @countryList = Neo4jDriver.getCountryNames
   end
   
-  def get_criterias_country(country)
+  def get_criterias_country(country, descr = false)
     # Get all the criterias for that country
     criterias = Neo4jDriver.getCriteriaNamesForCountry(country)
     
@@ -17,11 +17,14 @@ class HomeController < ApplicationController
     dictionary = Hash.new
     dictionary.default = 'N/A'
     
+    descriptions = Hash.new
+    
     # Fill the dictionary
     criterias.each do |crt|
-      criteria  = crt[:'criteria']
-      attribute  = crt[:'attribute']
+      criteria    = crt[:'criteria']
+      attribute   = crt[:'attribute']
       value       = crt[:'value']
+      description = crt[:'description']
       if criteria == attribute
         dictionary[criteria] = value
       else
@@ -31,10 +34,17 @@ class HomeController < ApplicationController
         end
         dictionary[criteria][attribute] = value
       end
+      if description != 'N/A'
+        descriptions[criteria] = description
+      end
     end
     
-    # Return the dictionary
-    return dictionary
+    if not descr
+      # Return the dictionary
+      return dictionary
+    end
+    
+    return {:'criterias' => dictionary, :'descriptions' => descriptions}
   end
   
   # Routed methods
@@ -43,7 +53,9 @@ class HomeController < ApplicationController
     @user='asdf';
     @commenttime = Time.new.to_s.gsub(' +0000', '');
     
-    @criteriaDict = get_criterias_country(params[:'country'])
+    dict = get_criterias_country(params[:'country'], true)
+    @criteriaDict = dict[:'criterias']
+    @descriptionDict = dict[:'descriptions']
     @visaComments = Neo4jDriver.getVisaExperienceComments(params[:'country'])
     @visaRatings = Neo4jDriver.getVisaExperienceRatings(params[:'country'])
   end

@@ -20,14 +20,15 @@ class Neo4jDriver
             START n = node:node_auto_index(schema = \'country\')
             MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q, p-[:is_category]->s
             WHERE m.name = \''+country+'\' AND TYPE(r) <> \'is_category\'
-            RETURN p.criteria, s.name, TYPE(r), q.value')
+            RETURN p.criteria, s.name, TYPE(r), q.value, p.description')
         values = []
         result.each do |e|
             values.push({
-                :criteria   => e[:'p.criteria'], 
-                :category   => e[:'s.name'],
-                :attribute  => e[:'TYPE(r)'],
-                :value      => e[:'q.value'] 
+                :criteria       => e[:'p.criteria'], 
+                :category       => e[:'s.name'],
+                :attribute      => e[:'TYPE(r)'],
+                :value          => e[:'q.value'],
+                :description    => e[:'p.description']
             })
         end
         return values
