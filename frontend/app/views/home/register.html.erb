@@ -1,9 +1,40 @@
 <div id="sidebarContainer"><!-- Start Sidebar wrapper -->
-	<div id="sidebar"><!-- Start sidebar content -->
-		<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
-		Jobs Offers, etc etc etc
-
-	</div><!-- End sidebar content -->
+	<h1 style="padding-bottom:10px; padding-top:10px"><u>Ads</u></h1>
+	<div ><!-- Start sidebar content -->
+		<!-- Sidebar header -->
+	
+		<br>
+		<br>
+		<table>
+			<tr>
+				<td>
+					<img src="/assets/ad_languages.png" width="100" height="100"/>
+					<br>Learn Foreign Languages Online!
+					<a href="#">www.bonnlingua.com</a>
+					<br>
+					<br>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<img src="/assets/ad_shipping.png" width="100" height="100"/>
+					<br>Get the best shipping rates for anywhere in the world.
+					<a href="#">www.transocean.com</a>
+					<br><br>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<img src="/assets/ad_jobs.png" width="100" height="100"/>
+					<br>Find the best jobs faster!
+					<a href="#">www.live.jobcorps.org</a>
+					<br><br>
+				</td>
+			</tr>
+		</table>
+</div><!-- End sidebar content -->
 </div><!-- End sidebar wrapper -->
 
 		
@@ -63,15 +94,18 @@ function registerPreSubmitCheck()
     }    
 </script>
 <center style="padding-top:20px;padding-bottom:20px">
+	<br>
 <form id="regForm" method="post" action="http://188.166.59.61:3300/home/registeruser">
     <input type="hidden" id="error" name="error" value="0"/>
 <h1 class="register-title">Registration</h1>
+<p style="color:green"><%=flash[:success_msg]%></p>
+<p style="color:red"><%=flash[:error_msg]%></p>
 <div style="border-style:solid;border-width:1px; border-color:grey; width:500px;">
   <div align="center" ><form>
 <table>
     <tr><td></td><td><div id="formError" style="color:red;"></div></td></tr>
     <tr>
-<td><label>Name*:</label></td><td><input type="text" name="name" id="name"></td>
+<td><label>Full Name*:</label></td><td><input type="text" name="name" id="name"></td>
 </tr>
 <tr>
 <td><label>Username*:</label></td><td><input type="text" name="username" id="username"></td>
@@ -632,51 +666,51 @@ function registerPreSubmitCheck()
 </select></td></tr>
 <tr><td><label>Profession field:</label></td>
 <td><select name="profession" id="profession">
-<option value="Recreation and Sports">Recreation and Sports</option>
-<option value="Fashion and Apparel">Fashion and Apparel</option>
-<option value="Gardening / Farming / Fishing">Gardening / Farming / Fishing</option>
-<option value="Media / Broadcasting / Arts / Entertainment">Media / Broadcasting / Arts / Entertainment</option>
-<option value="Care Giving and Child Care">Care Giving and Child Care</option>
-<option value="Food /Hospitality / Tourism / Catering">Food /Hospitality / Tourism / Catering</option>
-<option value="Administration / Reception / Secretarial">Administration / Reception / Secretarial</option>
-<option value="Counseling">Counseling</option>
-<option value="Automotive">Automotive</option>
-<option value="Photography">Photography</option>
-<option value="Customer Service and Call Center">Customer Service and Call Center</option>
-<option value="Real Estate">Real Estate</option>
-<option value="Import and Export">Import and Export</option>
-<option value="Law Enforcement / Security / Fire">Law Enforcement / Security / Fire</option>
-<option value="Electrical and Electronics Trades">Electrical and Electronics Trades</option>
-<option value="Insurance">Insurance</option>
-<option value="Courier / Delivery / Transport / Drivers">Courier / Delivery / Transport / Drivers</option>
-<option value="Sales Retail and Wholesale">Sales Retail and Wholesale</option>
-<option value="Advertising / Grapic Design / Event Management">Advertising / Grapic Design / Event Management</option>
-<option value="Purchasing and Inventory">Purchasing and Inventory</option>
-<option value="Science and Technical Services">Science and Technical Services</option>
-<option value="Architecture">Architecture</option>
-<option value="Teaching / Education">Teaching / Education</option>
-<option value="Factory and Manufacturing">Factory and Manufacturing</option>
-<option value="Environmental">Environmental</option>
-<option value="Health and Medical">Health and Medical</option>
-<option value="Accounting and Finance">Accounting and Finance</option>
-<option value="Business Planning">Business Planning</option>
-<option value="Banking">Banking</option>
-<option value="Telecommunication">Telecommunication</option>
-<option value="Construction / Building / Installation">Construction / Building / Installation</option>
-<option value="Publishing and Printing">Publishing and Printing</option>
-<option value="Pharmaceutical and Biotechnology">Pharmaceutical and Biotechnology</option>
-<option value="Airlines / Aviation / Aerospace / Defense">Airlines / Aviation / Aerospace / Defense</option>
-<option value="Quality Control and Compliance">Quality Control and Compliance</option>
-<option value="Government and Defence">Government and Defence</option>
-<option value="Marketing">Marketing</option>
-<option value="Human Resources">Human Resources</option>
-<option value="Information Technology">Information Technology</option>
-<option value="Legal">Legal</option>
-<option value="Engineering">Engineering</option>
-<option value="Facilities / Maintenance / Repair">Facilities / Maintenance / Repair</option>
-<option value="Oil / Gas / Energy / Mining">Oil / Gas / Energy / Mining</option>
-<option value="Cleaning and Housekeeping">Cleaning and Housekeeping</option>
-<option value="Executive and Management">Executive and Management</option>
+<option class="sortMe" value="Recreation and Sports">Recreation and Sports</option>
+<option class="sortMe" value="Fashion and Apparel">Fashion and Apparel</option>
+<option class="sortMe" value="Gardening / Farming / Fishing">Gardening / Farming / Fishing</option>
+<option class="sortMe" value="Media / Broadcasting / Arts / Entertainment">Media / Broadcasting / Arts / Entertainment</option>
+<option class="sortMe" value="Care Giving and Child Care">Care Giving and Child Care</option>
+<option class="sortMe" value="Food /Hospitality / Tourism / Catering">Food /Hospitality / Tourism / Catering</option>
+<option class="sortMe" value="Administration / Reception / Secretarial">Administration / Reception / Secretarial</option>
+<option class="sortMe" value="Counseling">Counseling</option>
+<option class="sortMe" value="Automotive">Automotive</option>
+<option class="sortMe" value="Photography">Photography</option>
+<option class="sortMe" value="Customer Service and Call Center">Customer Service and Call Center</option>
+<option class="sortMe" value="Real Estate">Real Estate</option>
+<option class="sortMe" value="Import and Export">Import and Export</option>
+<option class="sortMe" value="Law Enforcement / Security / Fire">Law Enforcement / Security / Fire</option>
+<option class="sortMe" value="Electrical and Electronics Trades">Electrical and Electronics Trades</option>
+<option class="sortMe" value="Insurance">Insurance</option>
+<option class="sortMe" value="Courier / Delivery / Transport / Drivers">Courier / Delivery / Transport / Drivers</option>
+<option class="sortMe" value="Sales Retail and Wholesale">Sales Retail and Wholesale</option>
+<option class="sortMe" value="Advertising / Grapic Design / Event Management">Advertising / Grapic Design / Event Management</option>
+<option class="sortMe" value="Purchasing and Inventory">Purchasing and Inventory</option>
+<option class="sortMe" value="Science and Technical Services">Science and Technical Services</option>
+<option class="sortMe" value="Architecture">Architecture</option>
+<option class="sortMe" value="Teaching / Education">Teaching / Education</option>
+<option class="sortMe" value="Factory and Manufacturing">Factory and Manufacturing</option>
+<option class="sortMe" value="Environmental">Environmental</option>
+<option class="sortMe" value="Health and Medical">Health and Medical</option>
+<option class="sortMe" value="Accounting and Finance" selected>Accounting and Finance</option>
+<option class="sortMe" value="Business Planning">Business Planning</option>
+<option class="sortMe" value="Banking">Banking</option>
+<option class="sortMe" value="Telecommunication">Telecommunication</option>
+<option class="sortMe" value="Construction / Building / Installation">Construction / Building / Installation</option>
+<option class="sortMe" value="Publishing and Printing">Publishing and Printing</option>
+<option class="sortMe" value="Pharmaceutical and Biotechnology">Pharmaceutical and Biotechnology</option>
+<option class="sortMe" value="Airlines / Aviation / Aerospace / Defense">Airlines / Aviation / Aerospace / Defense</option>
+<option class="sortMe" value="Quality Control and Compliance">Quality Control and Compliance</option>
+<option class="sortMe" value="Government and Defence">Government and Defence</option>
+<option class="sortMe" value="Marketing">Marketing</option>
+<option class="sortMe" value="Human Resources">Human Resources</option>
+<option class="sortMe" value="Information Technology">Information Technology</option>
+<option class="sortMe" value="Legal">Legal</option>
+<option class="sortMe" value="Engineering">Engineering</option>
+<option class="sortMe" value="Facilities / Maintenance / Repair">Facilities / Maintenance / Repair</option>
+<option class="sortMe" value="Oil / Gas / Energy / Mining">Oil / Gas / Energy / Mining</option>
+<option class="sortMe" value="Cleaning and Housekeeping">Cleaning and Housekeeping</option>
+<option class="sortMe" value="Executive and Management">Executive and Management</option>
 </select></td></tr>
 <tr><td><label>Maritial Status:</label></td>
   <td><select name="m_status" id="m_status">
@@ -688,12 +722,24 @@ function registerPreSubmitCheck()
        <input onclick="registerPreSubmitCheck();" type="button" value="Create Account"/>
        </td></tr>
  </table>     
+ 
+ <script>
+ 	var mylist = $('#profession');
+	 var listitems = mylist.children('option.sortMe').get();
+	 listitems.sort(function(a, b) {
+	    var compA = $(a).text().toUpperCase();
+	    var compB = $(b).text().toUpperCase();
+	    return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+	 })
+	 $.each(listitems, function(idx, itm) { mylist.append(itm); });
+	 	
+ </script>
   </form>
 
 </div>
 </div>
 </center>
 
-			
+<br><br><br>			
 	</div> <!-- End contents -->
 </div> <!-- End contentContainer -->

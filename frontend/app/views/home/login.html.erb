@@ -1,9 +1,30 @@
 <div id="sidebarContainer"><!-- Start Sidebar wrapper -->
-	<div id="sidebar"><!-- Start sidebar content -->
-		<h1 class="sideHeader">Ads</h1><!-- Sidebar header -->
-		Jobs Offers, etc etc etc
-
-	</div><!-- End sidebar content -->
+	<h1 style="padding-bottom:10px; padding-top:10px"><u>Ads</u></h1>
+	<div ><!-- Start sidebar content -->
+		<!-- Sidebar header -->
+	
+		<br>
+		
+		<table>
+				<tr>
+				<td>
+					<img src="/assets/ad_shipping.png" width="100" height="100"/>
+					<br>Get the best shipping rates for anywhere in the world.
+					<a href="#">www.transocean.com</a>
+					<br><br>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<img src="/assets/ad_jobs.png" width="100" height="100"/>
+					<br>Find the best jobs faster!
+					<a href="#">www.live.jobcorps.org</a>
+					<br><br>
+				</td>
+			</tr>
+		</table>
+</div><!-- End sidebar content -->
 </div><!-- End sidebar wrapper -->
 
 		
@@ -27,19 +48,26 @@
     <section>
     <div class="login">
       
-      
+      <br>
       <h1>Login</h1>
       <form id="loginForm" method="post" action="/home/userlogin">
         <div style="color:red;" id="loginError" name="loginError"><%=flash[:login_error]%></div>
-        <p>Username: <input type="text" name="username" id="username" value="" placeholder="Username or Email"></p>
-        <p>Password: <input type="password" name="password" id="password" value="" placeholder="Password"></p>
+        <table align="center" cellspacing="10">
+        	<tr>
+        		<td>Email:</td><td> <input type="text" name="username" id="username" value="" placeholder="Username or Email"></td>
+        </tr>
+        <tr>
+        	<td>Password:</td> <td><input type="password" name="password" id="password" value="" placeholder="Password"></td>
+        </tr>
         <!--<p class="remember_me">
           <label>
             <input type="checkbox" name="remember_me" id="remember_me">
             Remember me on this computer
           </label>
         </p>-->
-        <p class="submit"><input onclick="checkForm()" type="button" name="login" value="Login"></p>
+        
+        <tr class="submit"><td colspan="2"><input onclick="checkForm()" type="button" name="login" value="Login"></td></tr>
+        </table>
       </form>
       </div>
 
@@ -47,8 +75,8 @@
       <p>Forgot your password? <a href="index.html">Click here to reset it</a>.</p>
     </div>
   </section>
-
-
+<br><br><br><br><br><br><br><br>
+<br><br><br><br>
 			
 	</div> <!-- End contents -->
 </div> <!-- End contentContainer -->

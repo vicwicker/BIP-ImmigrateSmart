@@ -11,7 +11,8 @@
   <%= javascript_include_tag "jquery-1.10.2","collapsiblemenu" %>
   <%= javascript_include_tag "jquery-ui","collapsiblemenu2" %>
   <!-- <%= javascript_include_tag "mapdata/world"%>-->
-
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <%= yield(:head) %>
  <script>
@@ -43,6 +44,19 @@
     	$('span.stars').stars();
 	});
 </script>
+<script>
+//Google Analytics Code
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58651608-1', 'auto');
+  ga('send', 'pageview');
+
+
+</script>
 </head>
 
 <body>
@@ -62,7 +76,7 @@
 		<div id="navcontainer"><!-- Start Navigation -->
 			<ul>
 				<li><a href="/home/home.html" rel="" id="current">Home</a></li>
-				<li><a href="blog/" rel="" color:white;>Country List</a>
+				<li><a href="#" rel="" color:white;>Country List</a>
 					<ul>
 						<%@countryList.each do |country|%>
 							<li><a href="/home/index.html?country=<%= country %>"><%=country %></a></li>
@@ -71,7 +85,7 @@
 				</li>
 				<li><a href="/home/comparison2/" rel="">Compare Countries</a>
 				</li>
-				<li><a href="contact-form/" rel="">Contact Immigrate Smart Team</a></li>
+				<!--<li><a href="contact-form/" rel="">Contact Immigrate Smart Team</a></li>-->
 				<%if(session[:current_user_id]!=nil)%>
 				<li><a href="/home/profile/" rel="">Welcome <%=session[:current_user_name]%></a></li>
 				<li><a href="/home/logout/" rel="" onclick="return confirm('Are you sure you want to logout?');">Logout</a></li>

@@ -118,10 +118,11 @@ class HomeController < ApplicationController
             data: questionsData['work'],
             dataLabels: {    
                          enabled: true,
-                         color: '#e5e4e4'
+                         color: '#8F8F8F',
+                         shadow: true
                        }
             
-          },
+          }
       ];
     
     @data={:country=>country,:chartTitle=>chartTitle,:chartXaxis=>chartXaxis,:chartYaxis=>chartYaxis,:chartData=>chartData };
@@ -140,7 +141,7 @@ class HomeController < ApplicationController
     comment_time = Time.new;
     
     Neo4jDriver.createVisaExperience(params)
-    redirect_to({ :action => 'index', :country => country }, :flash => { :shareMsg =>"Your visa experience has been shared!"  });
+    #redirect_to({ :action => 'index', :country => country }, :flash => { :shareMsg =>"Your visa experience has been shared!"  });
   end
   
   def comparison2
@@ -160,7 +161,6 @@ class HomeController < ApplicationController
       chartData[i] = [params[cname], value[0][1].to_f];
       i = i + 1;
     end
-
     criteria = params[:criteria];
     valuesLabel = '';
 
@@ -204,6 +204,7 @@ class HomeController < ApplicationController
       session[:'current_user_name'] = user[:'name']
       
       @username = session[:'current_user_id']
+      @name = session[:'current_user_name']
       
       redirect_to({ action: 'home' })
     else
@@ -222,13 +223,13 @@ class HomeController < ApplicationController
     
     if not exists
       Neo4jDriver.createUser(params)
-      session[:'current_user_id']   = params['email']
-      session[:'current_user_name'] = params[:'name']
+      #session[:'current_user_id']   = params['email']
+      #session[:'current_user_name'] = params[:'name']
       
-      redirect_to({ action: 'home' })
+       redirect_to({ action: 'register' }, :flash => { :success_msg =>"Registration Successful!"  })
     else
       # What to do here?
-      redirect_to 'https://support.google.com/a/answer/1071113?hl=en'
+      redirect_to({ action: 'register' }, :flash => { :error_msg =>"Registration Unsuccessful: User already exists!"  })
     end
   end
   
