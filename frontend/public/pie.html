@@ -55,7 +55,8 @@ function drawPieChart(chartContainer,chartType,chartData,seriesName,chartTitle,s
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y:.1f} %',
+                    color: '#757772',
+                                 format: '<b>{point.name}</b>: {point.y:.1f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }

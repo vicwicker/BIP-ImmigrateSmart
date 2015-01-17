@@ -31,7 +31,12 @@ function drawUnemploymentChart(chartData,chartContainer){
             series : [{
                 name : 'Unemployment',
 
-                data:chartData
+                data:chartData,
+                dataLabels:{
+                    color: '#757772',
+                    enabled: true
+                }
+                
 					,
                 tooltip: {
                     valueDecimals: 2
