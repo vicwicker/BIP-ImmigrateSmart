@@ -312,7 +312,7 @@
 				<h1>Education</h1>
 				<div>
 					<span id="personalLang" style="display:<%if session[:current_user_id] then%>block<% else%>none<%end%>;">
-						<h4>People who speak your native language ( <%=@language%> ): <b><%=@personalLang%> %</b></h4>
+						<h4><b><%=@personalLang%> %</b> of people in <%= params[:country]%> speak your native language <%=@language%></h4>
 					</span>
 					<span>
 						<iframe src="/pie.html" width="600" height="430"></iframe>
