@@ -58,6 +58,19 @@ class HomeController < ApplicationController
     @descriptionDict = dict[:'descriptions']
     @visaComments = Neo4jDriver.getVisaExperienceComments(params[:'country'])
     @visaRatings = Neo4jDriver.getVisaExperienceRatings(params[:'country'])
+    country=params[:'country'];
+    if session[:current_user_id] then
+      @user = Neo4jDriver.getUserByEmail(session[:current_user_id]);
+      @profession=@user[:profession];
+      value1 = Neo4jDriver.getCountryCriteriaByValue(country, 'average_salary_per_profession',@profession);
+      @personalSal = value1.to_s;
+      
+      @language=@user[:native_language];
+      value2 = Neo4jDriver.getCountryCriteriaByValue(country, 'most_widely_spoken_languages',@language);
+      @personalLang = value2.to_f;
+      
+    end  
+						
   end
 
   def getquestionsdata
@@ -158,8 +171,10 @@ class HomeController < ApplicationController
     while i < length.to_i do
       cname = 'country' + i.to_s;
       value = Neo4jDriver.getCountryCriteriaValue(params[cname], params[:criteria])
-      chartData[i] = [params[cname], value[0][1].to_f];
-      i = i + 1;
+      
+        chartData[i] = [params[cname], value[0][1].to_f];
+        i = i + 1;
+      
     end
     criteria = params[:criteria];
     valuesLabel = '';

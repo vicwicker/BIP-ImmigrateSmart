@@ -658,11 +658,11 @@ function registerPreSubmitCheck()
 
 <tr><td><label>Education level:</label></td>
 <td><select name="education" id="education">
-<option value="hs">High School</option>
-<option value="bachelor">Bachelors</option>
-<option value="master">Masters</option>
-<option value="doctor">Doctorate</option>
-<option value="post_doc">Post Doctorate</option>
+<option value="High School">High School</option>
+<option value="Bachelors">Bachelors</option>
+<option value="Masters">Masters</option>
+<option value="Doctorate">Doctorate</option>
+<option value="Post Doctorate">Post Doctorate</option>
 </select></td></tr>
 <tr><td><label>Profession field:</label></td>
 <td><select name="profession" id="profession">
@@ -732,7 +732,27 @@ function registerPreSubmitCheck()
 	    return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
 	 })
 	 $.each(listitems, function(idx, itm) { mylist.append(itm); });
-	 	
+	 
+	 
+	 /*
+	 FIXING THE COUNTRY NAMES ISSUE WITH THE REGISTRATION
+	 */
+	 
+	 var length=document.getElementById("origin_country").length;
+	 var options=document.getElementById("origin_country").options;
+	 while(length>0)
+	 {
+		length--;
+		options[length].value=options[length].text;
+	 }
+	 var length2=document.getElementById("residence_country").length;
+	 var options2=document.getElementById("residence_country").options;
+	 while(length2>0)
+	 {
+		length2--;
+		options2[length2].value=options2[length2].text;
+	 }
+	 
  </script>
   </form>
 

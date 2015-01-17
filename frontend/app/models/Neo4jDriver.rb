@@ -49,6 +49,25 @@ class Neo4jDriver
         end
         return values
     end
+    
+    def self.getCountryCriteriaByValue(country, criteriaName, criteriaValue)
+        Neo4j::Session.open(:server_db)
+        result = Neo4j::Session.query('
+            START n = node:node_auto_index(schema = \'country\')
+            MATCH n-[:has_instance]->m-[:has_criteria]->p-[r]->q
+            WHERE m.name = \'' + country + '\'
+              AND p.criteria = \'' + criteriaName + '\'
+              AND TYPE(r) = \''+criteriaValue+'\'
+            RETURN TYPE(r), q.value')
+            if result.first then 
+                value=result.first[:'q.value'];  
+            else
+                value='0';
+            end
+            
+        
+        return value
+    end
 
     def self.existsUser?(email)
         Neo4j::Session.open(:server_db)
