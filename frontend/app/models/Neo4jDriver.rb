@@ -44,8 +44,12 @@ class Neo4jDriver
               AND TYPE(r) <> \'is_category\'
             RETURN TYPE(r), q.value')
         values = []
-        result.each do |e|
-            values.push([e[:'TYPE(r)'], e[:'q.value']])
+        if result.first then 
+            result.each do |e|
+                values.push([e[:'TYPE(r)'], e[:'q.value']])
+            end
+        else
+            values.push([0, 0])
         end
         return values
     end

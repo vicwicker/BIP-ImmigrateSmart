@@ -171,9 +171,8 @@ class HomeController < ApplicationController
     while i < length.to_i do
       cname = 'country' + i.to_s;
       value = Neo4jDriver.getCountryCriteriaValue(params[cname], params[:criteria])
-      
-        chartData[i] = [params[cname], value[0][1].to_f];
-        i = i + 1;
+      chartData[i] = [params[cname], value[0][1].to_f];
+      i = i + 1;
       
     end
     criteria = params[:criteria];
