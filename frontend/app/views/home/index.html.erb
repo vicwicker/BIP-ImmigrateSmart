@@ -55,7 +55,8 @@
 			<div id="contents"><!-- Start content -->
 				<hr><br /><br />
 							<h1 class="countrymap"><%= params[:country]%></h1>
-							
+							<br>
+							 <p style="color:green;" id="shareMsg" name="shareMsg"><%=flash[:shareMsg]%></p>
 							<br /><img class="countrymap" src="/assets/Map_<%= params[:country]%>.jpg" width="400" height="400" alt="countryMap"/>
 							<br/>
 							<!-- Immigration is the movement of people into another country or region to which they are not native in order to settle there, especially as permanent residents or future citizens.
@@ -77,7 +78,7 @@
 						<h4>Average Salary for your profession ( <%=@profession%> ): <b><%=@personalSal%></b></h4>
 					</span>
 					<span>
-						<iframe src="/salaryprofession.html" width="750" height="550"></iframe>
+						<iframe src="/salaryprofession.html" width="740" height="550"></iframe>
 					</span>
 					<span style="color:#333;">
 						<h3>ِAverage Income Taxes</h3>
@@ -183,6 +184,13 @@
 						      {// code for IE6, IE5
 						      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 						      }
+						    xmlhttp.onreadystatechange=function()
+						      {
+						      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+						        {
+						       
+						        }
+						      }
 						    var frm=document.getElementById('visashare');
 						    var country=frm.country.value;
 						    var username=frm.username.value;
@@ -280,7 +288,7 @@
 					    <br>
 					    <p style="color:green;display:none" id="shareMsg" name="shareMsg">You visa experience was shared!</p>
 					    <br>
-					    <button class="pure-button" onclick="postAjax()" style="border-radius:2px">
+					    <button class="pure-button" onclick="document.getElementById('visashare').submit();" style="border-radius:2px">
 					    	Submit Experience
 					    </button>
 					</form>

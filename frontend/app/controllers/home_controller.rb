@@ -154,7 +154,7 @@ class HomeController < ApplicationController
     comment_time = Time.new;
     
     Neo4jDriver.createVisaExperience(params)
-    #redirect_to({ :action => 'index', :country => country }, :flash => { :shareMsg =>"Your visa experience has been shared!"  });
+    redirect_to({ :action => 'index', :country => country }, :flash => { :shareMsg =>"Your visa experience has been shared!"  });
   end
   
   def comparison2
