@@ -9,10 +9,12 @@
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
-<div width="650">
-    <div id="q1Container" style="float: left;min-width: 200px; height: 200px; max-width: 250px; "></div>
-    <div id="q2Container" style="float: left;min-width: 200px; height: 200px; max-width: 250px;"></div>
-    <div id="q3Container" style="float: left;min-width: 200px; height: 200px; max-width: 250px;"></div>
+<div align="center" style="padding-right:50px">
+    <div id="q1Container" style="width: 350px; height: 200px; "></div>
+    <br>
+    <div id="q2Container" style="width: 350px; height: 200px;"></div>
+    <br>
+    <div id="q3Container" style="width: 350px; height: 200px;"></div>
 </div>		
 <div id="container"></div>
 <script type="text/javascript" charset="utf-8">
@@ -35,14 +37,14 @@ function drawChart(chartContainer,chartTitle,chartData,chartYaxis,chartXaxis)
          $(chartContainer).highcharts({
              chart: {
             type: chartType,
-            width:200,
+            width:350,
             height:200,
             spacing:[2,2,2,2]
         },
         title: {
             text: chartTitle,
             margin:5,
-            style:{"fontSize": "12px"},
+            style:{"fontSize": "14px"},
             
         },
         xAxis:chartXaxis,
@@ -52,7 +54,7 @@ function drawChart(chartContainer,chartTitle,chartData,chartYaxis,chartXaxis)
         },
         legend:{
             itemStyle:{"fontSize": "10px"},
-            itemDistance:1,
+            itemDistance:5,
             padding:1,
             layout:'horizontal',
             symbolWidth:10
@@ -60,7 +62,7 @@ function drawChart(chartContainer,chartTitle,chartData,chartYaxis,chartXaxis)
         },
         plotOptions: {
             column: {
-                pointPadding: 0.2,
+                pointPadding: 0.1,
                 borderWidth: 0,
                 pointWidth:7.0
             }

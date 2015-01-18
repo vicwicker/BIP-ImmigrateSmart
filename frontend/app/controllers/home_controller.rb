@@ -79,7 +79,7 @@ class HomeController < ApplicationController
     question = '';
     
     if q == 1
-      chartTitle = 'Time taken for an appointment';
+      chartTitle = '<b>Time</b>';
       chartXaxis = {
                  categories:['Less than 10','Between 10 and 30','More than 30']
         
@@ -92,7 +92,7 @@ class HomeController < ApplicationController
       question = 'time';
 
     elsif q == 2
-      chartTitle = 'Documents required apart from application form';
+      chartTitle = '<b>Documents</b>';
       chartXaxis = {
                  categories:['1 or 2','Between 3 and 5','More than 5']
         
@@ -105,7 +105,7 @@ class HomeController < ApplicationController
       question = 'documents';
 
     elsif q == 3
-      chartTitle = 'Visits required to get the visa';
+      chartTitle = '<b>Visits</b>';
       chartXaxis = {
                categories:['Less than 5','Between 5 and 10','More than 10']
       
@@ -294,7 +294,7 @@ class HomeController < ApplicationController
     cxAxis= {
                  type: 'category',
                  labels: {
-                     rotation: 90,
+                     rotation: 125,
                      style: {
                          fontSize: '10px',
                          fontFamily: 'Verdana, sans-serif'
